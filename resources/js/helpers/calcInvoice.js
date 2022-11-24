@@ -24,6 +24,7 @@ const dataContentAereo = {
 //funcion de construccion de data para facturar
 const create_factura = (almacen = [], extras = [], tasaDolar = {}) => {
     let wh = []; //arreglo para determinar los wh
+    let cajas = [];
 
     almacen.forEach(element => {
         const { tipo_envio, id_almacen, warehouse, trackings } = element;
@@ -32,7 +33,19 @@ const create_factura = (almacen = [], extras = [], tasaDolar = {}) => {
         trackings.map((item) => wh.push({...item, id_almacen, warehouse, total_seguro: formatPrice.constPrice(item.total_seguro, ',', '.')}));
     });
 
-    return { wh, details };
+    extras.forEach((element) => {
+        const { id_gasto_extra, nombre, monto_gasto_extra, tipo } = element;
+
+        if( tipo === 'CAJA' ){
+            cajas.push({
+                id_gasto_extra,
+                nombre,
+                monto_gasto_extra: formatPrice.constPrice(monto_gasto_extra, ',', '.')
+            });
+        }
+    });
+
+    return { wh, details, cajas };
 }
 
 //funcion dataContents
@@ -120,7 +133,43 @@ const calc_cost_env_aereo = (data = [], envio = 'directo', costo_envio = 0) => {
     return data;
 }
 
+//agregar caja a listCajas
+const add_box = (listCajas = [], id_gasto_extra = '', nombre = '', monto_gasto_extra = '0.00', cant_caja = 0)  => {
+    let monto = 0, cant = 0, sub_total = 0;
+
+    monto = parseNum(formatPrice.desctPrice(monto_gasto_extra, ','));
+    cant = parseNum(cant_caja);
+
+    const check = listCajas.filter( caja => caja.id_gasto_extra == id_gasto_extra );
+
+    if( check.length == 0 ){
+        sub_total = cant * monto;
+        sub_total = sub_total.toFixed(2);
+
+        listCajas.push({
+            id_gasto_extra, 
+            nombre, 
+            monto_gasto_extra,
+            cant: cant,
+            sub_total: formatPrice.constPrice(`${sub_total}`, ',', '.')
+        });
+    }else{
+        for (let i = 0; i < listCajas.length; i++) {
+           if( listCajas[i].id_gasto_extra == id_gasto_extra ){
+                cant = cant + parseNum(listCajas[i].cant);
+                sub_total = cant * monto;
+                sub_total = sub_total.toFixed(2);
+                listCajas[i].cant = cant;
+                listCajas[i].sub_total = formatPrice.constPrice(`${sub_total}`, ',', '.');
+                break;
+           }
+        }
+    }
+
+    return listCajas;
+}
+
 //parseNum, es un numero entero o flotante
 const parseNum = (val) => val % 1 == 0 ? parseInt(val) : parseFloat(val);
 
-export { create_factura, data_contents }
+export { create_factura, data_contents, add_box }

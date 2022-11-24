@@ -71,6 +71,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var reItemAlmacen = function reItemAlmacen() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -124,7 +127,6 @@ var reItemAlmacen = function reItemAlmacen() {
     },
     changeId: function changeId(e) {
       var value = e.target.value;
-      console.log(this.data);
       var getDataLocalStorage = {};
 
       if (window.sessionStorage.getItem('idLocalStorage') !== undefined && window.sessionStorage.getItem('idLocalStorage')) {
@@ -133,9 +135,8 @@ var reItemAlmacen = function reItemAlmacen() {
 
       var _reItemAlmacen = reItemAlmacen(this.data, value),
           usuario_id = _reItemAlmacen.usuario_id,
-          tipo_envio = _reItemAlmacen.tipo_envio;
-
-      window.sessionStorage.removeItem('idLocalStorage');
+          tipo_envio = _reItemAlmacen.tipo_envio,
+          reempaque = _reItemAlmacen.reempaque;
 
       if (this.getId.includes(value)) {
         var newGetId = [];
@@ -155,21 +156,26 @@ var reItemAlmacen = function reItemAlmacen() {
             alert('Por favor, debe agregar los WareHouse que pertenezca a un solo tipo de envio');
             e.preventDefault();
             return;
+          } else if (getDataLocalStorage.reempaque != reempaque) {
+            alert('Por favor, los envios con reempaque se factura por separdo y los directos igual');
+            e.preventDefault();
+            return;
           }
         }
 
         this.getId.push(value);
       }
 
+      window.sessionStorage.removeItem('idLocalStorage');
       getDataLocalStorage.usuario_id = usuario_id;
       getDataLocalStorage.tipo_envio = tipo_envio;
+      getDataLocalStorage.reempaque = reempaque;
       getDataLocalStorage.data = this.getId;
 
       if (this.getId.length > 0) {
         window.sessionStorage.setItem('idLocalStorage', JSON.stringify(getDataLocalStorage));
       }
 
-      console.log('dsdsdsd', this.getId);
       this.$emit('getId', this.getId);
     }
   }
@@ -392,6 +398,15 @@ var render = function () {
         _c("td", [_c("span", {}, [_vm._v(" " + _vm._s(item.peso))])]),
         _vm._v(" "),
         _c("td", [_c("span", {}, [_vm._v(" " + _vm._s(item.tipo_envio))])]),
+        _vm._v(" "),
+        _c("td", [
+          _c("span", {}, [
+            _vm._v(
+              " " +
+                _vm._s("" + (item.reempaque == "no" ? "Directo" : "Reempaque"))
+            ),
+          ]),
+        ]),
         _vm._v(" "),
         _c("td", [
           _c("span", { staticClass: "avatar bg-green-lt status-vzla" }, [

@@ -7,6 +7,7 @@
                     <div class="card-body">
                         <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
                         <div class="row mb-4">
+                            
                             <div class="col-6">
                                 <p class="h3">Detalles</p>
                                 <address>

@@ -26,6 +26,9 @@
                     <span class=""> {{ item.tipo_envio }}</span>
                 </td>
                 <td>
+                    <span class=""> {{`${ item.reempaque == 'no' ? 'Directo' : 'Reempaque'}`}}</span>
+                </td>
+                <td>
                     <span class="avatar bg-green-lt status-vzla"> {{ item.estado }}</span>
                 </td>
                 <td>
@@ -92,16 +95,13 @@ export default {
         },
         changeId(e) {
             const value = e.target.value;
-            console.log(this.data);
             let getDataLocalStorage = {};
             if( window.sessionStorage.getItem('idLocalStorage') !== undefined && window.sessionStorage.getItem('idLocalStorage') ){
                 getDataLocalStorage = JSON.parse(sessionStorage.getItem('idLocalStorage'));
             }
 
-         
-            const { usuario_id, tipo_envio } = reItemAlmacen(this.data, value);
-            window.sessionStorage.removeItem('idLocalStorage');
-
+            const { usuario_id, tipo_envio, reempaque } = reItemAlmacen(this.data, value);
+            
             if( this.getId.includes(value) ){
                 let newGetId = []; 
                 for (let i = 0; i < this.getId.length; i++) {
@@ -120,6 +120,10 @@ export default {
                         alert('Por favor, debe agregar los WareHouse que pertenezca a un solo tipo de envio');
                         e.preventDefault();
                         return;
+                    }else if( getDataLocalStorage.reempaque != reempaque ){
+                        alert('Por favor, los envios con reempaque se factura por separdo y los directos igual');
+                        e.preventDefault();
+                        return;
                     }
                 }
 
@@ -131,15 +135,15 @@ export default {
             
             
 
-      
+            window.sessionStorage.removeItem('idLocalStorage');
             getDataLocalStorage.usuario_id = usuario_id;
             getDataLocalStorage.tipo_envio = tipo_envio;
+            getDataLocalStorage.reempaque = reempaque;
             getDataLocalStorage.data = this.getId;
             
             if( this.getId.length > 0 ){
                 window.sessionStorage.setItem('idLocalStorage', JSON.stringify(getDataLocalStorage))
             }
-            console.log('dsdsdsd', this.getId)
 
             this.$emit('getId', this.getId)
             

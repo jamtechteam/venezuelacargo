@@ -106,7 +106,7 @@ export const routesAdmin = [
 				name: 'CreateFacturas',
 				path: 'crear-factura',
 				meta: { title: 'Crear Nueva Factura', requireAuth: true },
-				component:  () => import(/* webpackChunkName: "Facturas" */ '../views/admin/facturas/FormFacturas.vue')
+				component:  () => import(/* webpackChunkName: "LayoutFormFacturar" */ '../views/admin/facturas/LayoutFormFacturar.vue')
 			},
 			{
 				name: 'EditarFactura',

@@ -68,6 +68,8 @@ var request = function request() {
         }, {
           name: 'tipo de Envio'
         }, {
+          name: 'Envio'
+        }, {
           name: 'Estado'
         }, {
           name: ''

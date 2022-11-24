@@ -23,6 +23,7 @@
     "/js/Instruccion.js": "/js/Instruccion.js",
     "/js/EditarWarehouse.js": "/js/EditarWarehouse.js",
     "/js/Facturas.js": "/js/Facturas.js",
+    "/js/LayoutFormFacturar.js": "/js/LayoutFormFacturar.js",
     "/js/Envios.js": "/js/Envios.js",
     "/js/IndexGeolocalizacion.js": "/js/IndexGeolocalizacion.js",
     "/js/EditGeolocalizacion.js": "/js/EditGeolocalizacion.js",

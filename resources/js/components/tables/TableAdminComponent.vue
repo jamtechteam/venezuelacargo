@@ -391,8 +391,9 @@ export default {
         },
         facturar(){
             if( this.validGetId('facturar') ){
-                console.log('this.idAlmacen', this.idAlmacen)
-                this.$router.push({ name: 'CreateFacturas', query: { id: this.idAlmacen } });
+                let getDataLocalStorage = JSON.parse(sessionStorage.getItem('idLocalStorage'));
+                window.sessionStorage.removeItem('idLocalStorage');
+                this.$router.push({ name: 'CreateFacturas', query: { id: this.idAlmacen, envio: getDataLocalStorage.reempaque, type: 'new' } });
             }
         },
         eliminar(e){

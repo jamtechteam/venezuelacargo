@@ -1,6 +1,7 @@
 <template>
     <div class="container-xl">
        <div class="row row-cards">
+        
             <div class="col-12" style="min-height: 60vh;">
                 <component :is='componentRender'></component>
                 <form name="createFactura" @submit.prevent="guardarFactura()"  enctype="multipart/form-data" class="card card-lg" v-if="componentRender == ''">

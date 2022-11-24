@@ -44,6 +44,7 @@ export default {
                     {name: 'Vol'},
                     {name: 'Peso LB'},
                     {name: 'tipo de Envio'},
+                    {name: 'Envio'},
                     {name: 'Estado'},
                     {name: ''}
                 ],

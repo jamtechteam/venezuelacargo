@@ -501,11 +501,14 @@ var LoaderComponent = function LoaderComponent() {
   },
   facturar: function facturar() {
     if (this.validGetId('facturar')) {
-      console.log('this.idAlmacen', this.idAlmacen);
+      var getDataLocalStorage = JSON.parse(sessionStorage.getItem('idLocalStorage'));
+      window.sessionStorage.removeItem('idLocalStorage');
       this.$router.push({
         name: 'CreateFacturas',
         query: {
-          id: this.idAlmacen
+          id: this.idAlmacen,
+          envio: getDataLocalStorage.reempaque,
+          type: 'new'
         }
       });
     }

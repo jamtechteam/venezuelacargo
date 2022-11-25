@@ -70,6 +70,50 @@
                         v-bind:listCajas="list_cajas"
                         @removeCaja="removeCaja"
                     />
+                    <div class="d-flex align-items-center mt-4">
+                        <div class=" m-0 ms-auto">
+                            <div class="d-flex align-items-center mb-3 justify-content-end">
+                                <span class="me-2">
+                                    Total WH
+                                </span>
+                                <span style="max-width: 80px;">
+                                    <input type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 justify-content-end" v-if="envio === 'reempaque'">
+                                <span class="me-2">
+                                    Total WH Reemp.
+                                </span>
+                                <span style="max-width: 80px;">
+                                    <input type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 justify-content-end">
+                                <span class="me-2">
+                                    Gastos Extras
+                                </span>
+                                <span style="max-width: 80px;">
+                                    <input type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 justify-content-end">
+                                <span class="me-2">
+                                    Total USD
+                                </span>
+                                <span style="width: 80px;" class="text-end">
+                                    {{ total_usd }}
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 justify-content-end">
+                                <span class="me-2">
+                                    Total VES
+                                </span>
+                                <span style="width: 80px;" class="text-end">
+                                    {{ total_ves }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +133,7 @@ const LoaderComponent = () => import('../../../components/LoaderComponent.vue');
 const Error404 = () => import('../../../components/Error404Component.vue');
 
 //helpers
-import { create_factura, data_contents, add_box } from '../../../helpers/calcInvoice';
+import { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves } from '../../../helpers/calcInvoice';
 import { formatPrice } from '../../../formatPrice';
 
 export default {
@@ -119,13 +163,19 @@ export default {
             caja: '',
             cant_caja: 1,
             //cajas utilizadas en la factura
-            list_cajas: []
+            list_cajas: [],
+            //footer content, total usd, total ves, total reempaque, total costo por tracking
+            total_usd: '0.00',
+            total_ves: '0,00',
+            costo_trackings: '0.00',
+            costo_reempaque: '0.00',
+            gastos_extras: '0.00'
         }
     },
     components: {
         WareHouse,
         ContentBody,
-        ListCajas
+        ListCajas,
     },
     beforeCreate(){
         this.$nextTick(async function () {
@@ -164,7 +214,7 @@ export default {
                     let tarifa_maritimo = '0.00';
 
                     const { almacen, cliente, extras, tasaDolar } = response.data.result;
-                    const { wh, details, cajas } = create_factura(almacen, extras, tasaDolar);
+                    const { wh, details, cajas, costo_trackings, costo_reempaque } = create_factura(almacen, extras, tasaDolar);
 
                     //tarifas de envios
                     tarifa_aereo = formatPrice.constPrice(cliente.tarifa_aereo, ',', '.');
@@ -173,6 +223,7 @@ export default {
                     //agregamos esta informacion en la cabecera.
                     this.details = details;
                     this.details.tarifa = details.tipo_envio == 'aereo' ? tarifa_aereo : tarifa_maritimo;
+                    this.details.monto_tc = formatPrice.constPrice(tasaDolar.monto_tc, '.', ',');
 
                     this.client = cliente;
                     
@@ -185,6 +236,22 @@ export default {
                     //agregar data content de la factura
                     this.dataContent = data_contents(wh, details.tipo_envio, this.details.tarifa, this.envio);
 
+                    //agregando costo por trackings
+                    this.costo_trackings = costo_trackings;
+
+
+                    //agregar total en USD
+                    this.total_usd = calc_total_usd_data(this.dataContent, 'sub_total');
+                    this.total_usd = suma_total_usd_var(this.total_usd, this.costo_trackings); //sumar costo trackings + total_usd;
+
+                    if( this.envio === 'reempaque' ){
+                        this.costo_reempaque = costo_reempaque;
+                        //sumando costo reempaque + total_usd;
+                        this.total_usd = suma_total_usd_var(this.total_usd, this.costo_trackings);
+                    }
+
+                    //agregar total VES
+                    this.total_ves = calc_total_ves(this.total_usd, this.details.monto_tc);
                 }
 
                 setTimeout(() => {
@@ -209,7 +276,15 @@ export default {
             }
         },
         //eliminar caja, de la lista cajas
-        removeCaja(cajasNew = []){ this.list_cajas = cajasNew; }
+        removeCaja(cajasNew = []){ this.list_cajas = cajasNew; },
+        //funcion para construccion de precion USD
+        keyUpPrecio(e){
+           this[e.target.name] = formatPrice.constPrice(e.target.value, ',', '.');
+        },
+        //calculo totales se refiere a la suma de todo los subtotal, costo tracking, reempaque y gastos extras.
+        calculo_totales(){
+            
+        }
     }
 }
 </script>

@@ -22,7 +22,7 @@ const dataContentAereo = {
 };
 
 //funcion de construccion de data para facturar
-const create_factura = (almacen = [], extras = [], tasaDolar = {}) => {
+const create_factura = (almacen = [], extras = []) => {
     let wh = []; //arreglo para determinar los wh
     let cajas = [];
 
@@ -45,7 +45,36 @@ const create_factura = (almacen = [], extras = [], tasaDolar = {}) => {
         }
     });
 
-    return { wh, details, cajas };
+    let costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
+    let costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+
+    return { wh, details, cajas, costo_trackings, costo_reempaque };
+}
+
+//costo trackings y costo reempaque
+const calc_costo_track_and_reempaque = (extras = [], type = 'TRACKING', data = []) => {
+    let costo = 0;
+
+    extras.forEach((element) => {
+        const { cant_cond, condicion, activo, monto_cond, monto_gasto_extra, tipo_cond, tipo } = element;
+        if( activo === 1 && tipo === type ){
+            costo = parseNum(monto_gasto_extra);
+
+            if( condicion === 1 ){
+                if( tipo_cond == 'MAYOR' && data.length > parseNum(cant_cond) ){
+                    costo = parseNum(monto_cond) * data.length;
+                }else if( tipo_cond == 'MENOR' && data.length < parseNum(cant_cond) ){
+                    costo = parseNum(monto_cond) * data.length;
+                }
+            }  
+        }
+    });
+
+    if( type == 'TRACKING' ){
+        costo = costo * data.length;
+    }
+
+    return formatPrice.constPrice(`${costo.toFixed(2)}`, ',', '.');
 }
 
 //funcion dataContents
@@ -133,6 +162,49 @@ const calc_cost_env_aereo = (data = [], envio = 'directo', costo_envio = 0) => {
     return data;
 }
 
+//calculo de total usd, de acuerdo a la data
+const calc_total_usd_data = (data = [], field = 'sub_total') => {
+    let total = 0;
+
+    data.forEach((element) => {
+        for (const property in element) {
+            if( property === field ){
+                let sub_total = formatPrice.desctPrice(element[property], ',');
+                sub_total = parseNum(sub_total);
+
+                total = total + sub_total;
+            }
+        }
+    });
+
+    return formatPrice.constPrice(`${total.toFixed(2)}`, ',', '.');
+}
+
+//suma de cualquier variable a la variable total USD
+const suma_total_usd_var = (total, field) => {
+    let total_usd = 0;
+    let usd = parseNum(formatPrice.desctPrice(total, ','));
+    let varField = parseNum(formatPrice.desctPrice(field, ','));
+
+    total_usd = usd + varField;
+
+    return formatPrice.constPrice(`${total_usd.toFixed(2)}`, ',', '.');
+}
+
+//calculo de total en VES
+const calc_total_ves = (total, tasa) => {
+    let total_usd = parseNum(formatPrice.desctPrice(total, ','));
+    let tasa_ves = formatPrice.desctPrice(tasa, '.');
+        tasa_ves = tasa_ves.replace(',', '.');
+        tasa_ves = parseNum(tasa_ves);
+    
+    let total_ves = total_usd * tasa_ves;
+        total_ves = total_ves.toFixed(2);
+        total_ves = total_ves.replace('.', ',');
+
+    return formatPrice.constPrice(`${total_ves}`, '.', ',');
+}
+
 //agregar caja a listCajas
 const add_box = (listCajas = [], id_gasto_extra = '', nombre = '', monto_gasto_extra = '0.00', cant_caja = 0)  => {
     let monto = 0, cant = 0, sub_total = 0;
@@ -172,4 +244,4 @@ const add_box = (listCajas = [], id_gasto_extra = '', nombre = '', monto_gasto_e
 //parseNum, es un numero entero o flotante
 const parseNum = (val) => val % 1 == 0 ? parseInt(val) : parseFloat(val);
 
-export { create_factura, data_contents, add_box }
+export { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves }

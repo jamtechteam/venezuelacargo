@@ -286,6 +286,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //componentes de primer plano, para factura
 
 
@@ -331,7 +375,13 @@ var Error404 = function Error404() {
       caja: '',
       cant_caja: 1,
       //cajas utilizadas en la factura
-      list_cajas: []
+      list_cajas: [],
+      //footer content, total usd, total ves, total reempaque, total costo por tracking
+      total_usd: '0.00',
+      total_ves: '0,00',
+      costo_trackings: '0.00',
+      costo_reempaque: '0.00',
+      gastos_extras: '0.00'
     };
   },
   components: {
@@ -397,7 +447,9 @@ var Error404 = function Error404() {
           var _create_factura = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.create_factura)(almacen, extras, tasaDolar),
               wh = _create_factura.wh,
               details = _create_factura.details,
-              cajas = _create_factura.cajas; //tarifas de envios
+              cajas = _create_factura.cajas,
+              costo_trackings = _create_factura.costo_trackings,
+              costo_reempaque = _create_factura.costo_reempaque; //tarifas de envios
 
 
           tarifa_aereo = _formatPrice__WEBPACK_IMPORTED_MODULE_5__.formatPrice.constPrice(cliente.tarifa_aereo, ',', '.');
@@ -405,13 +457,28 @@ var Error404 = function Error404() {
 
           _this.details = details;
           _this.details.tarifa = details.tipo_envio == 'aereo' ? tarifa_aereo : tarifa_maritimo;
+          _this.details.monto_tc = _formatPrice__WEBPACK_IMPORTED_MODULE_5__.formatPrice.constPrice(tasaDolar.monto_tc, '.', ',');
           _this.client = cliente; //agregar warehouses
 
           _this.warehouses = wh; //agregamos las cajas
 
           _this.cajas = cajas; //agregar data content de la factura
 
-          _this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.data_contents)(wh, details.tipo_envio, _this.details.tarifa, _this.envio);
+          _this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.data_contents)(wh, details.tipo_envio, _this.details.tarifa, _this.envio); //agregando costo por trackings
+
+          _this.costo_trackings = costo_trackings; //agregar total en USD
+
+          _this.total_usd = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.calc_total_usd_data)(_this.dataContent, 'sub_total');
+          _this.total_usd = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.suma_total_usd_var)(_this.total_usd, _this.costo_trackings); //sumar costo trackings + total_usd;
+
+          if (_this.envio === 'reempaque') {
+            _this.costo_reempaque = costo_reempaque; //sumando costo reempaque + total_usd;
+
+            _this.total_usd = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.suma_total_usd_var)(_this.total_usd, _this.costo_trackings);
+          } //agregar total VES
+
+
+          _this.total_ves = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_4__.calc_total_ves)(_this.total_usd, _this.details.monto_tc);
         }
 
         setTimeout(function () {
@@ -446,7 +513,13 @@ var Error404 = function Error404() {
     removeCaja: function removeCaja() {
       var cajasNew = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       this.list_cajas = cajasNew;
-    }
+    },
+    //funcion para construccion de precion USD
+    keyUpPrecio: function keyUpPrecio(e) {
+      this[e.target.name] = _formatPrice__WEBPACK_IMPORTED_MODULE_5__.formatPrice.constPrice(e.target.value, ',', '.');
+    },
+    //calculo totales se refiere a la suma de todo los subtotal, costo tracking, reempaque y gastos extras.
+    calculo_totales: function calculo_totales() {}
   }
 });
 
@@ -630,8 +703,11 @@ var constructPrice = function constructPrice(value, spdor_unid, spdor_decimal) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add_box": () => (/* binding */ add_box),
+/* harmony export */   "calc_total_usd_data": () => (/* binding */ calc_total_usd_data),
+/* harmony export */   "calc_total_ves": () => (/* binding */ calc_total_ves),
 /* harmony export */   "create_factura": () => (/* binding */ create_factura),
-/* harmony export */   "data_contents": () => (/* binding */ data_contents)
+/* harmony export */   "data_contents": () => (/* binding */ data_contents),
+/* harmony export */   "suma_total_usd_var": () => (/* binding */ suma_total_usd_var)
 /* harmony export */ });
 /* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formatPrice */ "./resources/js/formatPrice.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -664,7 +740,6 @@ var dataContentAereo = {
 var create_factura = function create_factura() {
   var almacen = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var extras = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  var tasaDolar = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var wh = []; //arreglo para determinar los wh
 
   var cajas = [];
@@ -696,11 +771,50 @@ var create_factura = function create_factura() {
       });
     }
   });
+  var costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
+  var costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
   return {
     wh: wh,
     details: details,
-    cajas: cajas
+    cajas: cajas,
+    costo_trackings: costo_trackings,
+    costo_reempaque: costo_reempaque
   };
+}; //costo trackings y costo reempaque
+
+
+var calc_costo_track_and_reempaque = function calc_costo_track_and_reempaque() {
+  var extras = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'TRACKING';
+  var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  var costo = 0;
+  extras.forEach(function (element) {
+    var cant_cond = element.cant_cond,
+        condicion = element.condicion,
+        activo = element.activo,
+        monto_cond = element.monto_cond,
+        monto_gasto_extra = element.monto_gasto_extra,
+        tipo_cond = element.tipo_cond,
+        tipo = element.tipo;
+
+    if (activo === 1 && tipo === type) {
+      costo = parseNum(monto_gasto_extra);
+
+      if (condicion === 1) {
+        if (tipo_cond == 'MAYOR' && data.length > parseNum(cant_cond)) {
+          costo = parseNum(monto_cond) * data.length;
+        } else if (tipo_cond == 'MENOR' && data.length < parseNum(cant_cond)) {
+          costo = parseNum(monto_cond) * data.length;
+        }
+      }
+    }
+  });
+
+  if (type == 'TRACKING') {
+    costo = costo * data.length;
+  }
+
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(costo.toFixed(2)), ',', '.');
 }; //funcion dataContents
 
 
@@ -797,6 +911,44 @@ var calc_cost_env_aereo = function calc_cost_env_aereo() {
     sub_total: sub_total
   }));
   return data;
+}; //calculo de total usd, de acuerdo a la data
+
+
+var calc_total_usd_data = function calc_total_usd_data() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'sub_total';
+  var total = 0;
+  data.forEach(function (element) {
+    for (var property in element) {
+      if (property === field) {
+        var sub_total = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(element[property], ',');
+        sub_total = parseNum(sub_total);
+        total = total + sub_total;
+      }
+    }
+  });
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total.toFixed(2)), ',', '.');
+}; //suma de cualquier variable a la variable total USD
+
+
+var suma_total_usd_var = function suma_total_usd_var(total, field) {
+  var total_usd = 0;
+  var usd = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(total, ','));
+  var varField = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(field, ','));
+  total_usd = usd + varField;
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_usd.toFixed(2)), ',', '.');
+}; //calculo de total en VES
+
+
+var calc_total_ves = function calc_total_ves(total, tasa) {
+  var total_usd = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(total, ','));
+  var tasa_ves = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(tasa, '.');
+  tasa_ves = tasa_ves.replace(',', '.');
+  tasa_ves = parseNum(tasa_ves);
+  var total_ves = total_usd * tasa_ves;
+  total_ves = total_ves.toFixed(2);
+  total_ves = total_ves.replace('.', ',');
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_ves), '.', ',');
 }; //agregar caja a listCajas
 
 
@@ -1764,6 +1916,239 @@ var render = function () {
                       attrs: { listCajas: _vm.list_cajas },
                       on: { removeCaja: _vm.removeCaja },
                     }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "d-flex align-items-center mt-4" },
+                      [
+                        _c("div", { staticClass: " m-0 ms-auto" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center mb-3 justify-content-end",
+                            },
+                            [
+                              _c("span", { staticClass: "me-2" }, [
+                                _vm._v(
+                                  "\r\n                                    Total WH\r\n                                "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "max-width": "80px" } },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.costo_trackings,
+                                        expression: "costo_trackings",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    staticStyle: {
+                                      padding: "0.4375rem 5px",
+                                      "text-align": "end",
+                                    },
+                                    attrs: {
+                                      type: "text",
+                                      name: "costo_trackings",
+                                    },
+                                    domProps: { value: _vm.costo_trackings },
+                                    on: {
+                                      keyup: function ($event) {
+                                        return _vm.keyUpPrecio($event)
+                                      },
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.costo_trackings =
+                                          $event.target.value
+                                      },
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm.envio === "reempaque"
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "d-flex align-items-center mb-3 justify-content-end",
+                                },
+                                [
+                                  _c("span", { staticClass: "me-2" }, [
+                                    _vm._v(
+                                      "\r\n                                    Total WH Reemp.\r\n                                "
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticStyle: { "max-width": "80px" } },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.costo_reempaque,
+                                            expression: "costo_reempaque",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          type: "text",
+                                          name: "costo_reempaque",
+                                        },
+                                        domProps: {
+                                          value: _vm.costo_reempaque,
+                                        },
+                                        on: {
+                                          keyup: function ($event) {
+                                            return _vm.keyUpPrecio($event)
+                                          },
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.costo_reempaque =
+                                              $event.target.value
+                                          },
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center mb-3 justify-content-end",
+                            },
+                            [
+                              _c("span", { staticClass: "me-2" }, [
+                                _vm._v(
+                                  "\r\n                                    Gastos Extras\r\n                                "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "max-width": "80px" } },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.gastos_extras,
+                                        expression: "gastos_extras",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    staticStyle: {
+                                      padding: "0.4375rem 5px",
+                                      "text-align": "end",
+                                    },
+                                    attrs: {
+                                      type: "text",
+                                      name: "gastos_extras",
+                                    },
+                                    domProps: { value: _vm.gastos_extras },
+                                    on: {
+                                      keyup: function ($event) {
+                                        return _vm.keyUpPrecio($event)
+                                      },
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.gastos_extras = $event.target.value
+                                      },
+                                    },
+                                  }),
+                                ]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center mb-3 justify-content-end",
+                            },
+                            [
+                              _c("span", { staticClass: "me-2" }, [
+                                _vm._v(
+                                  "\r\n                                    Total USD\r\n                                "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "text-end",
+                                  staticStyle: { width: "80px" },
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                                    " +
+                                      _vm._s(_vm.total_usd) +
+                                      "\r\n                                "
+                                  ),
+                                ]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center mb-3 justify-content-end",
+                            },
+                            [
+                              _c("span", { staticClass: "me-2" }, [
+                                _vm._v(
+                                  "\r\n                                    Total VES\r\n                                "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "text-end",
+                                  staticStyle: { width: "80px" },
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                                    " +
+                                      _vm._s(_vm.total_ves) +
+                                      "\r\n                                "
+                                  ),
+                                ]
+                              ),
+                            ]
+                          ),
+                        ]),
+                      ]
+                    ),
                   ],
                   1
                 ),

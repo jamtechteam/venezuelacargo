@@ -7,6 +7,7 @@ let details = {
     nro_factura: '',
     tipo_envio: '',
     monto_tc: '0,00',
+    nro_container: ''
 }
 
 // dato de content Aereo

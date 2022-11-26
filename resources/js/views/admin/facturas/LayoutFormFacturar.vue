@@ -30,6 +30,7 @@
                     </div>
                     <ware-house 
                         v-bind:warehouses="warehouses"
+                        :envio="envio"
                     />
                     <div class="w-100 mb-4">
                         <div class="row">
@@ -70,14 +71,14 @@
                         v-bind:listCajas="list_cajas"
                         @removeCaja="removeCaja"
                     />
-                    <div class="d-flex align-items-center mt-4">
+                    <div class="d-flex align-items-center mt-4 mb-3">
                         <div class=" m-0 ms-auto">
                             <div class="d-flex align-items-center mb-3 justify-content-end">
                                 <span class="me-2">
                                     Total WH
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                    <input type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end" v-if="envio === 'reempaque'">
@@ -85,7 +86,7 @@
                                     Total WH Reemp.
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                    <input type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -93,7 +94,7 @@
                                     Gastos Extras
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)">
+                                    <input type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -114,6 +115,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="d-flex align-items-center mt-5 mb-3">
+                        <div class=" m-0 ms-auto" style="width: 330px;">
+                            <div class="form-floating mb-3 w-100">
+                                <input type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
+                                <label for="nro_factura">Nro. Factura</label>
+                            </div>
+                            <div class="form-floating mb-3 w-100">
+                                <input type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
+                                <label for="nro_container">Nro. Container</label>
+                            </div>
+                            <div class="form-floating mb-3 w-100">
+                                <input type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa" @keyup="keyUpPrecio($event)" @change="changePrecioTarifa" >
+                                <label for="tarifa">Tarifa de Envio ( {{details.tipo_envio}} )</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-3">
+                        <btn-volver :classe="'btn-light'"></btn-volver>
+                        <button type="button" class="btn btn-info ms-auto">
+                            <span>Guardar</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,6 +150,7 @@
 import WareHouse from '../../../components/facturas/WareHouse.vue';
 import ContentBody from '../../../components/facturas/ContentBody.vue';
 import ListCajas from '../../../components/facturas/ListCajas.vue';
+import BtnVolver from '../../../components/BtnVolver.vue';
 
 //componentes de segundo plano
 const LoaderComponent = () => import('../../../components/LoaderComponent.vue');
@@ -150,6 +174,7 @@ export default {
                 nro_factura: '',
                 tipo_envio: '',
                 monto_tc: '0,00',
+                nro_container: ''
             },
             //informacion del cliente
             client: {},
@@ -176,6 +201,7 @@ export default {
         WareHouse,
         ContentBody,
         ListCajas,
+        BtnVolver
     },
     beforeCreate(){
         this.$nextTick(async function () {
@@ -234,6 +260,7 @@ export default {
                     this.cajas = cajas;
                     
                     //agregar data content de la factura
+                    if( this.envio === 'directo' )
                     this.dataContent = data_contents(wh, details.tipo_envio, this.details.tarifa, this.envio);
 
                     //agregando costo por trackings
@@ -247,7 +274,7 @@ export default {
                     if( this.envio === 'reempaque' ){
                         this.costo_reempaque = costo_reempaque;
                         //sumando costo reempaque + total_usd;
-                        this.total_usd = suma_total_usd_var(this.total_usd, this.costo_trackings);
+                        this.total_usd = suma_total_usd_var(this.total_usd, this.costo_reempaque);
                     }
 
                     //agregar total VES
@@ -268,6 +295,7 @@ export default {
                 if( this.caja != '' ){
                     const { id_gasto_extra, nombre, monto_gasto_extra } = this.cajas.filter( caja => caja.id_gasto_extra  == this.caja)[0];
                     this.list_cajas = add_box(this.list_cajas, id_gasto_extra, nombre, monto_gasto_extra, this.cant_caja);
+                    this.calculo_totales();
                 }else{
                     alert('Debe Seleccionar un tipo de caja');
                 }
@@ -276,14 +304,42 @@ export default {
             }
         },
         //eliminar caja, de la lista cajas
-        removeCaja(cajasNew = []){ this.list_cajas = cajasNew; },
+        removeCaja(cajasNew = []){ this.list_cajas = cajasNew; this.calculo_totales(); },
         //funcion para construccion de precion USD
         keyUpPrecio(e){
-           this[e.target.name] = formatPrice.constPrice(e.target.value, ',', '.');
+            if( e.target.name !== 'tarifa'){
+                this[e.target.name] = formatPrice.constPrice(e.target.value, ',', '.');
+            }else{
+                this.details[e.target.name] = formatPrice.constPrice(e.target.value, ',', '.');
+            }
+           
+        },
+        //ejecutar funcion de calcular todo
+        changePrecio(e){ this.calculo_totales(); },
+        //ejecutar cambio de tarifa en el dataContent
+        changePrecioTarifa(){
+            this.dataContent = data_contents(this.warehouses, this.details.tipo_envio, this.details.tarifa, this.envio);
+            this.calculo_totales();
         },
         //calculo totales se refiere a la suma de todo los subtotal, costo tracking, reempaque y gastos extras.
         calculo_totales(){
-            
+            this.total_usd = calc_total_usd_data(this.dataContent, 'sub_total');
+            this.total_usd = suma_total_usd_var(this.total_usd, this.costo_trackings); //sumar costo trackings + total_usd;
+
+            if( this.envio === 'reempaque' ){
+                this.total_usd = suma_total_usd_var(this.total_usd, this.costo_reempaque);
+            }
+
+            if( this.list_cajas.length > 0 ){
+                let total = calc_total_usd_data(this.list_cajas, 'sub_total');
+                this.total_usd = suma_total_usd_var(this.total_usd, total);
+            }
+
+            if( this.gastos_extras !== '0.00' ){
+                this.total_usd = suma_total_usd_var(this.total_usd, this.gastos_extras);
+            }
+
+            this.total_ves = calc_total_ves(this.total_usd, this.details.monto_tc);
         }
     }
 }

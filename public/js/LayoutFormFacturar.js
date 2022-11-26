@@ -153,6 +153,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../formatPrice */ "./resources/js/formatPrice.js");
+/* harmony import */ var _helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/calcInvoice */ "./resources/js/helpers/calcInvoice.js");
 //
 //
 //
@@ -255,6 +257,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 var generateRandomString = function generateRandomString(num) {
   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var result1 = '';
@@ -278,10 +334,13 @@ var generateRandomString = function generateRandomString(num) {
         id_almacen: '',
         almacen_ids: [],
         warehouse: '',
+        warehouse_children: '',
         ancho: '',
         alto: '',
         largo: '',
         peso: '',
+        pie_cubico: '',
+        volumen: '',
         total_seguro: '',
         seguro: ''
       },
@@ -291,7 +350,6 @@ var generateRandomString = function generateRandomString(num) {
   methods: {
     hiddenModal: function hiddenModal() {
       this.show = false;
-      this.dato = {};
     },
     reempaque: function reempaque() {
       if (this.getId.length === 0) {
@@ -299,9 +357,110 @@ var generateRandomString = function generateRandomString(num) {
         return;
       }
 
+      if (this.checkIdAlmacen()) {
+        alert('Error, ya existe un warehouse, agregado a el rempaque');
+        return;
+      }
+
       this.show = true;
     },
-    saveData: function saveData() {}
+    saveData: function saveData() {
+      var _this = this;
+
+      this.$validator.validate().then(function (valid) {
+        if (valid) {
+          _this.dato.almacen_ids = _this.getId;
+          _this.dato.id_almacen = generateRandomString(46);
+          var wh = _this.warehouses;
+          var ids = _this.getId;
+          var total_seguro = 0;
+          wh.forEach(function (element) {
+            var totalseguro = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(element.total_seguro, ','));
+
+            for (var i = 0; i < ids.length; i++) {
+              if (ids[i] === element.id_almacen) {
+                total_seguro = total_seguro + totalseguro;
+                _this.dato.warehouse_children = _this.dato.warehouse_children + '' + "".concat(i !== ids.length - 1 ? ',' + element.warehouse : element.warehouse);
+              }
+            }
+          });
+          var seguro = total_seguro * 10 / 100;
+          _this.dato.total_seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_seguro.toFixed(2)), ',', '.');
+          _this.dato.seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(seguro.toFixed(2)), ',', '.');
+          var volumen = 0;
+          var pie_cubico = 0;
+          var _this$dato = _this.dato,
+              alto = _this$dato.alto,
+              ancho = _this$dato.ancho,
+              largo = _this$dato.largo;
+          volumen = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(largo) / 166;
+          pie_cubico = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(largo) / 1728;
+
+          if (volumen < 1) {
+            volumen = 1;
+          }
+
+          if (pie_cubico < 1) {
+            pie_cubico = 1;
+          }
+
+          _this.dato.volumen = volumen.toFixed(2);
+          _this.dato.pie_cubico = pie_cubico.toFixed(2);
+
+          _this.warehousesNew.push(_this.dato);
+
+          _this.show = false;
+          _this.getId = [];
+          _this.dato = {
+            id_almacen: '',
+            almacen_ids: [],
+            warehouse: '',
+            warehouse_children: '',
+            ancho: '',
+            alto: '',
+            largo: '',
+            peso: '',
+            total_seguro: '',
+            seguro: ''
+          };
+
+          _this.$emit('add_new_wh', _this.warehousesNew);
+        }
+      });
+    },
+    delete_wh: function delete_wh(e) {
+      var value = e.target.parentNode.value;
+      var warehouseNew = [];
+      this.warehousesNew.forEach(function (element) {
+        if (element.id_almacen !== value) {
+          warehouseNew.push(element);
+        }
+      });
+      this.warehousesNew = warehouseNew;
+      this.$emit('add_new_wh', this.warehousesNew);
+    },
+    checkIdAlmacen: function checkIdAlmacen() {
+      var data = this.getId;
+      var wh = this.warehousesNew;
+      var bol = false;
+
+      var _loop = function _loop(i) {
+        wh.forEach(function (element) {
+          for (var j = 0; j < element.almacen_ids.length; j++) {
+            if (element.almacen_ids[j] === data[i]) {
+              bol = true;
+              break;
+            }
+          }
+        });
+      };
+
+      for (var i = 0; i < data.length; i++) {
+        _loop(i);
+      }
+
+      return bol;
+    }
   }
 });
 
@@ -331,6 +490,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -530,7 +690,9 @@ var Error404 = function Error404() {
       total_ves: '0,00',
       costo_trackings: '0.00',
       costo_reempaque: '0.00',
-      gastos_extras: '0.00'
+      gastos_extras: '0.00',
+      //new wh para reempaque
+      warehousesNew: []
     };
   },
   components: {
@@ -680,7 +842,8 @@ var Error404 = function Error404() {
     },
     //ejecutar cambio de tarifa en el dataContent
     changePrecioTarifa: function changePrecioTarifa() {
-      this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(this.warehouses, this.details.tipo_envio, this.details.tarifa, this.envio);
+      var wh = this.envio == 'directo' ? this.warehouses : this.warehousesNew;
+      this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(wh, this.details.tipo_envio, this.details.tarifa, this.envio);
       this.calculo_totales();
     },
     //calculo totales se refiere a la suma de todo los subtotal, costo tracking, reempaque y gastos extras.
@@ -702,6 +865,13 @@ var Error404 = function Error404() {
       }
 
       this.total_ves = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.calc_total_ves)(this.total_usd, this.details.monto_tc);
+    },
+    //agregar nuevos wh, esta funcion funciona para facturas con reempaque
+    add_new_wh: function add_new_wh() {
+      var dataNew = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      this.warehousesNew = dataNew;
+      this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(this.warehousesNew, this.details.tipo_envio, this.details.tarifa, this.envio);
+      this.calculo_totales();
     }
   }
 });
@@ -890,6 +1060,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "calc_total_ves": () => (/* binding */ calc_total_ves),
 /* harmony export */   "create_factura": () => (/* binding */ create_factura),
 /* harmony export */   "data_contents": () => (/* binding */ data_contents),
+/* harmony export */   "parseNum": () => (/* binding */ parseNum),
 /* harmony export */   "suma_total_usd_var": () => (/* binding */ suma_total_usd_var)
 /* harmony export */ });
 /* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formatPrice */ "./resources/js/formatPrice.js");
@@ -1045,7 +1216,7 @@ var data_contents = function data_contents() {
       sub_total: sub_total
     });
   });
-  return type_envio == 'aereo' ? calc_cost_env_aereo(data, envio, costo_envio) : data;
+  return type_envio == 'aereo' && data.length > 0 ? calc_cost_env_aereo(data, envio, costo_envio) : data;
 };
 
 var calc_cost_env_aereo = function calc_cost_env_aereo() {
@@ -2340,6 +2511,70 @@ var render = function () {
       ]
     ),
     _vm._v(" "),
+    _vm.envio === "reempaque"
+      ? _c(
+          "table",
+          { staticClass: "table table-transparent table-responsive mb-3" },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.warehousesNew, function (item, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        directives: [{ name: "title", rawName: "v-title" }],
+                        staticClass: "btn-acticon_spalert",
+                        attrs: {
+                          type: "button",
+                          value: item.id_almacen,
+                          title: "Elimnar WH",
+                        },
+                        on: {
+                          click: function ($event) {
+                            return _vm.delete_wh($event)
+                          },
+                        },
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "ti ti-trash",
+                          staticStyle: { "font-size": "21px" },
+                        }),
+                      ]
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.warehouse))])]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {}, [_vm._v(_vm._s(item.warehouse_children))]),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.alto))])]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.ancho))])]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.largo))])]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.peso))])]),
+                  _vm._v(" "),
+                  _c("td", [_c("span", {}, [_vm._v(_vm._s(item.num_piezas))])]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {}, [_vm._v(_vm._s(item.total_seguro))]),
+                  ]),
+                ])
+              }),
+              0
+            ),
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "form",
       {
@@ -2391,8 +2626,15 @@ var render = function () {
                         value: _vm.dato.warehouse,
                         expression: "dato.warehouse",
                       },
+                      {
+                        name: "validate",
+                        rawName: "v-validate",
+                        value: "required",
+                        expression: "'required'",
+                      },
                     ],
                     staticClass: "form-control",
+                    class: { "is-invalid": _vm.errors.first("warehouse") },
                     attrs: { type: "text", name: "warehouse", id: "warehouse" },
                     domProps: { value: _vm.dato.warehouse },
                     on: {
@@ -2408,6 +2650,12 @@ var render = function () {
                   _c("label", { attrs: { for: "warehouse" } }, [
                     _vm._v("Warehouse"),
                   ]),
+                  _vm._v(" "),
+                  _vm.errors.has("warehouse")
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.errors.first("warehouse"))),
+                      ])
+                    : _vm._e(),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-floating mb-3" }, [
@@ -2694,6 +2942,32 @@ var staticRenderFns = [
       ]),
     ])
   },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "5%" } }),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Nro. WareHouse")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("WH secundarios")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Alto")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Ancho")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Largo")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Peso")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "5%" } }, [_vm._v("Piezas")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Total Seguro")]),
+      ]),
+    ])
+  },
 ]
 render._withStripped = true
 
@@ -2853,6 +3127,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("ware-house", {
                       attrs: { warehouses: _vm.warehouses, envio: _vm.envio },
+                      on: { add_new_wh: _vm.add_new_wh },
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "w-100 mb-4" }, [

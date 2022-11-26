@@ -114,7 +114,7 @@ const data_contents = (wh = [], type_envio = 'aereo', tarifa = '0.00', envio = '
         });
     });
 
-    return type_envio == 'aereo' ? calc_cost_env_aereo(data, envio, costo_envio) : data;
+    return type_envio == 'aereo' && data.length > 0 ? calc_cost_env_aereo(data, envio, costo_envio) : data;
 }
 
 const calc_cost_env_aereo = (data = [], envio = 'directo', costo_envio = 0) => {
@@ -245,4 +245,4 @@ const add_box = (listCajas = [], id_gasto_extra = '', nombre = '', monto_gasto_e
 //parseNum, es un numero entero o flotante
 const parseNum = (val) => val % 1 == 0 ? parseInt(val) : parseFloat(val);
 
-export { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves }
+export { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves, parseNum }

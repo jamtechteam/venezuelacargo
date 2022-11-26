@@ -31,6 +31,7 @@
                     <ware-house 
                         v-bind:warehouses="warehouses"
                         :envio="envio"
+                        @add_new_wh="add_new_wh"
                     />
                     <div class="w-100 mb-4">
                         <div class="row">
@@ -194,7 +195,9 @@ export default {
             total_ves: '0,00',
             costo_trackings: '0.00',
             costo_reempaque: '0.00',
-            gastos_extras: '0.00'
+            gastos_extras: '0.00',
+            //new wh para reempaque
+            warehousesNew: [],
         }
     },
     components: {
@@ -318,7 +321,8 @@ export default {
         changePrecio(e){ this.calculo_totales(); },
         //ejecutar cambio de tarifa en el dataContent
         changePrecioTarifa(){
-            this.dataContent = data_contents(this.warehouses, this.details.tipo_envio, this.details.tarifa, this.envio);
+            const wh = this.envio == 'directo' ? this.warehouses : this.warehousesNew;
+            this.dataContent = data_contents(wh, this.details.tipo_envio, this.details.tarifa, this.envio);
             this.calculo_totales();
         },
         //calculo totales se refiere a la suma de todo los subtotal, costo tracking, reempaque y gastos extras.
@@ -340,6 +344,12 @@ export default {
             }
 
             this.total_ves = calc_total_ves(this.total_usd, this.details.monto_tc);
+        },
+        //agregar nuevos wh, esta funcion funciona para facturas con reempaque
+        add_new_wh(dataNew = []){
+            this.warehousesNew = dataNew;
+            this.dataContent = data_contents(this.warehousesNew, this.details.tipo_envio, this.details.tarifa, this.envio);
+            this.calculo_totales();
         }
     }
 }

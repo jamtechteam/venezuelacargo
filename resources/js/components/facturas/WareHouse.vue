@@ -47,6 +47,54 @@
             </tr>
         </tbody>
     </table> 
+    <table class="table table-transparent table-responsive mb-3" v-if="envio === 'reempaque'">
+        <thead>
+            <tr>
+                <th style="width: 5%;"></th>
+                <th style="width: 20%;">Nro. WareHouse</th>
+                <th style="width: 20%;">WH secundarios</th>
+                <th style="width: 10%;">Alto</th>
+                <th style="width: 10%;">Ancho</th>
+                <th style="width: 10%;">Largo</th>
+                <th style="width: 10%;">Peso</th>
+                <th style="width: 5%;">Piezas</th>
+                <th style="width: 10%;">Total Seguro</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, index) in warehousesNew" :key="index">
+                <td>
+                    <button class="btn-acticon_spalert" type="button" :value="item.id_almacen" @click="delete_wh($event)" title="Elimnar WH" v-title>
+                        <i class="ti ti-trash" style="font-size: 21px;"></i>
+                    </button>
+                </td>
+                <td>
+                    <span class="">{{ item.warehouse }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.warehouse_children }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.alto }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.ancho }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.largo }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.peso }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.num_piezas }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.total_seguro }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table> 
     <form class="modal modal-blur fade" :class="{'show': show == true}"  id="paquete" tabindex="-1" aria-modal="true" role="dialog" >
         <div name="paquete"  class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -56,8 +104,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-floating mb-3 w-100">
-                        <input type="text" class="form-control" name="warehouse" v-model="dato.warehouse" id="warehouse" >
+                        <input type="text" class="form-control" name="warehouse" v-model="dato.warehouse" id="warehouse" v-validate="'required'" :class="{'is-invalid': errors.first('warehouse')}">
                         <label for="warehouse">Warehouse</label>
+                        <div v-if="errors.has('warehouse')" class="invalid-feedback">{{errors.first('warehouse')}}</div>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" v-validate="'required|numeric'" name="ancho" class="form-control" :class="{'is-invalid': errors.first('ancho')}" id="ancho" v-model="dato.ancho" 
@@ -100,7 +149,12 @@
 </div>
 </template>
 
+
+
 <script>
+import { formatPrice } from '../../formatPrice';
+import { parseNum } from '../../helpers/calcInvoice';
+
 const  generateRandomString = (num) => {
     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result1='';
@@ -122,10 +176,13 @@ export default {
                 id_almacen: '',
                 almacen_ids: [],
                 warehouse: '',
+                warehouse_children: '',
                 ancho: '',
                 alto: '',
                 largo: '',
                 peso: '',
+                pie_cubico: '',
+                volumen: '',
                 total_seguro: '',
                 seguro: '',
             },
@@ -136,7 +193,6 @@ export default {
     methods: {
         hiddenModal(){
             this.show = false;
-            this.dato = {};
         },
         reempaque(){
             if( this.getId.length === 0 ){
@@ -144,11 +200,109 @@ export default {
                 return;
             } 
             
+            if( this.checkIdAlmacen() ){
+                alert('Error, ya existe un warehouse, agregado a el rempaque');
+                return;
+            }
             
             this.show = true;
         },
         saveData(){
+            this.$validator.validate().then(valid => {
+                if( valid ){
+                    this.dato.almacen_ids = this.getId;
+                    this.dato.id_almacen = generateRandomString(46);
 
+                    const wh = this.warehouses;
+                    const ids = this.getId;
+
+                    let total_seguro = 0;
+                
+                    wh.forEach((element) => {
+                        let totalseguro = parseNum(formatPrice.desctPrice(element.total_seguro, ','));
+
+                        for (let i = 0; i < ids.length; i++) {
+                            if( ids[i] === element.id_almacen ){
+                                total_seguro = total_seguro + totalseguro;
+                            this.dato.warehouse_children = this.dato.warehouse_children + '' + `${i !== ids.length - 1 ? ',' + element.warehouse : element.warehouse}`;
+                            }
+                        }
+                    });
+
+                    let seguro = (total_seguro * 10) / 100;
+
+                    this.dato.total_seguro = formatPrice.constPrice(`${total_seguro.toFixed(2)}`, ',', '.');
+                    this.dato.seguro = formatPrice.constPrice(`${seguro.toFixed(2)}`, ',', '.');
+
+                    let volumen = 0;
+                    let pie_cubico = 0;
+                    const { alto, ancho, largo } = this.dato;
+                    volumen = (parseNum(alto) * parseNum(ancho) * parseNum(largo)) / 166;
+                    pie_cubico = (parseNum(alto) * parseNum(ancho) * parseNum(largo)) / 1728;
+
+                    if( volumen < 1 ){
+                        volumen = 1;
+                    }
+
+                    if( pie_cubico < 1 ){
+                        pie_cubico = 1
+                    }
+
+                    this.dato.volumen = volumen.toFixed(2);
+                    this.dato.pie_cubico = pie_cubico.toFixed(2);
+
+                    this.warehousesNew.push(this.dato);
+                    
+                    this.show = false;
+                    this.getId = [];
+                    this.dato = {
+                        id_almacen: '',
+                        almacen_ids: [],
+                        warehouse: '',
+                        warehouse_children: '',
+                        ancho: '',
+                        alto: '',
+                        largo: '',
+                        peso: '',
+                        total_seguro: '',
+                        seguro: '',
+                    };
+
+                    this.$emit('add_new_wh', this.warehousesNew);
+                }
+            });
+        },
+        delete_wh(e){
+            const { value } = e.target.parentNode;
+            let warehouseNew = [];
+
+            this.warehousesNew.forEach((element) => {
+                if( element.id_almacen !== value ){
+                    warehouseNew.push(element);
+                }
+            });
+
+            this.warehousesNew = warehouseNew;
+            this.$emit('add_new_wh', this.warehousesNew);
+
+        },
+        checkIdAlmacen(){
+            const data = this.getId;
+            const wh = this.warehousesNew;
+            let bol = false;
+
+            for (let i = 0; i < data.length; i++) {
+                wh.forEach((element) => {
+                    for (let j = 0; j < element.almacen_ids.length; j++) {
+                        if( element.almacen_ids[j] === data[i] ){
+                            bol = true;
+                            break;
+                        }
+                    }
+                });
+            }
+                
+            return bol;
         }
     },
 };

@@ -2642,23 +2642,23 @@ var routesAdmin = [{
     }
   }, {
     name: 'EditarFactura',
-    path: 'editar/:id',
+    path: 'editar',
     meta: {
       title: 'Editar Factura: ',
       requireAuth: true
     },
     component: function component() {
-      return __webpack_require__.e(/*! import() | Instruccion */ "Instruccion").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/facturas/EditarFactura.vue */ "./resources/js/views/admin/facturas/EditarFactura.vue"));
+      return __webpack_require__.e(/*! import() | LayoutFormFacturar */ "LayoutFormFacturar").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/facturas/LayoutFormFacturar.vue */ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue"));
     }
   }, {
     name: 'ShowFactura',
-    path: 'show/:id',
+    path: 'show',
     meta: {
       title: 'Ver Factura: ',
       requireAuth: true
     },
     component: function component() {
-      return __webpack_require__.e(/*! import() | Instruccion */ "Instruccion").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/facturas/ShowFactura.vue */ "./resources/js/views/admin/facturas/ShowFactura.vue"));
+      return __webpack_require__.e(/*! import() | LayoutFormFacturar */ "LayoutFormFacturar").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/facturas/LayoutFormFacturar.vue */ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue"));
     }
   }, {
     name: 'CheckPagoFactura',

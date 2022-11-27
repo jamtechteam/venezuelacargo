@@ -124,7 +124,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'ListCajas',
-  props: ['listCajas'],
+  props: ['listCajas', 'type_form'],
   methods: {
     delete_box: function delete_box(e) {
       var value = e.target.parentNode.value;
@@ -153,8 +153,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../formatPrice */ "./resources/js/formatPrice.js");
-/* harmony import */ var _helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/calcInvoice */ "./resources/js/helpers/calcInvoice.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../formatPrice */ "./resources/js/formatPrice.js");
+/* harmony import */ var _helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/calcInvoice */ "./resources/js/helpers/calcInvoice.js");
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -309,23 +329,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-
-
-var generateRandomString = function generateRandomString(num) {
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var result1 = '';
-  var charactersLength = characters.length;
-
-  for (var i = 0; i < num; i++) {
-    result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-
-  return result1;
-};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'WareHouse',
-  props: ['warehouses', 'envio'],
+  props: ['warehouses', 'envio', 'whNew', 'type_form'],
   data: function data() {
     return {
       warehousesNew: [],
@@ -346,6 +353,22 @@ var generateRandomString = function generateRandomString(num) {
       },
       show: false
     };
+  },
+  beforeCreate: function beforeCreate() {
+    this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              this.warehousesNew = _toConsumableArray(this.whNew);
+
+            case 1:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
   },
   methods: {
     hiddenModal: function hiddenModal() {
@@ -370,12 +393,12 @@ var generateRandomString = function generateRandomString(num) {
       this.$validator.validate().then(function (valid) {
         if (valid) {
           _this.dato.almacen_ids = _this.getId;
-          _this.dato.id_almacen = generateRandomString(46);
+          _this.dato.id_almacen = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.generateRandomString)(46);
           var wh = _this.warehouses;
           var ids = _this.getId;
           var total_seguro = 0;
           wh.forEach(function (element) {
-            var totalseguro = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(element.total_seguro, ','));
+            var totalseguro = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(_formatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice.desctPrice(element.total_seguro, ','));
 
             for (var i = 0; i < ids.length; i++) {
               if (ids[i] === element.id_almacen) {
@@ -385,16 +408,16 @@ var generateRandomString = function generateRandomString(num) {
             }
           });
           var seguro = total_seguro * 10 / 100;
-          _this.dato.total_seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_seguro.toFixed(2)), ',', '.');
-          _this.dato.seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(seguro.toFixed(2)), ',', '.');
+          _this.dato.total_seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice.constPrice("".concat(total_seguro.toFixed(2)), ',', '.');
+          _this.dato.seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice.constPrice("".concat(seguro.toFixed(2)), ',', '.');
           var volumen = 0;
           var pie_cubico = 0;
           var _this$dato = _this.dato,
               alto = _this$dato.alto,
               ancho = _this$dato.ancho,
               largo = _this$dato.largo;
-          volumen = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(largo) / 166;
-          pie_cubico = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_1__.parseNum)(largo) / 1728;
+          volumen = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(largo) / 166;
+          pie_cubico = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(alto) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(ancho) * (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_2__.parseNum)(largo) / 1728;
 
           if (volumen < 1) {
             volumen = 1;
@@ -676,6 +699,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //componentes de primer plano, para factura
 
 
@@ -710,6 +743,7 @@ var save_directo = 'save-invoice-directo';
       componentRender: LoaderComponent,
       //detalles para la factura
       details: {
+        id_factura: '',
         tarifa: '0.00',
         fecha_factura: '',
         nro_factura: '',
@@ -776,7 +810,7 @@ var save_directo = 'save-invoice-directo';
             case 4:
               this.envio = query.envio == 'no' ? 'directo' : 'reempaque';
               this.type_form = query.type;
-              url = query.type == 'show' || query.type == 'edit' ? '' : 'almacen/paquetes/data';
+              url = query.type == 'show' ? "facturas/".concat(query.id) : query.type == 'edit' ? "facturas/".concat(query.id, "/edit") : 'almacen/paquetes/data';
               this.get_axios(query, url);
 
             case 8:
@@ -795,7 +829,7 @@ var save_directo = 'save-invoice-directo';
       this.axios.get(url, {
         params: dataReq
       }).then(function (response) {
-        console.log('response.data.result', response.data.result);
+        console.log('response.data.result', response.data);
 
         if (response.data.result == null) {
           _this.componentRender = Error404;
@@ -814,7 +848,6 @@ var save_directo = 'save-invoice-directo';
           var _create_factura = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.create_factura)(almacen, extras, tasaDolar),
               wh = _create_factura.wh,
               details = _create_factura.details,
-              cajas = _create_factura.cajas,
               costo_trackings = _create_factura.costo_trackings,
               costo_reempaque = _create_factura.costo_reempaque; //tarifas de envios
 
@@ -830,7 +863,7 @@ var save_directo = 'save-invoice-directo';
 
           _this.warehouses = wh; //agregamos las cajas
 
-          _this.cajas = cajas; //agregar data content de la factura
+          _this.cajas = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.cajas)(extras); //agregar data content de la factura
 
           if (_this.envio === 'directo') _this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(wh, details.tipo_envio, _this.details.tarifa, _this.envio); //agregando costo por trackings
 
@@ -845,6 +878,74 @@ var save_directo = 'save-invoice-directo';
             _this.total_usd = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.suma_total_usd_var)(_this.total_usd, _this.costo_reempaque);
           } //agregar total VES
 
+
+          _this.total_ves = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.calc_total_ves)(_this.total_usd, _this.details.monto_tc);
+        } else if (_this.type_form == 'edit' || _this.type_form == 'show') {
+          var _response$data$result2 = response.data.result,
+              id_factura = _response$data$result2.id_factura,
+              _cliente = _response$data$result2.cliente,
+              tarifa_envio = _response$data$result2.tarifa_envio,
+              total_usd = _response$data$result2.total_usd,
+              tipo_envio = _response$data$result2.tipo_envio,
+              nro_factura = _response$data$result2.nro_factura,
+              nro_container = _response$data$result2.nro_container,
+              warehouses = _response$data$result2.warehouses,
+              pago = _response$data$result2.pago,
+              _extras = _response$data$result2.extras,
+              cost_x_tracking = _response$data$result2.cost_x_tracking,
+              cost_reempaque = _response$data$result2.cost_reempaque,
+              gastos_extras = _response$data$result2.gastos_extras;
+          var _response$data$tasa = response.data.tasa,
+              monto_tc = _response$data$tasa.monto_tc,
+              fecha_tc = _response$data$tasa.fecha_tc; //agregamos esta informacion en la cabecera.
+
+          _this.details.tipo_envio = tipo_envio;
+          _this.details.tarifa = _formatPrice__WEBPACK_IMPORTED_MODULE_6__.formatPrice.constPrice(tarifa_envio, ',', '.');
+          _this.details.nro_factura = nro_factura;
+          _this.details.nro_container = nro_container;
+          _this.details.monto_tc = pago.length > 0 ? response.data.result.monto_tc : monto_tc;
+          _this.details.fecha_tc = pago.length > 0 ? response.data.result.fecha_tc : fecha_tc;
+          _this.details.id_factura = id_factura;
+          _this.client = _cliente;
+
+          var _warehouses_data = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.warehouses_data)(warehouses, _this.envio),
+              wh_old = _warehouses_data.wh_old,
+              wh_new = _warehouses_data.wh_new;
+
+          console.log(wh_old, wh_new); //agregar warehouses
+
+          _this.warehouses = wh_old; //agregar data content de la factura
+
+          if (_this.envio === 'directo') {
+            _this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(wh_old, _this.details.tipo_envio, _this.details.tarifa, _this.envio);
+          } else {
+            _this.dataContent = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.data_contents)(wh_new, _this.details.tipo_envio, _this.details.tarifa, _this.envio);
+            _this.warehousesNew = wh_new;
+          } //agregamos las cajas
+
+
+          _this.cajas = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.cajas)(response.data.extras); //agregar cajas extras
+
+          _extras.forEach(function (element) {
+            var _element$detalles = element.detalles,
+                cant = _element$detalles.cant,
+                id_gasto_extra = _element$detalles.id_gasto_extra,
+                monto_gasto_extra = _element$detalles.monto_gasto_extra,
+                nombre = _element$detalles.nombre;
+            _this.list_cajas = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.add_box)(_this.list_cajas, id_gasto_extra, nombre, monto_gasto_extra, cant);
+          }); //agregando costo por trackings
+
+
+          _this.costo_trackings = _formatPrice__WEBPACK_IMPORTED_MODULE_6__.formatPrice.constPrice(cost_x_tracking, ',', '.');
+
+          if (_this.envio === 'reempaque') {
+            _this.costo_reempaque = cost_reempaque;
+          } //agregar gastos extras
+
+
+          _this.gastos_extras = _formatPrice__WEBPACK_IMPORTED_MODULE_6__.formatPrice.constPrice(gastos_extras, ',', '.'); //agregar total en USD
+
+          _this.total_usd = _formatPrice__WEBPACK_IMPORTED_MODULE_6__.formatPrice.constPrice(total_usd, ',', '.'); //agregar total VES
 
           _this.total_ves = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_5__.calc_total_ves)(_this.total_usd, _this.details.monto_tc);
         }
@@ -1010,6 +1111,7 @@ var save_directo = 'save-invoice-directo';
       }
 
       var formData = {
+        id_factura: this.details.id_factura,
         nro_factura: this.details.nro_factura,
         nro_container: this.details.nro_container,
         tipo_envio: this.details.tipo_envio,
@@ -1240,12 +1342,15 @@ var constructPrice = function constructPrice(value, spdor_unid, spdor_decimal) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add_box": () => (/* binding */ add_box),
+/* harmony export */   "cajas": () => (/* binding */ cajas),
 /* harmony export */   "calc_total_usd_data": () => (/* binding */ calc_total_usd_data),
 /* harmony export */   "calc_total_ves": () => (/* binding */ calc_total_ves),
 /* harmony export */   "create_factura": () => (/* binding */ create_factura),
 /* harmony export */   "data_contents": () => (/* binding */ data_contents),
+/* harmony export */   "generateRandomString": () => (/* binding */ generateRandomString),
 /* harmony export */   "parseNum": () => (/* binding */ parseNum),
-/* harmony export */   "suma_total_usd_var": () => (/* binding */ suma_total_usd_var)
+/* harmony export */   "suma_total_usd_var": () => (/* binding */ suma_total_usd_var),
+/* harmony export */   "warehouses_data": () => (/* binding */ warehouses_data)
 /* harmony export */ });
 /* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formatPrice */ "./resources/js/formatPrice.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -1274,14 +1379,30 @@ var dataContentAereo = {
   cost_env: '0.00',
   seguro: '',
   sub_total: '0.00'
-}; //funcion de construccion de data para facturar
+};
+/*
+id_almacen: '',
+almacen_ids: [],
+warehouse: '',
+warehouse_children: '',
+ancho: '',
+alto: '',
+largo: '',
+peso: '',
+pie_cubico: '',
+volumen: '',
+total_seguro: '',
+seguro: '',
+
+*/
+//funcion de construccion de data para facturar
 
 var create_factura = function create_factura() {
   var almacen = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var extras = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   var wh = []; //arreglo para determinar los wh
+  //let cajas = cajas(extras);
 
-  var cajas = [];
   almacen.forEach(function (element) {
     var tipo_envio = element.tipo_envio,
         id_almacen = element.id_almacen,
@@ -1296,6 +1417,19 @@ var create_factura = function create_factura() {
       }));
     });
   });
+  var costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
+  var costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+  return {
+    wh: wh,
+    details: details,
+    costo_trackings: costo_trackings,
+    costo_reempaque: costo_reempaque
+  };
+};
+
+var cajas = function cajas() {
+  var extras = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var box = [];
   extras.forEach(function (element) {
     var id_gasto_extra = element.id_gasto_extra,
         nombre = element.nombre,
@@ -1303,21 +1437,61 @@ var create_factura = function create_factura() {
         tipo = element.tipo;
 
     if (tipo === 'CAJA') {
-      cajas.push({
+      box.push({
         id_gasto_extra: id_gasto_extra,
         nombre: nombre,
         monto_gasto_extra: _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(monto_gasto_extra, ',', '.')
       });
     }
   });
-  var costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
-  var costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+  return box;
+};
+
+var warehouses_data = function warehouses_data() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var envio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'directo';
+  var wh_old = [];
+  var wh_new = [];
+  data.forEach(function (element) {
+    if (element.total_seguro != '') {
+      var total_seguro = parseNum(element.total_seguro);
+      element.total_seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_seguro.toFixed(2)), ',', '.');
+    }
+
+    if (element.seguro != '') {
+      var seguro = parseNum(element.seguro);
+      element.seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(seguro.toFixed(2)), ',', '.');
+    }
+
+    if (envio == 'reempaque') {
+      if (element.warehouse_padre == '' || element.warehouse_padre == null) {
+        var almacen_ids = [];
+        var warehouse_children = '';
+        data.forEach(function (item) {
+          if (element.id_factura_tracking == item.warehouse_padre) {
+            var _id_almacen = generateRandomString(46);
+
+            wh_old.push(_objectSpread(_objectSpread({}, item), {}, {
+              id_almacen: _id_almacen
+            }));
+            almacen_ids.push(_id_almacen);
+            warehouse_children = warehouse_children + '' + item.warehouse + ',';
+          }
+        });
+        var id_almacen = generateRandomString(46);
+        wh_new.push(_objectSpread(_objectSpread({}, element), {}, {
+          almacen_ids: almacen_ids,
+          warehouse_children: warehouse_children,
+          id_almacen: id_almacen
+        }));
+      }
+    } else {
+      wh_old.push(element);
+    }
+  });
   return {
-    wh: wh,
-    details: details,
-    cajas: cajas,
-    costo_trackings: costo_trackings,
-    costo_reempaque: costo_reempaque
+    wh_old: wh_old,
+    wh_new: wh_new
   };
 }; //costo trackings y costo reempaque
 
@@ -1535,6 +1709,18 @@ var add_box = function add_box() {
 
 var parseNum = function parseNum(val) {
   return val % 1 == 0 ? parseInt(val) : parseFloat(val);
+};
+
+var generateRandomString = function generateRandomString(num) {
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result1 = '';
+  var charactersLength = characters.length;
+
+  for (var i = 0; i < num; i++) {
+    result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result1;
 };
 
 
@@ -2548,29 +2734,31 @@ var render = function () {
         _vm._l(_vm.listCajas, function (item, index) {
           return _c("tr", { key: index }, [
             _c("td", [
-              _c(
-                "button",
-                {
-                  directives: [{ name: "title", rawName: "v-title" }],
-                  staticClass: "btn-acticon_spalert",
-                  attrs: {
-                    type: "button",
-                    value: item.id_gasto_extra,
-                    title: "Elimnar Caja",
-                  },
-                  on: {
-                    click: function ($event) {
-                      return _vm.delete_box($event)
+              _vm.type_form != "show"
+                ? _c(
+                    "button",
+                    {
+                      directives: [{ name: "title", rawName: "v-title" }],
+                      staticClass: "btn-acticon_spalert",
+                      attrs: {
+                        type: "button",
+                        value: item.id_gasto_extra,
+                        title: "Elimnar Caja",
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.delete_box($event)
+                        },
+                      },
                     },
-                  },
-                },
-                [
-                  _c("i", {
-                    staticClass: "ti ti-trash",
-                    staticStyle: { "font-size": "21px" },
-                  }),
-                ]
-              ),
+                    [
+                      _c("i", {
+                        staticClass: "ti ti-trash",
+                        staticStyle: { "font-size": "21px" },
+                      }),
+                    ]
+                  )
+                : _vm._e(),
             ]),
             _vm._v(" "),
             _c("td", { staticClass: "text-center" }, [
@@ -2663,7 +2851,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mb-4" }, [
-    _vm.envio === "reempaque"
+    _vm.envio === "reempaque" && _vm.type_form != "show"
       ? _c("div", { staticClass: "d-flex align-items-center mb-3" }, [
           _c(
             "button",
@@ -2688,7 +2876,7 @@ var render = function () {
           _vm._l(_vm.warehouses, function (item, index) {
             return _c("tr", { key: index }, [
               _c("td", [
-                _vm.envio === "reempaque"
+                _vm.envio === "reempaque" && _vm.type_form != "show"
                   ? _c("span", {}, [
                       _c("input", {
                         directives: [
@@ -2773,29 +2961,31 @@ var render = function () {
               _vm._l(_vm.warehousesNew, function (item, index) {
                 return _c("tr", { key: index }, [
                   _c("td", [
-                    _c(
-                      "button",
-                      {
-                        directives: [{ name: "title", rawName: "v-title" }],
-                        staticClass: "btn-acticon_spalert",
-                        attrs: {
-                          type: "button",
-                          value: item.id_almacen,
-                          title: "Elimnar WH",
-                        },
-                        on: {
-                          click: function ($event) {
-                            return _vm.delete_wh($event)
+                    _vm.type_form != "show"
+                      ? _c(
+                          "button",
+                          {
+                            directives: [{ name: "title", rawName: "v-title" }],
+                            staticClass: "btn-acticon_spalert",
+                            attrs: {
+                              type: "button",
+                              value: item.id_almacen,
+                              title: "Elimnar WH",
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.delete_wh($event)
+                              },
+                            },
                           },
-                        },
-                      },
-                      [
-                        _c("i", {
-                          staticClass: "ti ti-trash",
-                          staticStyle: { "font-size": "21px" },
-                        }),
-                      ]
-                    ),
+                          [
+                            _c("i", {
+                              staticClass: "ti ti-trash",
+                              staticStyle: { "font-size": "21px" },
+                            }),
+                          ]
+                        )
+                      : _vm._e(),
                   ]),
                   _vm._v(" "),
                   _c("td", [_c("span", {}, [_vm._v(_vm._s(item.warehouse))])]),
@@ -3324,6 +3514,13 @@ var render = function () {
                           _vm._v(" "),
                           _c("p", [
                             _vm._v(
+                              "Numero Container: " +
+                                _vm._s(_vm.details.nro_container)
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
                               "Tarifa Envio: " +
                                 _vm._s(_vm.details.tarifa) +
                                 " USD"
@@ -3406,163 +3603,185 @@ var render = function () {
                     ]),
                     _vm._v(" "),
                     _c("ware-houses", {
-                      attrs: { warehouses: _vm.warehouses, envio: _vm.envio },
+                      attrs: {
+                        warehouses: _vm.warehouses,
+                        envio: _vm.envio,
+                        whNew: _vm.warehousesNew,
+                        type_form: _vm.type_form,
+                      },
                       on: { add_new_wh: _vm.add_new_wh },
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "w-100 mb-4" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-4" }, [
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-6" }, [
-                              _c("div", { staticClass: "form-group mb-3 " }, [
-                                _c("label", { staticClass: "form-label" }, [
-                                  _vm._v("Cajas"),
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
+                      _vm.type_form === "new" || _vm.type_form === "edit"
+                        ? _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-4" }, [
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col-6" }, [
                                   _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.caja,
-                                          expression: "caja",
-                                        },
-                                      ],
-                                      staticClass: "form-select",
-                                      on: {
-                                        change: function ($event) {
-                                          var $$selectedVal =
-                                            Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function (o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function (o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                          _vm.caja = $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        },
-                                      },
-                                    },
-                                    _vm._l(_vm.cajas, function (item, index) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: index,
-                                          domProps: {
-                                            value: item.id_gasto_extra,
+                                    "div",
+                                    { staticClass: "form-group mb-3 " },
+                                    [
+                                      _c(
+                                        "label",
+                                        { staticClass: "form-label" },
+                                        [_vm._v("Cajas")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", [
+                                        _c(
+                                          "select",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.caja,
+                                                expression: "caja",
+                                              },
+                                            ],
+                                            staticClass: "form-select",
+                                            on: {
+                                              change: function ($event) {
+                                                var $$selectedVal =
+                                                  Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function (o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function (o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                _vm.caja = $event.target
+                                                  .multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              },
+                                            },
                                           },
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(item.nombre) +
-                                              " - $" +
-                                              _vm._s(item.monto_gasto_extra)
+                                          _vm._l(
+                                            _vm.cajas,
+                                            function (item, index) {
+                                              return _c(
+                                                "option",
+                                                {
+                                                  key: index,
+                                                  domProps: {
+                                                    value: item.id_gasto_extra,
+                                                  },
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(item.nombre) +
+                                                      " - $" +
+                                                      _vm._s(
+                                                        item.monto_gasto_extra
+                                                      )
+                                                  ),
+                                                ]
+                                              )
+                                            }
                                           ),
-                                        ]
-                                      )
-                                    }),
-                                    0
+                                          0
+                                        ),
+                                      ]),
+                                    ]
                                   ),
                                 ]),
-                              ]),
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "row col-6",
-                                staticStyle: { "padding-left": "0" },
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group mb-3 col-6" },
-                                  [
-                                    _c("label", { staticClass: "form-label" }, [
-                                      _vm._v("Cant."),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.cant_caja,
-                                          expression: "cant_caja",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "number",
-                                        min: "1",
-                                        pattern: "^[0-9]+",
-                                        name: "example-password-input",
-                                        placeholder: "Cantidad Caja",
-                                      },
-                                      domProps: { value: _vm.cant_caja },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.cant_caja = $event.target.value
-                                        },
-                                      },
-                                    }),
-                                  ]
-                                ),
                                 _vm._v(" "),
                                 _c(
                                   "div",
                                   {
-                                    staticClass: "form-group mb-3 col-6",
+                                    staticClass: "row col-6",
                                     staticStyle: { "padding-left": "0" },
                                   },
                                   [
                                     _c(
-                                      "label",
-                                      {
-                                        staticClass: "form-label",
-                                        staticStyle: { opacity: "0" },
-                                      },
-                                      [_vm._v("agegar")]
+                                      "div",
+                                      { staticClass: "form-group mb-3 col-6" },
+                                      [
+                                        _c(
+                                          "label",
+                                          { staticClass: "form-label" },
+                                          [_vm._v("Cant.")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.cant_caja,
+                                              expression: "cant_caja",
+                                            },
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "number",
+                                            min: "1",
+                                            pattern: "^[0-9]+",
+                                            name: "example-password-input",
+                                            placeholder: "Cantidad Caja",
+                                          },
+                                          domProps: { value: _vm.cant_caja },
+                                          on: {
+                                            input: function ($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.cant_caja =
+                                                $event.target.value
+                                            },
+                                          },
+                                        }),
+                                      ]
                                     ),
                                     _vm._v(" "),
-                                    _c("div", [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-light",
-                                          attrs: { type: "button" },
-                                          on: { click: _vm.addCaja },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                                                    Agregar\r\n                                                "
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "form-group mb-3 col-6",
+                                        staticStyle: { "padding-left": "0" },
+                                      },
+                                      [
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass: "form-label",
+                                            staticStyle: { opacity: "0" },
+                                          },
+                                          [_vm._v("agegar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass: "btn btn-light",
+                                              attrs: { type: "button" },
+                                              on: { click: _vm.addCaja },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\r\n                                                    Agregar\r\n                                                "
+                                              ),
+                                            ]
                                           ),
-                                        ]
-                                      ),
-                                    ]),
+                                        ]),
+                                      ]
+                                    ),
                                   ]
                                 ),
-                              ]
-                            ),
-                          ]),
-                        ]),
-                      ]),
+                              ]),
+                            ]),
+                          ])
+                        : _vm._e(),
                     ]),
                     _vm._v(" "),
                     _c("content-body", {
@@ -3570,7 +3789,10 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("list-cajas", {
-                      attrs: { listCajas: _vm.list_cajas },
+                      attrs: {
+                        listCajas: _vm.list_cajas,
+                        type_form: _vm.type_form,
+                      },
                       on: { removeCaja: _vm.removeCaja },
                     }),
                     _vm._v(" "),
@@ -3596,41 +3818,77 @@ var render = function () {
                                 "span",
                                 { staticStyle: { "max-width": "80px" } },
                                 [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.costo_trackings,
-                                        expression: "costo_trackings",
-                                      },
-                                    ],
-                                    staticClass: "form-control",
-                                    staticStyle: {
-                                      padding: "0.4375rem 5px",
-                                      "text-align": "end",
-                                    },
-                                    attrs: {
-                                      type: "text",
-                                      name: "costo_trackings",
-                                    },
-                                    domProps: { value: _vm.costo_trackings },
-                                    on: {
-                                      keyup: function ($event) {
-                                        return _vm.keyUpPrecio($event)
-                                      },
-                                      change: function ($event) {
-                                        return _vm.changePrecio($event)
-                                      },
-                                      input: function ($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.costo_trackings =
-                                          $event.target.value
-                                      },
-                                    },
-                                  }),
+                                  _vm.type_form === "new" ||
+                                  _vm.type_form === "edit"
+                                    ? _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.costo_trackings,
+                                            expression: "costo_trackings",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          type: "text",
+                                          name: "costo_trackings",
+                                        },
+                                        domProps: {
+                                          value: _vm.costo_trackings,
+                                        },
+                                        on: {
+                                          keyup: function ($event) {
+                                            return _vm.keyUpPrecio($event)
+                                          },
+                                          change: function ($event) {
+                                            return _vm.changePrecio($event)
+                                          },
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.costo_trackings =
+                                              $event.target.value
+                                          },
+                                        },
+                                      })
+                                    : _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.costo_trackings,
+                                            expression: "costo_trackings",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          disabled: "",
+                                          type: "text",
+                                          name: "costo_trackings",
+                                        },
+                                        domProps: {
+                                          value: _vm.costo_trackings,
+                                        },
+                                        on: {
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.costo_trackings =
+                                              $event.target.value
+                                          },
+                                        },
+                                      }),
                                 ]
                               ),
                             ]
@@ -3654,43 +3912,77 @@ var render = function () {
                                     "span",
                                     { staticStyle: { "max-width": "80px" } },
                                     [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.costo_reempaque,
-                                            expression: "costo_reempaque",
-                                          },
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: {
-                                          padding: "0.4375rem 5px",
-                                          "text-align": "end",
-                                        },
-                                        attrs: {
-                                          type: "text",
-                                          name: "costo_reempaque",
-                                        },
-                                        domProps: {
-                                          value: _vm.costo_reempaque,
-                                        },
-                                        on: {
-                                          keyup: function ($event) {
-                                            return _vm.keyUpPrecio($event)
-                                          },
-                                          change: function ($event) {
-                                            return _vm.changePrecio($event)
-                                          },
-                                          input: function ($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.costo_reempaque =
-                                              $event.target.value
-                                          },
-                                        },
-                                      }),
+                                      _vm.type_form === "new" ||
+                                      _vm.type_form === "edit"
+                                        ? _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.costo_reempaque,
+                                                expression: "costo_reempaque",
+                                              },
+                                            ],
+                                            staticClass: "form-control",
+                                            staticStyle: {
+                                              padding: "0.4375rem 5px",
+                                              "text-align": "end",
+                                            },
+                                            attrs: {
+                                              type: "text",
+                                              name: "costo_reempaque",
+                                            },
+                                            domProps: {
+                                              value: _vm.costo_reempaque,
+                                            },
+                                            on: {
+                                              keyup: function ($event) {
+                                                return _vm.keyUpPrecio($event)
+                                              },
+                                              change: function ($event) {
+                                                return _vm.changePrecio($event)
+                                              },
+                                              input: function ($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.costo_reempaque =
+                                                  $event.target.value
+                                              },
+                                            },
+                                          })
+                                        : _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.costo_reempaque,
+                                                expression: "costo_reempaque",
+                                              },
+                                            ],
+                                            staticClass: "form-control",
+                                            staticStyle: {
+                                              padding: "0.4375rem 5px",
+                                              "text-align": "end",
+                                            },
+                                            attrs: {
+                                              disabled: "",
+                                              type: "text",
+                                              name: "costo_reempaque",
+                                            },
+                                            domProps: {
+                                              value: _vm.costo_reempaque,
+                                            },
+                                            on: {
+                                              input: function ($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.costo_reempaque =
+                                                  $event.target.value
+                                              },
+                                            },
+                                          }),
                                     ]
                                   ),
                                 ]
@@ -3714,40 +4006,73 @@ var render = function () {
                                 "span",
                                 { staticStyle: { "max-width": "80px" } },
                                 [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.gastos_extras,
-                                        expression: "gastos_extras",
-                                      },
-                                    ],
-                                    staticClass: "form-control",
-                                    staticStyle: {
-                                      padding: "0.4375rem 5px",
-                                      "text-align": "end",
-                                    },
-                                    attrs: {
-                                      type: "text",
-                                      name: "gastos_extras",
-                                    },
-                                    domProps: { value: _vm.gastos_extras },
-                                    on: {
-                                      keyup: function ($event) {
-                                        return _vm.keyUpPrecio($event)
-                                      },
-                                      change: function ($event) {
-                                        return _vm.changePrecio($event)
-                                      },
-                                      input: function ($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.gastos_extras = $event.target.value
-                                      },
-                                    },
-                                  }),
+                                  _vm.type_form === "new" ||
+                                  _vm.type_form === "edit"
+                                    ? _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.gastos_extras,
+                                            expression: "gastos_extras",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          type: "text",
+                                          name: "gastos_extras",
+                                        },
+                                        domProps: { value: _vm.gastos_extras },
+                                        on: {
+                                          keyup: function ($event) {
+                                            return _vm.keyUpPrecio($event)
+                                          },
+                                          change: function ($event) {
+                                            return _vm.changePrecio($event)
+                                          },
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.gastos_extras =
+                                              $event.target.value
+                                          },
+                                        },
+                                      })
+                                    : _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.gastos_extras,
+                                            expression: "gastos_extras",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          disabled: "",
+                                          type: "text",
+                                          name: "gastos_extras",
+                                        },
+                                        domProps: { value: _vm.gastos_extras },
+                                        on: {
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.gastos_extras =
+                                              $event.target.value
+                                          },
+                                        },
+                                      }),
                                 ]
                               ),
                             ]
@@ -3831,35 +4156,71 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.details.nro_factura,
-                                      expression: "details.nro_factura",
-                                    },
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    name: "nro_factura",
-                                    id: "nro_factura",
-                                  },
-                                  domProps: { value: _vm.details.nro_factura },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.details,
-                                        "nro_factura",
-                                        $event.target.value
-                                      )
-                                    },
-                                  },
-                                }),
+                                _vm.type_form === "new" ||
+                                _vm.type_form === "edit"
+                                  ? _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.nro_factura,
+                                          expression: "details.nro_factura",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        name: "nro_factura",
+                                        id: "nro_factura",
+                                      },
+                                      domProps: {
+                                        value: _vm.details.nro_factura,
+                                      },
+                                      on: {
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "nro_factura",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    })
+                                  : _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.nro_factura,
+                                          expression: "details.nro_factura",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        disabled: "",
+                                        type: "text",
+                                        name: "nro_factura",
+                                        id: "nro_factura",
+                                      },
+                                      domProps: {
+                                        value: _vm.details.nro_factura,
+                                      },
+                                      on: {
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "nro_factura",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    }),
                                 _vm._v(" "),
                                 _c("label", { attrs: { for: "nro_factura" } }, [
                                   _vm._v("Nro. Factura"),
@@ -3871,37 +4232,71 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.details.nro_container,
-                                      expression: "details.nro_container",
-                                    },
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    name: "nro_container",
-                                    id: "nro_container",
-                                  },
-                                  domProps: {
-                                    value: _vm.details.nro_container,
-                                  },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.details,
-                                        "nro_container",
-                                        $event.target.value
-                                      )
-                                    },
-                                  },
-                                }),
+                                _vm.type_form === "new" ||
+                                _vm.type_form === "edit"
+                                  ? _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.nro_container,
+                                          expression: "details.nro_container",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        name: "nro_container",
+                                        id: "nro_container",
+                                      },
+                                      domProps: {
+                                        value: _vm.details.nro_container,
+                                      },
+                                      on: {
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "nro_container",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    })
+                                  : _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.nro_container,
+                                          expression: "details.nro_container",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        disabled: "",
+                                        type: "text",
+                                        name: "nro_container",
+                                        id: "nro_container",
+                                      },
+                                      domProps: {
+                                        value: _vm.details.nro_container,
+                                      },
+                                      on: {
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "nro_container",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    }),
                                 _vm._v(" "),
                                 _c(
                                   "label",
@@ -3915,39 +4310,71 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.details.tarifa,
-                                      expression: "details.tarifa",
-                                    },
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    name: "tarifa",
-                                    id: "tarifa",
-                                  },
-                                  domProps: { value: _vm.details.tarifa },
-                                  on: {
-                                    keyup: function ($event) {
-                                      return _vm.keyUpPrecio($event)
-                                    },
-                                    change: _vm.changePrecioTarifa,
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.details,
-                                        "tarifa",
-                                        $event.target.value
-                                      )
-                                    },
-                                  },
-                                }),
+                                _vm.type_form === "new" ||
+                                _vm.type_form === "edit"
+                                  ? _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.tarifa,
+                                          expression: "details.tarifa",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        name: "tarifa",
+                                        id: "tarifa",
+                                      },
+                                      domProps: { value: _vm.details.tarifa },
+                                      on: {
+                                        keyup: function ($event) {
+                                          return _vm.keyUpPrecio($event)
+                                        },
+                                        change: _vm.changePrecioTarifa,
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "tarifa",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    })
+                                  : _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.details.tarifa,
+                                          expression: "details.tarifa",
+                                        },
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        disabled: "",
+                                        type: "text",
+                                        name: "tarifa",
+                                        id: "tarifa",
+                                      },
+                                      domProps: { value: _vm.details.tarifa },
+                                      on: {
+                                        input: function ($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.details,
+                                            "tarifa",
+                                            $event.target.value
+                                          )
+                                        },
+                                      },
+                                    }),
                                 _vm._v(" "),
                                 _c("label", { attrs: { for: "tarifa" } }, [
                                   _vm._v(
@@ -3969,15 +4396,17 @@ var render = function () {
                       [
                         _c("btn-volver", { attrs: { classe: "btn-light" } }),
                         _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info ms-auto",
-                            attrs: { type: "button" },
-                            on: { click: _vm.confirmInvoice },
-                          },
-                          [_c("span", [_vm._v("Guardar")])]
-                        ),
+                        _vm.type_form === "new" || _vm.type_form === "edit"
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-info ms-auto",
+                                attrs: { type: "button" },
+                                on: { click: _vm.confirmInvoice },
+                              },
+                              [_c("span", [_vm._v("Guardar")])]
+                            )
+                          : _vm._e(),
                       ],
                       1
                     ),
@@ -4053,7 +4482,16 @@ var render = function () {
                   ]
                 ),
                 _vm._v(" "),
-                _c("h3", [_vm._v("¿Estás seguro de crear la factura?")]),
+                _c("h3", [
+                  _vm._v(
+                    _vm._s(
+                      "" +
+                        (_vm.type_form === "new"
+                          ? "¿Estás seguro de crear la factura?"
+                          : "¿Estás seguro de actualizar la factura?")
+                    )
+                  ),
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-muted" }, [
                   _vm._v(
@@ -4095,7 +4533,14 @@ var render = function () {
                         },
                         [
                           _vm._v(
-                            "\r\n                            Crear Factura\r\n                        "
+                            "\r\n                            " +
+                              _vm._s(
+                                "" +
+                                  (_vm.type_form === "new"
+                                    ? "Crear Factura"
+                                    : "Actualizar")
+                              ) +
+                              "\r\n                        "
                           ),
                         ]
                       ),

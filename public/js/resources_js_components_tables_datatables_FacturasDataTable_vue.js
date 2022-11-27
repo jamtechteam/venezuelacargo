@@ -104,7 +104,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var check = function check() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var value = arguments.length > 1 ? arguments[1] : undefined;
@@ -440,7 +439,11 @@ var render = function () {
                   attrs: {
                     to: {
                       name: "ShowFactura",
-                      params: { id: item.id_factura },
+                      query: {
+                        id: item.id_factura,
+                        envio: item.reempaque,
+                        type: "show",
+                      },
                     },
                     title: "Ver detalles de factura",
                   },
@@ -499,8 +502,11 @@ var render = function () {
                       attrs: {
                         to: {
                           name: "EditarFactura",
-                          params: { id: item.id_factura },
-                          query: { estado: item.estado },
+                          query: {
+                            id: item.id_factura,
+                            envio: item.reempaque,
+                            type: "edit",
+                          },
                         },
                         title: "Editar Factura",
                       },

@@ -49,6 +49,7 @@ class Facturas extends Model
         'estado', //Pendiente de pago y cancelado
         'tipo_envio', //Envio y Maritimo
         'tarifa_envio',
+        'reempaque',
         'cost_reempaque',
         'cost_x_tracking',
         'activo',

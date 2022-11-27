@@ -110,15 +110,15 @@ export const routesAdmin = [
 			},
 			{
 				name: 'EditarFactura',
-				path: 'editar/:id',
+				path: 'editar',
 				meta: { title: 'Editar Factura: ', requireAuth: true },
-				component:  () => import(/* webpackChunkName: "Instruccion" */ '../views/admin/facturas/EditarFactura.vue'),
+				component:  () => import(/* webpackChunkName: "LayoutFormFacturar" */ '../views/admin/facturas/LayoutFormFacturar.vue'),
 			},
 			{
 				name: 'ShowFactura',
-				path: 'show/:id',
+				path: 'show',
 				meta: { title: 'Ver Factura: ', requireAuth: true },
-				component:  () => import(/* webpackChunkName: "Instruccion" */ '../views/admin/facturas/ShowFactura.vue'),
+				component:  () => import(/* webpackChunkName: "LayoutFormFacturar" */ '../views/admin/facturas/LayoutFormFacturar.vue'),
 			},
 			{
 				name: 'CheckPagoFactura',

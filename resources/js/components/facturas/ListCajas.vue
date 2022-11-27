@@ -16,7 +16,7 @@
         <tbody>
             <tr v-for="(item, index) in listCajas" :key="index">
                 <td>    
-                    <button class="btn-acticon_spalert" type="button" :value="item.id_gasto_extra" @click="delete_box($event)" title="Elimnar Caja" v-title>
+                    <button class="btn-acticon_spalert" v-if="type_form != 'show'" type="button" :value="item.id_gasto_extra" @click="delete_box($event)" title="Elimnar Caja" v-title>
                         <i class="ti ti-trash" style="font-size: 21px;"></i>
                     </button>
                 </td>
@@ -36,7 +36,7 @@
 <script>
 export default {
     name: 'ListCajas',
-    props: ['listCajas'],
+    props: ['listCajas', 'type_form'],
     methods: {
         delete_box(e){
             const { value } = e.target.parentNode;

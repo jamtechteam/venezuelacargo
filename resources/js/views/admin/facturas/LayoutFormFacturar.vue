@@ -13,6 +13,7 @@
                             <address>
                                 <p v-show="details.fecha_factura != ''">Fecha Factura: <span style="text-transform: uppercase;">{{details.fecha_factura}}</span> </p>
                                 <p>Numero Factura: {{details.nro_factura}}</p>
+                                <p>Numero Container: {{details.nro_container}}</p>
                                 <p>Tarifa Envio: {{details.tarifa}} USD</p>
                                 <p>Tipo Envio:  <span style="text-transform: uppercase;">{{details.tipo_envio}}</span></p>
                                 <p>Tasa Bs: {{details.monto_tc}} VES</p>
@@ -34,9 +35,11 @@
                         v-bind:warehouses="warehouses"
                         :envio="envio"
                         @add_new_wh="add_new_wh"
+                        v-bind:whNew="warehousesNew"
+                        :type_form="type_form"
                     />
-                    <div class="w-100 mb-4">
-                        <div class="row">
+                    <div class="w-100 mb-4" >
+                        <div class="row" v-if="type_form === 'new' || type_form === 'edit'">
                             <div class="col-4">
                                 <div class="row">
                                     <div class="col-6">
@@ -73,6 +76,7 @@
                     <list-cajas 
                         v-bind:listCajas="list_cajas"
                         @removeCaja="removeCaja"
+                         :type_form="type_form"
                     />
                     <div class="d-flex align-items-center mt-4 mb-3">
                         <div class=" m-0 ms-auto">
@@ -81,7 +85,8 @@
                                     Total WH
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-else disabled type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end" v-if="envio === 'reempaque'">
@@ -89,7 +94,8 @@
                                     Total WH Reemp.
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-else disabled type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -97,7 +103,8 @@
                                     Gastos Extras
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
+                                    <input v-else disabled type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -121,22 +128,25 @@
                     <div class="d-flex align-items-center mt-5 mb-3">
                         <div class=" m-0 ms-auto" style="width: 330px;">
                             <div class="form-floating mb-3 w-100">
-                                <input type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
+                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
+                                <input v-else disabled type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
                                 <label for="nro_factura">Nro. Factura</label>
                             </div>
                             <div class="form-floating mb-3 w-100">
-                                <input type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
+                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
+                                <input v-else disabled type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
                                 <label for="nro_container">Nro. Container</label>
                             </div>
                             <div class="form-floating mb-3 w-100">
-                                <input type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa" @keyup="keyUpPrecio($event)" @change="changePrecioTarifa" >
+                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa" @keyup="keyUpPrecio($event)" @change="changePrecioTarifa" >
+                                <input v-else disabled type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa">
                                 <label for="tarifa">Tarifa de Envio ( {{details.tipo_envio}} )</label>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mt-3">
                         <btn-volver :classe="'btn-light'"></btn-volver>
-                        <button type="button" @click="confirmInvoice" class="btn btn-info ms-auto">
+                        <button type="button" @click="confirmInvoice" class="btn btn-info ms-auto" v-if="type_form === 'new' || type_form === 'edit'">
                             <span>Guardar</span>
                         </button>
                     </div>
@@ -151,7 +161,7 @@
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><path d="M9 12l2 2l4 -4"></path></svg>
-                <h3>¿Estás seguro de crear la factura?</h3>
+                <h3>{{`${ type_form === 'new' ? '¿Estás seguro de crear la factura?' : '¿Estás seguro de actualizar la factura?'}`}}</h3>
                 <div class="text-muted">
                     Para crear la factura, asegurate que los datos esten correctos...
                 </div>
@@ -166,7 +176,7 @@
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" @click="sendFactura">
-                            Crear Factura
+                            {{`${ type_form === 'new' ? 'Crear Factura' : 'Actualizar'}`}}
                         </button>
                     </div>
                 </div>
@@ -192,7 +202,7 @@ const LoaderComponent = () => import('../../../components/LoaderComponent.vue');
 const Error404 = () => import('../../../components/Error404Component.vue');
 
 //helpers
-import { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves } from '../../../helpers/calcInvoice';
+import { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves, warehouses_data, cajas } from '../../../helpers/calcInvoice';
 import { formatPrice } from '../../../formatPrice';
 
 const save_reempaque = 'save-invoice-reempaque';
@@ -207,6 +217,7 @@ export default {
             componentRender: LoaderComponent,
             //detalles para la factura
             details: {
+                id_factura: '',
                 tarifa: '0.00',
                 fecha_factura: '',
                 nro_factura: '',
@@ -270,7 +281,9 @@ export default {
             this.envio = query.envio == 'no' ? 'directo' : 'reempaque';
             this.type_form = query.type;
 
-            const url = query.type == 'show' || query.type == 'edit' ? '' : 'almacen/paquetes/data'
+            const url = query.type == 'show' ? `facturas/${query.id}` : query.type == 'edit' ? `facturas/${query.id}/edit` : 'almacen/paquetes/data'
+
+            
 
             this.get_axios(query, url);
         });
@@ -279,7 +292,7 @@ export default {
         //obtener data de wh a facturar o datos de la factura
         get_axios(dataReq, url){
             this.axios.get(url, {params : dataReq}).then(response => {
-                console.log('response.data.result', response.data.result);
+                console.log('response.data.result', response.data);
                 if(response.data.result == null){
                     this.componentRender = Error404;
                     return;
@@ -290,7 +303,7 @@ export default {
                     let tarifa_maritimo = '0.00';
 
                     const { almacen, cliente, extras, tasaDolar } = response.data.result;
-                    const { wh, details, cajas, costo_trackings, costo_reempaque } = create_factura(almacen, extras, tasaDolar);
+                    const { wh, details, costo_trackings, costo_reempaque } = create_factura(almacen, extras, tasaDolar);
 
                     //tarifas de envios
                     tarifa_aereo = formatPrice.constPrice(cliente.tarifa_aereo, ',', '.');
@@ -308,7 +321,7 @@ export default {
                     this.warehouses = wh;
 
                     //agregamos las cajas
-                    this.cajas = cajas;
+                    this.cajas = cajas(extras);
                     
                     //agregar data content de la factura
                     if( this.envio === 'directo' )
@@ -327,6 +340,63 @@ export default {
                         //sumando costo reempaque + total_usd;
                         this.total_usd = suma_total_usd_var(this.total_usd, this.costo_reempaque);
                     }
+
+                    //agregar total VES
+                    this.total_ves = calc_total_ves(this.total_usd, this.details.monto_tc);
+
+                }else if(  this.type_form == 'edit' || this.type_form == 'show' ){
+                    const { id_factura, cliente, tarifa_envio, total_usd, tipo_envio, nro_factura, nro_container, warehouses, pago, extras, cost_x_tracking, cost_reempaque, gastos_extras } = response.data.result;
+                    const { monto_tc, fecha_tc } = response.data.tasa;
+
+                    //agregamos esta informacion en la cabecera.
+                    this.details.tipo_envio = tipo_envio;
+                    this.details.tarifa = formatPrice.constPrice(tarifa_envio, ',', '.');
+                    this.details.nro_factura = nro_factura;
+                    this.details.nro_container = nro_container;
+                    this.details.monto_tc = pago.length > 0 ? response.data.result.monto_tc : monto_tc;
+                    this.details.fecha_tc = pago.length > 0 ? response.data.result.fecha_tc : fecha_tc;
+                    this.details.id_factura = id_factura;
+                    this.client = cliente;
+
+                    const { wh_old, wh_new } = warehouses_data(warehouses,this.envio);
+
+                    console.log(wh_old, wh_new);
+
+                    //agregar warehouses
+                    this.warehouses = wh_old;
+
+                    //agregar data content de la factura
+                    if( this.envio === 'directo' ){
+                        this.dataContent = data_contents(wh_old, this.details.tipo_envio, this.details.tarifa, this.envio);
+                    }else{
+                        this.dataContent = data_contents(wh_new, this.details.tipo_envio, this.details.tarifa, this.envio);
+                        this.warehousesNew = wh_new;
+                    }
+                        
+                        
+
+                    //agregamos las cajas
+                    this.cajas = cajas(response.data.extras);
+
+                    //agregar cajas extras
+                    extras.forEach(element => {
+                        const { cant, id_gasto_extra, monto_gasto_extra, nombre } = element.detalles;
+                        
+                        this.list_cajas = add_box(this.list_cajas, id_gasto_extra, nombre, monto_gasto_extra, cant);
+                    });
+
+                    //agregando costo por trackings
+                    this.costo_trackings = formatPrice.constPrice(cost_x_tracking, ',', '.');
+
+                    if( this.envio === 'reempaque' ){
+                        this.costo_reempaque = cost_reempaque;
+                    }
+
+                    //agregar gastos extras
+                    this.gastos_extras = formatPrice.constPrice(gastos_extras, ',', '.');
+                    
+                    //agregar total en USD
+                    this.total_usd = formatPrice.constPrice(total_usd, ',', '.');
 
                     //agregar total VES
                     this.total_ves = calc_total_ves(this.total_usd, this.details.monto_tc);
@@ -481,6 +551,7 @@ export default {
 
   
             const formData = {
+                id_factura: this.details.id_factura,
                 nro_factura: this.details.nro_factura,
                 nro_container: this.details.nro_container,
                 tipo_envio: this.details.tipo_envio,

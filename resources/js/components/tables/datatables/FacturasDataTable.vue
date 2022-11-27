@@ -35,7 +35,7 @@
                         style="padding: 0;"
                         :to="{
                             name: 'ShowFactura',
-                            params:{id: item.id_factura}, 
+                            query: { id: item.id_factura, envio: item.reempaque, type: 'show' }
                         }"
                         title="Ver detalles de factura" 
                         v-title
@@ -59,8 +59,7 @@
                     <router-link v-if="item.estado == 'Pendiente'" 
                         :to="{ 
                             name: 'EditarFactura', 
-                            params:{id: item.id_factura}, 
-                            query: { estado: item.estado }
+                            query: { id: item.id_factura, envio: item.reempaque, type: 'edit' }
                         }"  
                         class="align-text-top nav-link me-2" 
                          style="padding: 0;"

@@ -22,10 +22,26 @@ const dataContentAereo = {
     sub_total: '0.00'
 };
 
+/*
+id_almacen: '',
+almacen_ids: [],
+warehouse: '',
+warehouse_children: '',
+ancho: '',
+alto: '',
+largo: '',
+peso: '',
+pie_cubico: '',
+volumen: '',
+total_seguro: '',
+seguro: '',
+
+*/
+
 //funcion de construccion de data para facturar
 const create_factura = (almacen = [], extras = []) => {
     let wh = []; //arreglo para determinar los wh
-    let cajas = [];
+    //let cajas = cajas(extras);
 
     almacen.forEach(element => {
         const { tipo_envio, id_almacen, warehouse, trackings } = element;
@@ -34,11 +50,22 @@ const create_factura = (almacen = [], extras = []) => {
         trackings.map((item) => wh.push({...item, id_almacen, warehouse, total_seguro: formatPrice.constPrice(item.total_seguro, ',', '.')}));
     });
 
+    
+
+    let costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
+    let costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+
+    return { wh, details, costo_trackings, costo_reempaque };
+}
+
+const cajas = (extras = []) => {
+    let box = [];
+
     extras.forEach((element) => {
         const { id_gasto_extra, nombre, monto_gasto_extra, tipo } = element;
 
         if( tipo === 'CAJA' ){
-            cajas.push({
+            box.push({
                 id_gasto_extra,
                 nombre,
                 monto_gasto_extra: formatPrice.constPrice(monto_gasto_extra, ',', '.')
@@ -46,10 +73,48 @@ const create_factura = (almacen = [], extras = []) => {
         }
     });
 
-    let costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
-    let costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+    return box;
+}
 
-    return { wh, details, cajas, costo_trackings, costo_reempaque };
+const warehouses_data = (data = [], envio = 'directo') => {
+    let wh_old = [];
+    let wh_new = [];
+
+    data.forEach((element) => {
+
+        if( element.total_seguro != '' ){
+            let total_seguro = parseNum(element.total_seguro);
+            element.total_seguro = formatPrice.constPrice(`${total_seguro.toFixed(2)}`, ',', '.');
+        }
+
+        if( element.seguro != '' ){
+            let seguro = parseNum(element.seguro);
+            element.seguro = formatPrice.constPrice(`${seguro.toFixed(2)}`, ',', '.');
+        }
+
+        if( envio == 'reempaque' ){
+            if( element.warehouse_padre == '' || element.warehouse_padre == null){
+                let almacen_ids = [];
+                let warehouse_children = '';
+                data.forEach((item) => {
+                    if( element.id_factura_tracking == item.warehouse_padre){
+                        let id_almacen = generateRandomString(46);
+                        wh_old.push({...item, id_almacen});
+                        almacen_ids.push(id_almacen);
+                        warehouse_children = warehouse_children + '' + item.warehouse + ',';
+                    }
+                });
+                
+                let id_almacen = generateRandomString(46);
+                wh_new.push({...element, almacen_ids, warehouse_children, id_almacen});
+            }
+        }else{
+            wh_old.push(element);
+        }
+        
+    });
+
+    return { wh_old, wh_new };
 }
 
 //costo trackings y costo reempaque
@@ -245,4 +310,15 @@ const add_box = (listCajas = [], id_gasto_extra = '', nombre = '', monto_gasto_e
 //parseNum, es un numero entero o flotante
 const parseNum = (val) => val % 1 == 0 ? parseInt(val) : parseFloat(val);
 
-export { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves, parseNum }
+const  generateRandomString = (num) => {
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result1='';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < num; i++ ) {
+        result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result1;
+}
+
+export { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves, parseNum, warehouses_data, cajas, generateRandomString }

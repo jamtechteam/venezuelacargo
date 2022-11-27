@@ -1,6 +1,6 @@
 <template>
 <div class="mb-4">
-    <div class="d-flex align-items-center mb-3" v-if="envio === 'reempaque'">
+    <div class="d-flex align-items-center mb-3" v-if="envio === 'reempaque' && type_form != 'show'">
         <button @click="reempaque" type="button" class="btn btn-info ms-auto">
             <span>Reempacar</span>
         </button>
@@ -21,7 +21,7 @@
         <tbody>
             <tr v-for="(item, index) in warehouses" :key="index">
                 <td>
-                    <span class="" v-if="envio === 'reempaque'"><input class="form-check-input m-0 align-middle" v-model="getId" type="checkbox"  name="id" aria-label="Select invoice" style="border: 1px solid #b9b9b9;cursor:pointer;" :value="item.id_almacen"></span>
+                    <span class="" v-if="envio === 'reempaque' && type_form != 'show'"><input class="form-check-input m-0 align-middle" v-model="getId" type="checkbox"  name="id" aria-label="Select invoice" style="border: 1px solid #b9b9b9;cursor:pointer;" :value="item.id_almacen"></span>
                 </td>
                 <td>
                     <span class="">{{ item.warehouse }}</span>
@@ -64,7 +64,7 @@
         <tbody>
             <tr v-for="(item, index) in warehousesNew" :key="index">
                 <td>
-                    <button class="btn-acticon_spalert" type="button" :value="item.id_almacen" @click="delete_wh($event)" title="Elimnar WH" v-title>
+                    <button v-if="type_form != 'show'" class="btn-acticon_spalert" type="button" :value="item.id_almacen" @click="delete_wh($event)" title="Elimnar WH" v-title>
                         <i class="ti ti-trash" style="font-size: 21px;"></i>
                     </button>
                 </td>
@@ -153,21 +153,11 @@
 
 <script>
 import { formatPrice } from '../../formatPrice';
-import { parseNum } from '../../helpers/calcInvoice';
+import { parseNum, generateRandomString } from '../../helpers/calcInvoice';
 
-const  generateRandomString = (num) => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result1='';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < num; i++ ) {
-        result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result1;
-}
 export default {
     name: 'WareHouse',
-    props: ['warehouses', 'envio'],
+    props: ['warehouses', 'envio', 'whNew', 'type_form'],
     data() {
         return {
             warehousesNew: [],
@@ -189,7 +179,11 @@ export default {
             show: false,
         };
     },
-
+    beforeCreate(){
+        this.$nextTick(async function () {
+            this.warehousesNew = [...this.whNew];
+        });
+    },
     methods: {
         hiddenModal(){
             this.show = false;

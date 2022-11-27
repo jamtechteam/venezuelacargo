@@ -2,7 +2,7 @@
         <tbody>
             <tr v-for="(item, index) in data" :key="index">
                 <td>
-                    <input class="form-check-input m-0 align-middle" v-model="getId" :type="type"  name="id" aria-label="Select invoice" style="border: 1px solid #b9b9b9;cursor:pointer;" :value="item.id_almacen" @click="changeId($event)">
+                    <input class="form-check-input m-0 align-middle" v-model="getId" :type="type"  name="id" aria-label="Select invoice" style="border: 1px solid #b9b9b9;cursor:pointer;" :value="item.id_almacen" @click="changeId($event)" v-show="item.status == 1">
                 </td>
                 <td>
                     <span class=""> {{ item.nombres }} {{ item.apellidos }}</span>
@@ -26,7 +26,7 @@
                     <span class=""> {{ item.tipo_envio }}</span>
                 </td>
                 <td>
-                    <span class=""> {{`${ item.reempaque == 'no' ? 'Directo' : 'Reempaque'}`}}</span>
+                    <span class="" v-show="item.status == 1"> {{`${ item.reempaque == 'no' ? 'Directo' : 'Reempaque'}`}}</span>
                 </td>
                 <td>
                     <span class="avatar bg-green-lt status-vzla"> {{ item.estado }}</span>

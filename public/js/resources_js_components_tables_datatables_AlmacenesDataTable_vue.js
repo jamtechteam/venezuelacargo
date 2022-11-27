@@ -281,6 +281,12 @@ var render = function () {
                     value: _vm.getId,
                     expression: "getId",
                   },
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: item.status == 1,
+                    expression: "item.status == 1",
+                  },
                 ],
                 staticClass: "form-check-input m-0 align-middle",
                 staticStyle: { border: "1px solid #b9b9b9", cursor: "pointer" },
@@ -329,6 +335,12 @@ var render = function () {
                     value: _vm.getId,
                     expression: "getId",
                   },
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: item.status == 1,
+                    expression: "item.status == 1",
+                  },
                 ],
                 staticClass: "form-check-input m-0 align-middle",
                 staticStyle: { border: "1px solid #b9b9b9", cursor: "pointer" },
@@ -357,6 +369,12 @@ var render = function () {
                     rawName: "v-model",
                     value: _vm.getId,
                     expression: "getId",
+                  },
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: item.status == 1,
+                    expression: "item.status == 1",
                   },
                 ],
                 staticClass: "form-check-input m-0 align-middle",
@@ -400,12 +418,27 @@ var render = function () {
         _c("td", [_c("span", {}, [_vm._v(" " + _vm._s(item.tipo_envio))])]),
         _vm._v(" "),
         _c("td", [
-          _c("span", {}, [
-            _vm._v(
-              " " +
-                _vm._s("" + (item.reempaque == "no" ? "Directo" : "Reempaque"))
-            ),
-          ]),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: item.status == 1,
+                  expression: "item.status == 1",
+                },
+              ],
+            },
+            [
+              _vm._v(
+                " " +
+                  _vm._s(
+                    "" + (item.reempaque == "no" ? "Directo" : "Reempaque")
+                  )
+              ),
+            ]
+          ),
         ]),
         _vm._v(" "),
         _c("td", [

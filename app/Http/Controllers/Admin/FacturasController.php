@@ -9,6 +9,7 @@ use App\Models\Configuracion\MonedasCambios;
 use App\Models\Configuracion\MonedasCambiosTasas;
 use App\Models\Envios;
 use App\Models\Facturas\Facturas;
+use App\Models\Facturas\FacturasContent;
 use App\Models\Facturas\FacturasInfoExtras;
 use App\Models\Facturas\FacturasInfoTrackings;
 use Illuminate\Http\Request;
@@ -95,6 +96,356 @@ class FacturasController extends Controller
                 'resultPage' => count($results),
                 'totalResult' => $count
             ]
+        ], 200);
+    }
+
+    public function store_directo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            //'nro_factura' => ['required','regex:/^[0-9]+$/', 'unique:facturas'],
+            'nro_container' => ['required','regex:/^[0-9]+$/'],
+            'tipo_envio' => ['required'],
+            'cliente' => ['required'],
+            'metodo' => ['required'],
+            'warehouses' => ['required'],
+            'data_content' => ['required'],
+            'total_gastos_extras' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'total_usd' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'total_ves' => ['required', 'regex:/^-?[0-9]+(?:\,[0-9]{1,2})+$/'],
+            'usuario_id' => ['required'],
+            'monto_tc' => ['required'],
+            'fecha_tc' => ['required'],
+            'tarifa_envio' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'cost_x_tracking' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+        ]);
+
+        if ( isset($validator) && $validator->fails() ) {
+            return response()->json([
+                'status' => 403,
+                'message' => $validator->errors()->first(),
+            ], 403);
+        }
+
+        if( $request->metodo == 'store' ){
+            $validator = Validator::make($request->all(), [
+                'nro_factura' => ['required','regex:/^[0-9]+$/', 'unique:facturas'],
+            ]);
+    
+            if ( isset($validator) && $validator->fails() ) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => $validator->errors()->first(),
+                ], 403);
+            }
+        }
+
+        $warehouses= $request->warehouses;
+        if( count($warehouses) == 0 ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, Debe de agregar almenos un warehouse',
+            ], 403);
+        }
+
+        $data_content= $request->data_content;
+        if( count($data_content) == 0 ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, la factura no se puede factuar sin datos',
+            ], 403);
+        }
+
+        
+
+        if( $request->metodo == 'store' ){
+            $factura = new Facturas;
+        }else{
+            $factura = Facturas::find($request->id_factura);
+        }
+        
+        $factura->usuario_id = $request->usuario_id;
+        $factura->nro_factura = $request->nro_factura;
+        $factura->nro_container = $request->nro_container;
+        $factura->cliente = json_encode($request->cliente);
+        $factura->pago = json_encode([]);
+        $factura->gastos_extras = $request->total_gastos_extras;
+        $factura->total_usd = $request->total_usd;
+        $factura->total_ves = $request->total_ves;
+        $factura->tipo_envio = $request->tipo_envio;
+        $factura->reempaque = 'no';
+
+        $factura->monto_tc = $request->monto_tc;
+        $factura->fecha_tc = $request->fecha_tc;
+        $factura->tarifa_envio = $request->tarifa_envio;
+        $factura->cost_x_tracking = $request->cost_x_tracking;
+        $factura->save();
+        
+        $memory_indice_content = '';
+        for ($k=0; $k <count($warehouses) ; $k++) { 
+            $factura_wh_children = new FacturasInfoTrackings;
+            $factura_wh_children->id_factura = $factura->id_factura;
+            $factura_wh_children->warehouse = $warehouses[$k]['warehouse'];
+            $factura_wh_children->tracking = $warehouses[$k]['tracking'];
+            $factura_wh_children->descripcion = $warehouses[$k]['descripcion'];
+            $factura_wh_children->ancho = $warehouses[$k]['ancho'];
+            $factura_wh_children->alto = $warehouses[$k]['alto'];
+            $factura_wh_children->largo = $warehouses[$k]['largo'];
+            $factura_wh_children->peso = $warehouses[$k]['peso'];
+            $factura_wh_children->num_piezas = $warehouses[$k]['num_piezas'];
+            $factura_wh_children->volumen = $warehouses[$k]['volumen'];
+            $factura_wh_children->pie_cubico = $warehouses[$k]['pie_cubico'];
+            $factura_wh_children->ruta_image = $warehouses[$k]['ruta_image'];
+            $factura_wh_children->reempaque = $warehouses[$k]['reempaque'];
+            $factura_wh_children->seguro = $warehouses[$k]['seguro']; 
+            $factura_wh_children->total_seguro = $warehouses[$k]['total_seguro'];
+            $factura_wh_children->save();
+
+            //body content
+            for ($j=0; $j <count($data_content) ; $j++) { 
+                if( $j !== $memory_indice_content && $data_content[$j]['warehouse'] == $warehouses[$k]['warehouse']){
+                    $factura_content = new FacturasContent;
+                    $factura_content->id_factura_tracking = $factura_wh_children->id_factura_tracking;
+                    $factura_content->id_factura = $factura->id_factura;
+                    $factura_content->volumen = $data_content[$j]['volumen'];
+                    $factura_content->pie_cubico = $data_content[$j]['pie_cubico'];
+                    $factura_content->total_lb = $data_content[$j]['total_lb'];
+                    $factura_content->peso = $data_content[$j]['peso'];
+                    $factura_content->cost_env = $data_content[$j]['cost_env'];
+                    $factura_content->seguro = $data_content[$j]['seguro'];
+                    $factura_content->sub_total = $data_content[$j]['sub_total'];
+                    $factura_content->save();
+                    
+                    $memory_indice_content = $j;
+
+                    break 1;
+                }
+            }
+        }
+
+        for ($j=0; $j <count($data_content) ; $j++) { 
+            if( $data_content[$j]['warehouse'] == '' ){
+                $factura_content = new FacturasContent;
+                $factura_content->id_factura = $factura->id_factura;
+                $factura_content->volumen = $data_content[$j]['volumen'];
+                $factura_content->pie_cubico = $data_content[$j]['pie_cubico'];
+                $factura_content->total_lb = $data_content[$j]['total_lb'];
+                $factura_content->peso = $data_content[$j]['peso'];
+                $factura_content->cost_env = $data_content[$j]['cost_env'];
+                $factura_content->seguro = $data_content[$j]['seguro'] == '' ? '0.00' : $data_content[$j]['seguro'];
+                $factura_content->sub_total = $data_content[$j]['sub_total'];
+                $factura_content->save();
+                break;
+            }
+        }
+
+        //agregar cajas
+        $extras_cajas = $request->extras_cajas;
+        for ($i=0; $i < count($extras_cajas) ; $i++) { 
+            $factura_extra = new FacturasInfoExtras;
+            $factura_extra->id_factura = $factura->id_factura; 
+            $factura_extra->detalles = json_encode($extras_cajas[$i]); 
+            $factura_extra->precio_unitario = $extras_cajas[$i]['monto_gasto_extra']; 
+            $factura_extra->sub_total = $extras_cajas[$i]['sub_total']; 
+            
+            $factura_extra->save();
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'La factura fue creada con exito. numero de factura '.$factura->nro_factura,
+        ], 200);
+
+    }
+
+    public function store_reempaque(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            //'nro_factura' => ['required','regex:/^[0-9]+$/', 'unique:facturas'],
+            'nro_container' => ['required','regex:/^[0-9]+$/'],
+            'tipo_envio' => ['required'],
+            'cliente' => ['required'],
+            'metodo' => ['required'],
+            'warehouses' => ['required'],
+            'warehouses_new' => ['required'],
+            'data_content' => ['required'],
+            'total_gastos_extras' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'total_usd' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'total_ves' => ['required', 'regex:/^-?[0-9]+(?:\,[0-9]{1,2})+$/'],
+            'usuario_id' => ['required'],
+            'monto_tc' => ['required'],
+            'fecha_tc' => ['required'],
+            'tarifa_envio' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'cost_reempaque' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+            'cost_x_tracking' => ['required', 'regex:/^-?[0-9]+(?:\.[0-9]{1,2})+$/'],
+        ]);
+
+        if ( isset($validator) && $validator->fails() ) {
+            return response()->json([
+                'status' => 403,
+                'message' => $validator->errors()->first(),
+            ], 403);
+        }
+
+        if( $request->metodo == 'store' ){
+            $validator = Validator::make($request->all(), [
+                'nro_factura' => ['required','regex:/^[0-9]+$/', 'unique:facturas'],
+            ]);
+    
+            if ( isset($validator) && $validator->fails() ) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => $validator->errors()->first(),
+                ], 403);
+            }
+        }
+
+        $warehouses= $request->warehouses;
+        if( count($warehouses) == 0 ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, Debe de agregar almenos un warehouse',
+            ], 403);
+        }
+
+        $warehouses_new= $request->warehouses_new;
+        if( count($warehouses_new) == 0 ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, Debe de agregar almenos un reempaque',
+            ], 403);
+        }
+
+        $data_content= $request->data_content;
+        if( count($data_content) == 0 ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, la factura no se puede factuar sin datos',
+            ], 403);
+        }
+
+        
+
+        if( $request->metodo == 'store' ){
+            $factura = new Facturas;
+        }else{
+            $factura = Facturas::find($request->id_factura);
+        }
+        
+        $factura->usuario_id = $request->usuario_id;
+        $factura->nro_factura = $request->nro_factura;
+        $factura->nro_container = $request->nro_container;
+        $factura->cliente = json_encode($request->cliente);
+        $factura->pago = json_encode([]);
+        $factura->gastos_extras = $request->total_gastos_extras;
+        $factura->total_usd = $request->total_usd;
+        $factura->total_ves = $request->total_ves;
+        $factura->tipo_envio = $request->tipo_envio;
+        $factura->reempaque = 'si';
+
+        $factura->monto_tc = $request->monto_tc;
+        $factura->fecha_tc = $request->fecha_tc;
+        $factura->tarifa_envio = $request->tarifa_envio;
+        $factura->cost_reempaque = $request->cost_reempaque;
+        $factura->cost_x_tracking = $request->cost_x_tracking;
+        $factura->save();
+        
+        $memory_indice_content = '';
+        //agregar wh padre y hijo. tambien agregamos el body content
+        for ($i=0; $i <count($warehouses_new) ; $i++) { 
+            $factura_wh_father = new FacturasInfoTrackings;
+            $factura_wh_father->id_factura = $factura->id_factura;
+            $factura_wh_father->warehouse = $warehouses_new[$i]['warehouse'];
+            $factura_wh_father->ancho = $warehouses_new[$i]['ancho'];
+            $factura_wh_father->alto = $warehouses_new[$i]['alto'];
+            $factura_wh_father->largo = $warehouses_new[$i]['largo'];
+            $factura_wh_father->peso = $warehouses_new[$i]['peso'];
+            $factura_wh_father->num_piezas = $warehouses_new[$i]['num_piezas'];
+            $factura_wh_father->volumen = $warehouses_new[$i]['volumen'];
+            $factura_wh_father->pie_cubico = $warehouses_new[$i]['pie_cubico'];
+            $factura_wh_father->seguro = $warehouses_new[$i]['seguro']; 
+            $factura_wh_father->total_seguro = $warehouses_new[$i]['total_seguro'];
+            $factura_wh_father->save();
+
+            //wh hijos
+            for ($j=0; $j < count($warehouses_new[$i]['almacen_ids']) ; $j++) { 
+                for ($k=0; $k <count($warehouses) ; $k++) { 
+                    if( $warehouses[$k]['id_almacen'] == $warehouses_new[$i]['almacen_ids'][$j] ){
+                        $factura_wh_children = new FacturasInfoTrackings;
+                        $factura_wh_children->id_factura = $factura->id_factura;
+                        $factura_wh_children->warehouse = $warehouses[$k]['warehouse'];
+                        $factura_wh_children->warehouse_padre = $factura_wh_father->id_factura_tracking;
+                        $factura_wh_children->tracking = $warehouses[$k]['tracking'];
+                        $factura_wh_children->descripcion = $warehouses[$k]['descripcion'];
+                        $factura_wh_children->ancho = $warehouses[$k]['ancho'];
+                        $factura_wh_children->alto = $warehouses[$k]['alto'];
+                        $factura_wh_children->largo = $warehouses[$k]['largo'];
+                        $factura_wh_children->peso = $warehouses[$k]['peso'];
+                        $factura_wh_children->num_piezas = $warehouses[$k]['num_piezas'];
+                        $factura_wh_children->volumen = $warehouses[$k]['volumen'];
+                        $factura_wh_children->pie_cubico = $warehouses[$k]['pie_cubico'];
+                        $factura_wh_children->ruta_image = $warehouses[$k]['ruta_image'];
+                        $factura_wh_children->reempaque = $warehouses[$k]['reempaque'];
+                        $factura_wh_children->seguro = $warehouses[$k]['seguro']; 
+                        $factura_wh_children->total_seguro = $warehouses[$k]['total_seguro'];
+                        $factura_wh_children->save();
+                        //break;
+                    }
+                }
+            }
+
+            //body content
+            for ($j=0; $j <count($data_content) ; $j++) { 
+                if( $j !== $memory_indice_content && $data_content[$j]['warehouse'] != ''){
+                    $factura_content = new FacturasContent;
+                    $factura_content->id_factura_tracking = $factura_wh_father->id_factura_tracking;
+                    $factura_content->id_factura = $factura->id_factura;
+                    $factura_content->volumen = $data_content[$j]['volumen'];
+                    $factura_content->pie_cubico = $data_content[$j]['pie_cubico'];
+                    $factura_content->total_lb = $data_content[$j]['total_lb'];
+                    $factura_content->peso = $data_content[$j]['peso'];
+                    $factura_content->cost_env = $data_content[$j]['cost_env'];
+                    $factura_content->seguro = $data_content[$j]['seguro'];
+                    $factura_content->sub_total = $data_content[$j]['sub_total'];
+                    $factura_content->save();
+                    
+                    $memory_indice_content = $j;
+
+                    break 1;
+                }
+            }
+        }
+
+        for ($j=0; $j <count($data_content) ; $j++) { 
+            if( $data_content[$j]['warehouse'] == '' ){
+                $factura_content = new FacturasContent;
+                $factura_content->id_factura = $factura->id_factura;
+                $factura_content->volumen = $data_content[$j]['volumen'];
+                $factura_content->pie_cubico = $data_content[$j]['pie_cubico'];
+                $factura_content->total_lb = $data_content[$j]['total_lb'];
+                $factura_content->peso = $data_content[$j]['peso'];
+                $factura_content->cost_env = $data_content[$j]['cost_env'];
+                $factura_content->seguro = $data_content[$j]['seguro'] == '' ? '0.00' : $data_content[$j]['seguro'];
+                $factura_content->sub_total = $data_content[$j]['sub_total'];
+                $factura_content->save();
+                break;
+            }
+        }
+
+        //agregar cajas
+        $extras_cajas = $request->extras_cajas;
+        for ($i=0; $i < count($extras_cajas) ; $i++) { 
+            $factura_extra = new FacturasInfoExtras;
+            $factura_extra->id_factura = $factura->id_factura; 
+            $factura_extra->detalles = json_encode($extras_cajas[$i]); 
+            $factura_extra->precio_unitario = $extras_cajas[$i]['monto_gasto_extra']; 
+            $factura_extra->sub_total = $extras_cajas[$i]['sub_total']; 
+            
+            $factura_extra->save();
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'La factura fue creada con exito. numero de factura '.$factura->nro_factura,
         ], 200);
     }
 
@@ -607,17 +958,20 @@ class FacturasController extends Controller
             ], 422);
         }
 
-        $facturasInfoTrackings= FacturasInfoTrackings::where('id_factura', '=', $factura->id_factura)->first();
+        $facturasInfoTrackings= FacturasInfoTrackings::where('id_factura', '=', $factura->id_factura)->get()->toArray();
 
-        if( $facturasInfoTrackings->warehouse ){
-            $almacen = Almacenes::where('warehouse', '=', $facturasInfoTrackings->warehouse)
-            ->where('activo', '=', true)
-            ->first();
-
-            if( $almacen != null ){
-                $almacen->estado = 'recibido';
-                $almacen->update();
+        if( count($facturasInfoTrackings) > 0){
+            for ($i=0; $i <count($facturasInfoTrackings); $i++) { 
+                $almacen = Almacenes::where('warehouse', '=', $facturasInfoTrackings[$i]['warehouse'])
+                ->where('activo', '=', true)
+                ->first();
+    
+                if( $almacen != null ){
+                    $almacen->estado = 'recibido';
+                    $almacen->update();
+                }
             }
+           
         }
 
         $factura->delete();

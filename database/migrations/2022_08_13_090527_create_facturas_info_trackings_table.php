@@ -22,8 +22,8 @@ return new class extends Migration
             $table->uuid('id_factura');
             $table->char('warehouse_padre', 36)->nullable();
             $table->char('warehouse', 36);
-            $table->string('tracking', 120);
-            $table->text('descripcion');
+            $table->string('tracking', 120)->nullable();;
+            $table->text('descripcion')->nullable();;
             $table->string('ancho', 10);
             $table->string('alto', 10);
             $table->string('largo', 10);
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('num_piezas', 10);
             $table->string('volumen', 10);
             $table->string('pie_cubico', 10);
-            $table->text('ruta_image');
+            $table->text('ruta_image')->nullable();;
             $table->uuid('reempaque')->default('no'); 
             $table->string('seguro', 10)->default('0.00');
             $table->string('total_seguro', 10)->default('0.00');

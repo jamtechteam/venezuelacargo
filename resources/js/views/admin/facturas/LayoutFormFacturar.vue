@@ -4,7 +4,9 @@
         <div class="col-12" style="min-height: 60vh;">
             <component :is='componentRender'></component>
             <div class="card card-lg" v-if="componentRender == ''">
+                <div v-show="loaderCard" class="div-loader_white" style="margin: 0;"><loader></loader></div>
                 <div class="card-body">
+                     <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
                     <div class="row mb-4">
                         <div class="col-6">
                             <p class="h3">Detalles</p>
@@ -28,7 +30,7 @@
                             </address>
                         </div>
                     </div>
-                    <ware-house 
+                    <ware-houses 
                         v-bind:warehouses="warehouses"
                         :envio="envio"
                         @add_new_wh="add_new_wh"
@@ -134,11 +136,42 @@
                     </div>
                     <div class="d-flex align-items-center mt-3">
                         <btn-volver :classe="'btn-light'"></btn-volver>
-                        <button type="button" class="btn btn-info ms-auto">
+                        <button type="button" @click="confirmInvoice" class="btn btn-info ms-auto">
                             <span>Guardar</span>
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-blur fade" id="modal-success" tabindex="-1" :class="{'show': show == true}" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="hiddenModal()"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><path d="M9 12l2 2l4 -4"></path></svg>
+                <h3>¿Estás seguro de crear la factura?</h3>
+                <div class="text-muted">
+                    Para crear la factura, asegurate que los datos esten correctos...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn w-100" data-bs-dismiss="modal" @click="hiddenModal()">
+                            Cancelar
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" @click="sendFactura">
+                            Crear Factura
+                        </button>
+                    </div>
+                </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -148,18 +181,22 @@
 <script>
 
 //componentes de primer plano, para factura
-import WareHouse from '../../../components/facturas/WareHouse.vue';
+import WareHouses from '../../../components/facturas/WareHouses.vue';
 import ContentBody from '../../../components/facturas/ContentBody.vue';
 import ListCajas from '../../../components/facturas/ListCajas.vue';
 import BtnVolver from '../../../components/BtnVolver.vue';
 
 //componentes de segundo plano
+const AlertMessageComponent = () => import('../../../components/AlertMessageComponent.vue');
 const LoaderComponent = () => import('../../../components/LoaderComponent.vue');
 const Error404 = () => import('../../../components/Error404Component.vue');
 
 //helpers
 import { create_factura, data_contents, add_box, calc_total_usd_data, suma_total_usd_var, calc_total_ves } from '../../../helpers/calcInvoice';
 import { formatPrice } from '../../../formatPrice';
+
+const save_reempaque = 'save-invoice-reempaque';
+const save_directo = 'save-invoice-directo';
 
 export default {
     name: 'LayoutFormFacturar',
@@ -175,7 +212,8 @@ export default {
                 nro_factura: '',
                 tipo_envio: '',
                 monto_tc: '0,00',
-                nro_container: ''
+                nro_container: '',
+                fecha_tc: ''
             },
             //informacion del cliente
             client: {},
@@ -198,13 +236,22 @@ export default {
             gastos_extras: '0.00',
             //new wh para reempaque
             warehousesNew: [],
+            //mostrar confirmar factura
+            show: false,
+            loaderCard: false,
+            activeComponent: '',
+            alert: {
+                msg: '',
+                clss: '' 
+            },
         }
     },
     components: {
-        WareHouse,
+        WareHouses,
         ContentBody,
         ListCajas,
-        BtnVolver
+        BtnVolver,
+        loader: LoaderComponent,
     },
     beforeCreate(){
         this.$nextTick(async function () {
@@ -253,6 +300,7 @@ export default {
                     this.details = details;
                     this.details.tarifa = details.tipo_envio == 'aereo' ? tarifa_aereo : tarifa_maritimo;
                     this.details.monto_tc = formatPrice.constPrice(tasaDolar.monto_tc, '.', ',');
+                    this.details.fecha_tc = tasaDolar.fecha_tc;
 
                     this.client = cliente;
                     
@@ -350,11 +398,149 @@ export default {
             this.warehousesNew = dataNew;
             this.dataContent = data_contents(this.warehousesNew, this.details.tipo_envio, this.details.tarifa, this.envio);
             this.calculo_totales();
+        },
+        //abrir modal confirmar contraseña, y tambien valida antes de abrirlo
+        confirmInvoice(){
+            if( this.dataContent.length === 0 ){
+                alert('Error, se debe facturar, y no se puede enviar vacio');
+                return;
+            }
+
+            if( this.details.tarifa === '0.00' || this.details.tarifa === '' ){
+                alert('Error, tarifa,  no debe ir en cero o vacio');
+                return;
+            }
+
+            if( this.details.tarifa === '0.00' || this.details.tarifa === '' || this.details.tarifa == '0' ){
+                alert('Error, tarifa,  no debe ir en cero o vacio');
+                return;
+            }
+
+            if( this.details.nro_factura === '0.00' || this.details.nro_container === '' ){
+                alert('Error, tarifa,  el numero de factura y numero de container es requerido');
+                return;
+            }
+
+            this.show = true;
+        },
+        hiddenModal() { this.show = false },
+        //switch para post o put
+        sendFactura(){
+            this.show = false;
+            this.loaderCard = true;
+            let url = this.envio === 'reempaque' ? save_reempaque : save_directo;
+            this.post_axios(url);
+        },
+        post_axios(url){
+            let warehouses = [];
+            let warehouses_new = [];
+            let extras_cajas = [];
+            let data_content = [];
+            let total_usd = formatPrice.desctPrice(this.total_usd, ',');
+            let total_ves = formatPrice.desctPrice(this.total_ves, '.');
+            let total_gastos_extras = formatPrice.desctPrice(this.gastos_extras, ',');
+            let cost_reempaque = formatPrice.desctPrice(this.costo_reempaque, ',');
+            let cost_x_tracking = formatPrice.desctPrice(this.costo_trackings, ',');
+
+            for (let i = 0; i < this.warehouses.length; i++) {
+                let wh = {...this.warehouses[i]}
+        
+                wh.total_seguro = formatPrice.desctPrice(wh.total_seguro,',');
+                wh.seguro = formatPrice.desctPrice(wh.seguro,',');
+
+                warehouses.push(wh);
+            }
+
+            for (let i = 0; i < this.warehousesNew.length; i++) {
+                let wh = {...this.warehousesNew[i]}
+        
+                wh.total_seguro = formatPrice.desctPrice(wh.total_seguro,',');
+                wh.seguro = formatPrice.desctPrice(wh.seguro,',');
+
+                warehouses_new.push(wh);
+            }
+
+            for (let i = 0; i < this.dataContent.length; i++) {
+                let data = {...this.dataContent[i]}
+        
+                data.sub_total = data.sub_total != '' ? formatPrice.desctPrice(data.sub_total,',') : '';
+                data.seguro = data.seguro != '' ? formatPrice.desctPrice(data.seguro,',') : '';
+                data.cost_env = data.cost_env != '' ? formatPrice.desctPrice(data.cost_env,',') : ''
+
+                data_content.push(data);
+            }
+
+            for (let i = 0; i < this.list_cajas.length; i++) {
+                let caja = {...this.list_cajas[i]}
+              
+                caja.sub_total = formatPrice.desctPrice(caja.sub_total,',');
+                caja.monto_gasto_extra = formatPrice.desctPrice(caja.monto_gasto_extra,',');
+
+                extras_cajas.push(caja);
+            }
+
+  
+            const formData = {
+                nro_factura: this.details.nro_factura,
+                nro_container: this.details.nro_container,
+                tipo_envio: this.details.tipo_envio,
+                tarifa_envio:  formatPrice.desctPrice(this.details.tarifa,','),
+                usuario_id: this.client.usuario_id,
+                cliente: this.client,
+                warehouses,
+                warehouses_new,
+                data_content,
+                extras_cajas,
+                total_usd,
+                total_ves,
+                monto_tc: formatPrice.desctPrice(this.details.monto_tc,'.'),
+                fecha_tc: this.details.fecha_tc,
+                total_gastos_extras,
+                cost_reempaque,
+                cost_x_tracking,
+                metodo: this.type_form == 'new' ? 'store' : 'updated'
+            }
+            console.log(formData)
+            this.alert = {};
+            this.activeComponent = '';
+            this.axios.post(url, formData)
+            .then(response => {
+
+                this.alert = {
+                    msg: response.data.message,
+                    clss: 'updated'
+                }
+
+                this.activeComponent = AlertMessageComponent;
+        
+               setTimeout(() => {
+                    this.$router.go(-1)
+                }, 4000)
+                console.log(response.data)
+
+                setTimeout(() => {
+                    this.loaderCard = false;
+                }, 2000);
+                
+            }).catch(error => {
+                this.alert = {
+                    msg: error.response.data.message,
+                    clss: 'error'
+                }
+
+                console.log(error.response.data)
+
+                this.activeComponent = AlertMessageComponent;
+                setTimeout(() => {
+                    this.loaderCard = false;
+                }, 2000);
+            });
         }
     }
 }
 </script>
-
 <style>
-
+    .modal.show{
+        display: block;
+    }
 </style>

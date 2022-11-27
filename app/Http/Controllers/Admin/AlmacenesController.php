@@ -148,7 +148,7 @@ class AlmacenesController extends Controller
             $tracking->num_piezas =  $track->num_piezas;
             $tracking->volumen = ( $track->alto *  $track->largo * $track->ancho ) / 166; //alto * largo * ancho / 166
             $tracking->volumen = round( $tracking->volumen * 100 ) / 100;
-            $tracking->volumen = ( $tracking->volumen >= 3.33 ) ? $tracking->volumen : 3.33;
+            $tracking->volumen = ( $tracking->volumen >= 1 ) ? $tracking->volumen : 1;
 
             $tracking->pie_cubico = ( $track->alto *  $track->largo * $track->ancho ) / 1728; //alto * largo * ancho / 1728
             $tracking->pie_cubico = round( $tracking->pie_cubico * 100 ) /100;
@@ -279,7 +279,7 @@ class AlmacenesController extends Controller
                 $tracking->num_piezas =  $track->num_piezas;
                 $tracking->volumen = ( $track->alto *  $track->largo * $track->ancho ) / 166; //alto * largo * ancho / 166
                 $tracking->volumen = round( $tracking->volumen * 100 ) / 100;
-                $tracking->volumen = ( $tracking->volumen >= 3.33 ) ? $tracking->volumen : 3.33;
+                $tracking->volumen = ( $tracking->volumen >= 1 ) ? $tracking->volumen : 1;
 
                 $tracking->pie_cubico = ( $track->alto *  $track->largo * $track->ancho ) / 1728; //alto * largo * ancho / 1728
                 $tracking->pie_cubico = round( $tracking->pie_cubico * 100 ) /100;
@@ -370,7 +370,7 @@ class AlmacenesController extends Controller
             $tracking->num_piezas =  $track->num_piezas;
             $tracking->volumen = ( $track->alto *  $track->largo * $track->ancho ) / 166; //alto * largo * ancho / 166
             $tracking->volumen = round( $tracking->volumen * 100 ) / 100;
-            $tracking->volumen = ( $tracking->volumen >= 3.33 ) ? $tracking->volumen : 3.33;
+            $tracking->volumen = ( $tracking->volumen >= 1 ) ? $tracking->volumen : 1;
 
             $tracking->pie_cubico = ( $track->alto *  $track->largo * $track->ancho ) / 1728; //alto * largo * ancho / 1728
             $tracking->pie_cubico = round( $tracking->pie_cubico * 100 ) /100;

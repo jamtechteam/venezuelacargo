@@ -103,6 +103,8 @@ Route::middleware('auth:api')->group(function() {
                 Route::get('facturas-analyze', 'App\Http\Controllers\Admin\FacturasController@analyze');
                 Route::get('facturas-pendientes', 'App\Http\Controllers\Admin\FacturasController@state');
                 Route::put('pago-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@pagoVerificado');
+                Route::post('save-invoice-reempaque', 'App\Http\Controllers\Admin\FacturasController@store_reempaque');
+                Route::post('save-invoice-directo', 'App\Http\Controllers\Admin\FacturasController@store_directo');
         
                 //envios
                 Route::resource('envios', App\Http\Controllers\Admin\EnviosController::class);

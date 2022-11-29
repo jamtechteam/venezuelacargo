@@ -1,6 +1,7 @@
 !DOCTYPE html>
 <html lang="en">
 
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -196,16 +197,16 @@
             }
 
             header {
-            position: fixed !important;
-            top: -1cm !important;
-            /*bottom: 10cm !important;*/
-            z-index: 1000 !important;
+            position: relative;
+            /*top: -1cm !important;
+            bottom: 10cm !important;
+            z-index: 1000 !important;*/
         }
 
         footer {
-            position: fixed;
-            bottom: -1cm;
-            z-index: 1000 !important;
+            position: relative;
+            /*bottom: -1cm;
+            z-index: 1000 !important;*/
         }
         </style>
     </head>
@@ -260,7 +261,7 @@
 
                 <tr>
                     <td colspan="2" style="text-align: left; padding-left: 10px; font-size:13px;">
-                        {{ \Str::upper($user->estado.', '. $user->zona.', '.$user->codigo_postal.', '.$user->ref_direccion) }}
+                        {{ \Str::upper($user->estado_ve.', '. $user->zona.', '.$user->codigo_postal.', '.$user->ref_direccion) }}
                     </td>
                 </tr>
             </table>
@@ -299,7 +300,313 @@
             </table>
         </div>
     </header>
-    <footer>
+    <main style="margin-top:5px !important;">
+        <div class="invoice-box">
+            <p class="fcolor" style="text-align: left; font-size:13px;"><b>INFORMACIÓN DEL PAQUETE</b></p>
+            
+                <!--tabla de datos del paquete-->
+            <table style="border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; border-bottom:1px solid #ccc !important; border-top: 1px solid #ccc !important; margin-right: 3px; margin-top: 5px;">
+                <thead>
+                    <tr>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="25%" class="fcolor">NRO. WH</th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="25%" class="fcolor">WH Secundario</th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%" class="fcolor">PIEZAS</th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%" class="fcolor">PESO</th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%" class="fcolor">VOLUMEN</th>
+                        <th width="10%" class="fcolor" style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;">PIE CÚB</th>
+                        
+                        <th width="10%" class="fcolor" style="text-align: center;">TOTAL SEGURO</th>
+                    </tr>
+                </thead>
+                @foreach ($invoice_info_trackings as $tracking)
+                    <tr style="font-size: 11; text-align: center;">
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ $tracking->warehouse }}</b>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            @if( $invoice['type_envio'] == 'reempaque' )
+                                <b>{{ $tracking->wh_second }}</b>
+                            @endif
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ number_format($tracking->num_piezas,2) }}</b>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ number_format($tracking->peso,2) }}</b>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ number_format($tracking->volumen,2) }}</b>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ number_format($tracking->pie_cubico,2) }}</b>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <b>{{ number_format($tracking->total_seguro,2, '.', ',') }}</b>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+
+            <!--tabla de datos del paquete-->
+            <table style="border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; border-bottom:1px solid #ccc !important; border-top: 1px solid #ccc !important; margin-right: 3px; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="20%">
+                            WH
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            VOL
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            PESO</th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            Pie Cubico
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            LB/VOL
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            COSTO ENV
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="10%">
+                            SEGURO
+                        </th>
+                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
+                            width="20%">
+                            SUB TOTAL
+                        </th>
+                    </tr>
+                </thead>
+                @foreach ($invoice_contents as $tracking)
+                    <tr style="font-size: 9; text-align: center; line-height: 0.5em;">
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                               {{ $tracking->warehouse }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                               {{ $tracking->volumen }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->peso }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->pie_cubico }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->total_lb }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->cost_env }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->seguro }}
+                            </p>
+                        </td>
+                        <td
+                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                {{ $tracking->sub_total }}
+                            </p>
+                        </td>
+                    </tr>
+                @endforeach
+                <tr style="font-size: 11; text-align: center; line-height: 1.2em;">
+                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        <b>TIPO DE CAJA</b>
+                    </td>
+                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        <b>CANTIDAD</b>
+                    </td>
+                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        <b>COSTO</b>
+                    </td>
+                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+
+                    </td>
+                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                    </td>
+                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                    </td>
+                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                    </td>
+                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        <b>SUB TOTAL</b>
+                    </td>
+                </tr>
+                @foreach ($invoice_info_extras as $info_extra)
+                    <tr  style="font-size: 9; text-align: center; line-height: 0.5em;">
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                <small>{{ $info_extra->nombre }}</small>
+                            </p>
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                <small>{{ $info_extra->cant }}</small>
+                            </p>
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                            <p style="Line-height:0.5cm">
+                                <small>{{ $info_extra->monto_gasto_extra }}</small>
+                            </p>
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;text-align-last: center;    vertical-align: middle;">
+                        </td>
+                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;text-align-last: center;    vertical-align: middle;">
+                            <small>$ {{ $info_extra->sub_total }}</small>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            
+            <!--tabla totales-->
+            
+
+            <table>
+
+
+                <tr style="font-size: 11; text-align: center; line-height: 1em;">
+                    <td width="42%">
+                    </td>
+                    <td width="58%" style="text-align: left; ">
+                        <table>
+                            <tr>
+                                <td
+                                    style="text-align: left; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                    <b class="fcolor">COSTOS EXTRAS</b>
+                                </td>
+                                <td
+                                    style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                    $ {{ $invoice['gastos_extras'] }}
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                </tr>
+            </table>
+
+            <table>
+                <tr style="font-size: 11; text-align: center; line-height: 1em;">
+                    <td width="42%">
+                    </td>
+                    <td width="58%" style="text-align: left; ">
+                        <table>
+                            <tr>
+                                <td
+                                    style="text-align: left; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                    <b class="fcolor">Costo Por WH</b>
+                                </td>
+                                <td
+                                    style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                    $ {{ $invoice['cost_x_tracking'] }}
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                </tr>
+            </table>
+
+            @if( $invoice['type_envio'] == 'reempaque' )
+                <table>
+                    <tr style="font-size: 11; text-align: center; line-height: 1em;">
+                        <td width="42%">
+                        </td>
+                        <td width="58%" style="text-align: left; ">
+                            <table>
+                                <tr>
+                                    <td
+                                        style="text-align: left; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                        <b class="fcolor">Costo Por Reempaque</b>
+                                    </td>
+                                    <td
+                                        style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
+                                        $ {{ $invoice['cost_reempaque'] }}
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+
+                    </tr>
+                </table>
+            @endif
+
+            <!--totales-->
+            <table>
+
+
+                <tr style="font-size: 11; text-align: center; line-height: 1.2em;">
+                    <td width="42%">
+                    </td>
+                    <td width="58%" style="text-align: left; ">
+                        <table style="background: #ccc">
+                            <tr>
+                                <td
+                                    style="text-align: left; border-right:1px solid #ccc !important; border-bottom:1px solid #ccc !important;border-left:1px solid #ccc !important; padding-left: 10px;">
+                                    <b class="fcolor">TOTAL USD</b>
+                                </td>
+                                <td
+                                    style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; border-bottom:1px solid #ccc !important;">
+                                    {{ $invoice['total_usd'] }}
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>    
+    </main>
+    <footer style="margin-top:1cm !important;">
         <hr style="">
         <table>
             <tr>
@@ -359,225 +666,5 @@
             </tr>
         </table>
     </footer>
-    <main style="margin-top:6cm !important;">
-        <div class="invoice-box">
-            <p class="fcolor" style="text-align: left; font-size:13px;"><b>INFORMACIÓN DEL PAQUETE</b></p>
-            
-                <!--tabla de datos del paquete-->
-            <table style="border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; border-bottom:1px solid #ccc !important; border-top: 1px solid #ccc !important; margin-right: 3px; margin-top: 5px;">
-                <thead>
-                    <tr>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="25%" class="fcolor">NRO. TRACKING</th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="25%" class="fcolor">TOTAL PIEZAS</th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="25%" class="fcolor">TOTAL PESO LB</th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="25%" class="fcolor">TOTAL VOLUME LB</th>
-                        <th width="25%" class="fcolor" style="text-align: center;">TOTAL PIE CÚB</th>
-                    </tr>
-                </thead>
-                @foreach ($invoice_info_trackings as $tracking)
-                    <tr style="font-size: 11; text-align: center;">
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <b>{{ $tracking->tracking }}</b>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <b>{{ number_format($tracking->num_piezas,2) }}</b>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <b>{{ number_format($tracking->peso,2) }}</b>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <b>{{ number_format($tracking->volumen,2) }}</b>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <b>{{ number_format($tracking->pie_cubico,2) }}</b>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-
-            <!--tabla de datos del paquete-->
-            <table style="border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; border-bottom:1px solid #ccc !important; border-top: 1px solid #ccc !important; margin-right: 3px; margin-top: 5px;">
-                <thead>
-                    <tr>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            WH
-                        </th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            TRACKING
-                        </th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="40%">
-                            DESCRIPCIÓN</th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            COST. REEMP
-                        </th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            COST. X TRACKING
-                        </th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            COST. SEGURO
-                        </th>
-                        <th style="border-right:1px solid #ccc !important; text-align: center; font-size:13px;"
-                            width="10%">
-                            SUBTOTAL
-                        </th>
-                    </tr>
-                </thead>
-                @foreach ($invoice_info_trackings as $tracking)
-                    <tr style="font-size: 9; text-align: center; line-height: 0.5em;">
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                               {{ $tracking->warehouse }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                               {{ $tracking->tracking }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                {{ $tracking->descripcion }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                {{ $tracking->cost_reempaque }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                {{ $tracking->cost_x_tracking }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                {{ $tracking->seguro }}
-                            </p>
-                        </td>
-                        <td
-                            style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                {{ $tracking->sub_total }}
-                            </p>
-                        </td>
-                    </tr>
-                @endforeach
-                <tr style="font-size: 11; text-align: center; line-height: 1.2em;">
-                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        <b>CAJAS</b>
-                    </td>
-                    <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                    <td style="text-align: left; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                    </td>
-                </tr>
-                @foreach ($invoice_info_extras as $info_extra)
-                    <tr  style="font-size: 9; text-align: center; line-height: 0.5em;">
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                            <p style="Line-height:0.5cm">
-                                <small>Tipo de caja:</small> <strong>{{ $info_extra->nombre }}</strong>. <small>Costo x Caja:</small> <strong>$ {{ $info_extra->total_caja }}</strong>. <small>Cantidad:</small> <strong>{{ $info_extra->cant }}</strong>
-                            </p>
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;">
-                        </td>
-                        <td style="text-align: center; border-right:1px solid #ccc !important; border-top:1px solid #ccc !important;text-align-last: center;    vertical-align: middle;">
-                            {{ $info_extra->monto_gasto_extra }}
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-            
-            <!--tabla totales-->
-            
-
-            <table>
-
-
-                <tr style="font-size: 11; text-align: center; line-height: 1em;">
-                    <td width="42%">
-                    </td>
-                    <td width="58%" style="text-align: left; ">
-                        <table>
-                            <tr>
-                                <td
-                                    style="text-align: left; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
-                                    <b class="fcolor">COSTOS EXTRAS</b>
-                                </td>
-                                <td
-                                    style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; font-size:13px;">
-                                    $ {{ $invoice['gastos_extras'] }}
-                                </td>
-                            </tr>
-                        </table>
-
-                    </td>
-
-                </tr>
-            </table>
-
-            <!--totales-->
-            <table>
-
-
-                <tr style="font-size: 11; text-align: center; line-height: 1.2em;">
-                    <td width="42%">
-                    </td>
-                    <td width="58%" style="text-align: left; ">
-                        <table style="background: #ccc">
-                            <tr>
-                                <td
-                                    style="text-align: left; border-right:1px solid #ccc !important; border-bottom:1px solid #ccc !important;border-left:1px solid #ccc !important; padding-left: 10px;">
-                                    <b class="fcolor">TOTAL USD</b>
-                                </td>
-                                <td
-                                    style="text-align: right; border-right:1px solid #ccc !important; border-left:1px solid #ccc !important; padding-left: 10px; border-bottom:1px solid #ccc !important;">
-                                    {{ $invoice['total_usd'] }}
-                                </td>
-                            </tr>
-                        </table>
-
-                    </td>
-
-                </tr>
-            </table>
-        </div>    
-    </main>
 </body>
 </html>

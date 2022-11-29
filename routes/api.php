@@ -20,7 +20,6 @@ Route::post('user/forgout/validate-token', 'App\Http\Controllers\Auth\ApiAuthCon
 
 Route::post('user/change_password_user', 'App\Http\Controllers\Auth\ApiAuthController@change_password_user');
 
-
         
 Route::middleware('auth:api')->group(function() { 
 
@@ -35,11 +34,13 @@ Route::middleware('auth:api')->group(function() {
         //ruta tasas destinos
         Route::get('calculadora', 'App\Http\Controllers\Admin\Configuracion\TasasDestinosController@calculadora');
 
-        //Imprimir factura o descargar 
-        Route::get('print-invoice/{id}', 'App\Http\Controllers\Admin\FacturasController@print_invoice');
+        
         //Banner App
         Route::resource('banner-app', App\Http\Controllers\Admin\BannerAppController::class);
-     
+        
+
+        //Imprimir factura o descargar 
+        Route::get('print-invoice/{id}', 'App\Http\Controllers\Admin\FacturasController@print_invoice');
 
 
         /**

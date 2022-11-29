@@ -640,6 +640,53 @@ class FacturasController extends Controller
 
     }
 
+
+    //
+    public function wharehouses($data = [], $envio = 'directo')
+    {
+        $warehouses = [];
+        for ($i=0; $i <count($data) ; $i++) { 
+            if( $data[$i]['warehouse_padre'] == null && $envio == 'directo' ){
+                array_push($warehouses, $data[$i]);
+            }
+
+            if( $envio == 'reempaque' && $data[$i]['warehouse_padre'] == null ){
+                $wh = '';
+                for ($j=0; $j <count($data) ; $j++) { 
+                    if(  $data[$i]['id_factura_tracking'] == $data[$j]['warehouse_padre'] ){
+                        $wh = ( $wh == '' ) ? $data[$j]['warehouse'] : $wh.','.$data[$j]['warehouse'];
+                    }
+                }
+
+                $data[$i]['wh_second'] = $wh;
+
+                array_push($warehouses, $data[$i]);
+            }
+        }
+
+        return $warehouses;
+    }
+
+    //
+    public function contents_wh($contents = [], $wh = [])
+    {
+        
+        for ($i=0; $i <count($contents) ; $i++) { 
+            for ($j=0; $j <count($wh) ; $j++) { 
+                if( $contents[$i]['id_factura_tracking'] == $wh[$j]['id_factura_tracking'] ){
+                    $contents[$i]['warehouse'] = $wh[$j]['warehouse'];
+                    break 1;
+                }
+            }
+
+            if( $contents[$i]['id_factura_tracking'] === null ){
+                $contents[$i]['warehouse'] = '';
+            }
+        }
+
+        return $contents;
+    }
+
     public function print_invoice($id)
     {
         
@@ -655,7 +702,9 @@ class FacturasController extends Controller
                 'total_usd' => $factura->total_usd,
                 'total_ves' => $factura->total_ves,
                 'fecha_creado' => $factura->fecha_creado,
-                'monto_tc' => ''
+                'monto_tc' => '',
+                'cost_reempaque' => $factura->cost_reempaque,
+                'cost_x_tracking' => $factura->cost_x_tracking
             ];
 
             $envio = Envios::where('id_factura', '=', $factura->id_factura)->first();
@@ -666,14 +715,26 @@ class FacturasController extends Controller
 
             $invoice_info_trackings = FacturasInfoTrackings::where([['id_factura', $factura->id_factura]])->get()->toArray();
             $invoice_info_extras = FacturasInfoExtras::where([['id_factura', $factura->id_factura]])->get()->toArray();
+            $invoice_contents = FacturasContent::where([['id_factura', $factura->id_factura]])->get()->toArray();
+
+            $type_envio = $factura->reempaque == 'si' ? 'reempaque' : 'directo';
+            $invoice['type_envio'] = $type_envio; 
+
+            for ($i=0; $i < count($invoice_info_extras) ; $i++) { 
+                $invoice_info_extras[$i] = json_decode($invoice_info_extras[$i]['detalles']);
+            }
+
+            $invoice_info_trackings = $this->wharehouses($invoice_info_trackings, $type_envio);
+            $invoice_contents = $this->contents_wh($invoice_contents, $invoice_info_trackings);
 
             for ($i=0; $i < count($invoice_info_trackings); $i++) { 
                 $invoice_info_trackings[$i] = json_encode($invoice_info_trackings[$i]);
                 $invoice_info_trackings[$i] = json_decode($invoice_info_trackings[$i]);
             }
 
-            for ($i=0; $i < count($invoice_info_extras) ; $i++) { 
-                $invoice_info_extras[$i] = json_decode($invoice_info_extras[$i]['detalles']);
+            for ($i=0; $i < count($invoice_contents) ; $i++) { 
+                $invoice_contents[$i] = json_encode($invoice_contents[$i]);
+                $invoice_contents[$i] = json_decode($invoice_contents[$i]);
             }
             
             $client = json_decode($factura->cliente);
@@ -681,9 +742,11 @@ class FacturasController extends Controller
                 "invoice" => $invoice,
                 "user" => $client,
                 "invoice_info_trackings" => $invoice_info_trackings,
-                "invoice_info_extras" => $invoice_info_extras
+                "invoice_info_extras" => $invoice_info_extras,
+                "invoice_contents" => $invoice_contents
             ];
 
+            //print_r($invoice_info_trackings);
             $pdf = PDF::loadView('reports.invoice', $data);
             $nameInvoice = $factura->nro_factura.'-'.$client->cod_usuario.'';
             $path = public_path('pdf');

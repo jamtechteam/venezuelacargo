@@ -402,14 +402,56 @@ var LoaderComponent = function LoaderComponent() {
       }, _callee);
     }))();
   },
-  guadarCheckPago: function guadarCheckPago() {
+  send_invoice_pdf: function send_invoice_pdf(id) {
     var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.loaderCard = true;
+              _context2.next = 3;
+              return _this2.axios.post("send-factura/".concat(id)).then(function (response) {
+                _this2.msgAlert = {
+                  msg: response.data.message,
+                  clss: 'updated'
+                };
+
+                _this2.$store.dispatch('tableadmin/alertMessage', true);
+
+                setTimeout(function () {
+                  _this2.loaderCard = false;
+                }, 1500);
+              })["catch"](function (error) {
+                _this2.msgAlert = {
+                  msg: error.response.data.message,
+                  clss: 'error'
+                };
+
+                _this2.$store.dispatch('tableadmin/alertMessage', true);
+
+                setTimeout(function () {
+                  _this2.loaderCard = false;
+                }, 1500);
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  guadarCheckPago: function guadarCheckPago() {
+    var _this3 = this;
 
     this.loader = true;
     this.axios.put("pago-factura/".concat(this.factura.id_factura)).then(function (response) {
       console.log(response.data);
 
-      _this2.resp(response.data);
+      _this3.resp(response.data);
     })["catch"](function (error) {
       var status = error.response.status;
       var message = error.response.data.message;
@@ -418,35 +460,35 @@ var LoaderComponent = function LoaderComponent() {
         message = 'Error inesperado. por favor intentar más tarde.';
       }
 
-      _this2.resp({
+      _this3.resp({
         status: status,
         message: message
       });
     });
   },
   resp: function resp(_resp) {
-    var _this3 = this;
+    var _this4 = this;
 
     setTimeout(function () {
-      _this3.loader = false;
+      _this4.loader = false;
 
-      _this3.respAlert(_resp.status, _resp.message);
+      _this4.respAlert(_resp.status, _resp.message);
 
       if (_resp.status == 200) {
         setTimeout(function () {
-          _this3.showFactura = false;
-          _this3.showCheckPago = false;
-          _this3.factura.id_factura = '';
-          _this3.factura.nro_factura = '';
-          _this3.factura.total_usd = '';
-          _this3.activeComponent = '';
-          _this3.pago = {
+          _this4.showFactura = false;
+          _this4.showCheckPago = false;
+          _this4.factura.id_factura = '';
+          _this4.factura.nro_factura = '';
+          _this4.factura.total_usd = '';
+          _this4.activeComponent = '';
+          _this4.pago = {
             tipo_pago: '',
             comprobante: ''
           };
-          _this3.tasa = '';
+          _this4.tasa = '';
 
-          _this3.$store.dispatch('tableadmin/resetInit');
+          _this4.$store.dispatch('tableadmin/resetInit');
         }, 4000);
       }
     }, 2000);
@@ -457,11 +499,11 @@ var LoaderComponent = function LoaderComponent() {
       msg: msg,
       clss: status == 200 ? 'updated' : 'error'
     };
-    this.activeComponent = alertMessage;
+    this.$store.dispatch('tableadmin/alertMessage', true);
     return;
   },
   getMessageDelete: function getMessageDelete(response) {
-    var _this4 = this;
+    var _this5 = this;
 
     this.msgAlert = {
       msg: response.message,
@@ -471,13 +513,13 @@ var LoaderComponent = function LoaderComponent() {
 
     if (response.status == 200) {
       setTimeout(function () {
-        _this4.itemDataId = '';
-        _this4.idAlmacen = [];
+        _this5.itemDataId = '';
+        _this5.idAlmacen = [];
         window.sessionStorage.removeItem('idLocalStorage');
 
-        _this4.$store.dispatch('tableadmin/modalDelete', false);
+        _this5.$store.dispatch('tableadmin/modalDelete', false);
 
-        _this4.$store.dispatch('tableadmin/resetInit');
+        _this5.$store.dispatch('tableadmin/resetInit');
       }, 2000);
     }
   },
@@ -621,7 +663,7 @@ var LoaderComponent = function LoaderComponent() {
     }
   },
   savePago: function savePago() {
-    var _this5 = this;
+    var _this6 = this;
 
     if (this.pago.tipo_pago != '' && this.pago.comprobante != '') {
       var total_usd = this.factura.total_usd;
@@ -666,7 +708,7 @@ var LoaderComponent = function LoaderComponent() {
       }).then(function (response) {
         console.log(response.data);
 
-        _this5.resp(response.data);
+        _this6.resp(response.data);
       })["catch"](function (error) {
         var status = error.response.status;
         var message = error.response.data.message;
@@ -675,7 +717,7 @@ var LoaderComponent = function LoaderComponent() {
           message = 'Error inesperado. por favor intentar más tarde.';
         }
 
-        _this5.resp({
+        _this6.resp({
           status: status,
           message: message
         });
@@ -2249,6 +2291,7 @@ var render = function () {
                         getId: _vm.getId,
                         sendCheckPago: _vm.sendCheckPago,
                         exporDonwload_pdf: _vm.exporDonwload_pdf,
+                        send_invoice_pdf: _vm.send_invoice_pdf,
                         sendPagoFactura: _vm.sendPagoFactura,
                       },
                     }),

@@ -156,7 +156,7 @@
                 </thead>
                 <transition name="component-fade" mode="out-in">
                     <keep-alive>
-                        <component :is='tbodyComponent' v-bind:data="dataTble" v-bind:th="columns.th" @getId="getId" @sendCheckPago="sendCheckPago" @exporDonwload_pdf="exporDonwload_pdf" @sendPagoFactura="sendPagoFactura"></component>
+                        <component :is='tbodyComponent' v-bind:data="dataTble" v-bind:th="columns.th" @getId="getId" @sendCheckPago="sendCheckPago" @exporDonwload_pdf="exporDonwload_pdf" @send_invoice_pdf="send_invoice_pdf" @sendPagoFactura="sendPagoFactura"></component>
                     </keep-alive>
                 </transition>
             </table>
@@ -302,6 +302,33 @@ export default {
             });
           
         },
+        async send_invoice_pdf(id){
+            this.loaderCard = true;
+            await this.axios.post(`send-factura/${id}`)
+            .then(response => {
+                this.msgAlert = {
+                    msg: response.data.message,
+                    clss: 'updated'
+                }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+
+                setTimeout(() => {
+                    this.loaderCard = false;
+                }, 1500);
+            }).catch(error => {
+                this.msgAlert = {
+                    msg: error.response.data.message,
+                    clss: 'error'
+                }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+
+                setTimeout(() => {
+                    this.loaderCard = false;
+                }, 1500);
+            });
+        },
         guadarCheckPago(){
             this.loader = true;
             this.axios.put(`pago-factura/${this.factura.id_factura}`).then(response => {
@@ -351,7 +378,7 @@ export default {
                 clss: ( status == 200 ) ? 'updated' : 'error'
             }
 
-            this.activeComponent = alertMessage;
+            this.$store.dispatch('tableadmin/alertMessage', true);
             return;
         },
         getMessageDelete(response){

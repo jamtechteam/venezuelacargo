@@ -27,7 +27,7 @@
             </td>
             <td>
                 <span class=""> {{ item.fecha_creado }}</span>
-            </td>
+            </td> 
             <td>
                 <div class="btn-list flex-nowrap">
                     <router-link
@@ -77,6 +77,16 @@
                     >
                         <i class="ti ti-file-download fs-19"></i>
                     </button>
+                    <button
+                        type="button"
+                        class="nav-link"
+                        style="padding: 0;"
+                        :value="item.id_factura"
+                        @click="sendInvoice($event)"
+                        v-if="item.estado_envio != 'FACTURADO' && item.estado == 'Pendiente'"
+                    >
+                        <i class="ti ti-send fs-19"></i>
+                    </button>
                 </div>
             </td>
         </tr>
@@ -95,6 +105,7 @@ const check = (data = [], value, prop = '') => {
 
     return null
 }
+
 
 const LoaderComponent = () => import('../../LoaderComponent.vue');
 const AlertMessageComponent = () => import('../../AlertMessageComponent.vue');
@@ -115,6 +126,10 @@ export default {
             const { value } = e.target.parentNode;
             const data = this.data.filter(item => item.id_factura)[0];
             this.$emit('exporDonwload_pdf', { data, value });
+        },
+        async sendInvoice(e){
+            const { value } = e.target.parentNode;
+            this.$emit('send_invoice_pdf', value);
         }
     },
     components: {

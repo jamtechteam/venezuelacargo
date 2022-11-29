@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NotificationInvoiceResend;
 use App\Models\Almacenes;
 use App\Models\Configuracion\GastosExtras;
 use App\Models\Configuracion\MonedasCambios;
@@ -12,11 +13,14 @@ use App\Models\Facturas\Facturas;
 use App\Models\Facturas\FacturasContent;
 use App\Models\Facturas\FacturasInfoExtras;
 use App\Models\Facturas\FacturasInfoTrackings;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Stmt\TryCatch;
 
 class FacturasController extends Controller
 {
@@ -36,6 +40,7 @@ class FacturasController extends Controller
             'facturas.tipo_envio',
             'facturas.reempaque',
             'facturas.fecha_creado',
+            'envios.estado AS estado_envio'
         ];
 
         extract(request()->only(['query', 'limit', 'page', 'orderBy', 'ascending',]));
@@ -51,6 +56,7 @@ class FacturasController extends Controller
        
         $records = Facturas::select($select)
         ->leftJoin('usuarios_info', 'usuarios_info.usuario_id', '=', 'facturas.usuario_id')
+        ->leftJoin('envios', 'envios.id_factura', '=', 'facturas.id_factura')
         ->where('facturas.activo', '=', true)
         ->Where(function($query) {
             $query->orWhere('facturas.nro_factura',  'LIKE', '%'.$this->search.'%')
@@ -760,6 +766,91 @@ class FacturasController extends Controller
                 'status' => 403,
                 'message' => 'Error, No encuentra esta factura',
             ], 403);
+        }
+    }
+
+    public function send_invoice($id)
+    {
+        $factura = Facturas::where([['id_factura', $id], ['activo', true]])->first();
+        $user = User::find($factura->usuario_id);
+        
+        
+        if( $factura == null ){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, No encuentra esta factura',
+            ], 403);
+        }
+
+        $invoice = [
+            'nro_factura' => $factura->nro_factura,
+            'fecha_estimada' => '',
+            'tipo_envio' => $factura->tipo_envio,
+            'nro_container' => $factura->nro_container,
+            'gastos_extras' => $factura->gastos_extras,
+            'total_usd' => $factura->total_usd,
+            'total_ves' => $factura->total_ves,
+            'fecha_creado' => $factura->fecha_creado,
+            'monto_tc' => '',
+            'cost_reempaque' => $factura->cost_reempaque,
+            'cost_x_tracking' => $factura->cost_x_tracking
+        ];
+
+        $envio = Envios::where('id_factura', '=', $factura->id_factura)->first();
+
+        if( $envio->estado != 'FACTURADO' ){
+            $invoice['fecha_estimada'] = Carbon::parse($envio->fecha_estimada)->format('d-m-Y');
+        }
+
+        $invoice_info_trackings = FacturasInfoTrackings::where([['id_factura', $factura->id_factura]])->get()->toArray();
+        $invoice_info_extras = FacturasInfoExtras::where([['id_factura', $factura->id_factura]])->get()->toArray();
+        $invoice_contents = FacturasContent::where([['id_factura', $factura->id_factura]])->get()->toArray();
+
+        $type_envio = $factura->reempaque == 'si' ? 'reempaque' : 'directo';
+        $invoice['type_envio'] = $type_envio; 
+
+        for ($i=0; $i < count($invoice_info_extras) ; $i++) { 
+            $invoice_info_extras[$i] = json_decode($invoice_info_extras[$i]['detalles']);
+        }
+
+        $invoice_info_trackings = $this->wharehouses($invoice_info_trackings, $type_envio);
+        $invoice_contents = $this->contents_wh($invoice_contents, $invoice_info_trackings);
+
+        for ($i=0; $i < count($invoice_info_trackings); $i++) { 
+            $invoice_info_trackings[$i] = json_encode($invoice_info_trackings[$i]);
+            $invoice_info_trackings[$i] = json_decode($invoice_info_trackings[$i]);
+        }
+
+        for ($i=0; $i < count($invoice_contents) ; $i++) { 
+            $invoice_contents[$i] = json_encode($invoice_contents[$i]);
+            $invoice_contents[$i] = json_decode($invoice_contents[$i]);
+        }
+        
+        $client = json_decode($factura->cliente);
+        $data = [
+            "invoice" => $invoice,
+            "user" => $client,
+            "invoice_info_trackings" => $invoice_info_trackings,
+            "invoice_info_extras" => $invoice_info_extras,
+            "invoice_contents" => $invoice_contents
+        ];
+
+        if( $user != null ){
+            $pdf = PDF::loadView('reports.invoice', $data);
+            try {
+                Mail::to($user->email)
+                ->send(new NotificationInvoiceResend($invoice, $pdf->output()));
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'La Factura: '. $factura->nro_factura.' fue enviada con exito',
+                ], 200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Ocurrio un error, por favor intente mas tarde.',
+                ], 403);
+            }
         }
     }
 

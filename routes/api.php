@@ -106,6 +106,7 @@ Route::middleware('auth:api')->group(function() {
                 Route::put('pago-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@pagoVerificado');
                 Route::post('save-invoice-reempaque', 'App\Http\Controllers\Admin\FacturasController@store_reempaque');
                 Route::post('save-invoice-directo', 'App\Http\Controllers\Admin\FacturasController@store_directo');
+                Route::post('send-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@send_invoice');
         
                 //envios
                 Route::resource('envios', App\Http\Controllers\Admin\EnviosController::class);

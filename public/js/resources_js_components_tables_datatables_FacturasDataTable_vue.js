@@ -104,6 +104,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var check = function check() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var value = arguments.length > 1 ? arguments[1] : undefined;
@@ -166,6 +176,27 @@ var AlertMessageComponent = function AlertMessageComponent() {
             }
           }
         }, _callee);
+      }))();
+    },
+    sendInvoice: function sendInvoice(e) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var value;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                value = e.target.parentNode.value;
+
+                _this2.$emit('send_invoice_pdf', value);
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     }
   },
@@ -529,6 +560,23 @@ var render = function () {
                 },
                 [_c("i", { staticClass: "ti ti-file-download fs-19" })]
               ),
+              _vm._v(" "),
+              item.estado_envio != "FACTURADO" && item.estado == "Pendiente"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "nav-link",
+                      staticStyle: { padding: "0" },
+                      attrs: { type: "button", value: item.id_factura },
+                      on: {
+                        click: function ($event) {
+                          return _vm.sendInvoice($event)
+                        },
+                      },
+                    },
+                    [_c("i", { staticClass: "ti ti-send fs-19" })]
+                  )
+                : _vm._e(),
             ],
             1
           ),

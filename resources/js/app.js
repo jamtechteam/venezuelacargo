@@ -153,8 +153,6 @@ const init = async () => {
                             //console.log('requestStoreTable', store.getters['tableadmin/getRequest'])
                         }
 
-                        
-
                         next();
                     //}
                 }else{

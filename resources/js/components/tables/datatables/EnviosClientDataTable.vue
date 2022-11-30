@@ -162,6 +162,9 @@ const check = (data = [], value, prop = '') => {
 const LoaderComponent = () => import('../../LoaderComponent.vue');
 const AlertMessageComponent = () => import('../../AlertMessageComponent.vue');
 
+import { formatPrice } from '../../../formatPrice';
+import { parseNum } from '../../../helpers/calcInvoice';
+
 let estados = [
     {
         title: 'ALMACÉN MIAMI',
@@ -266,7 +269,17 @@ export default {
         showModalFactura(e){
             const { value } = e.target.parentNode;
             const { id_factura, nro_factura, total_usd } = check(this.data, value, 'id_factura');
-            this.$emit('sendPagoFactura', {factura: { id_factura, nro_factura, total_usd}, tasa: this.tasa})
+            let total = formatPrice.desctPrice(total_usd, ',');
+            let monto_tc = this.tasa;
+                monto_tc = monto_tc.replace(',', '.');
+                monto_tc = parseNum(monto_tc);
+
+            let total_ves = total * monto_tc;
+                total_ves = total_ves.toFixed(2);
+                total_ves = total_ves.replace('.', ',');
+                total_ves = formatPrice.constPrice(`${total_ves}`, '.', ',');
+
+            this.$emit('sendPagoFactura', {factura: { id_factura, nro_factura, total_usd, total_ves}, tasa: this.tasa})
             //this.$refs.childComponent.init(value);
         },
         showModalMap(e){

@@ -259,6 +259,18 @@ var AlertMessageComponent = function AlertMessageComponent() {
       console.log(e.target.value);
       this.nodoForms[e.target.name] = e.target.value;
     },
+    onKeyUpIsPrice: function onKeyUpIsPrice(e) {
+      if (_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.checkField(e.target.name)) {
+        var moneda = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.moneda(e.target.name);
+
+        if (moneda == 'ves') {
+          e.target.value = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(e.target.value, '.', ',');
+        } else {
+          e.target.value = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(e.target.value, ',', '.');
+        }
+      } //formatPrice
+
+    },
     clickSelectMulti: function clickSelectMulti(e) {
       var check = e.target.checked;
       var parent = e.target.parentElement.parentElement.parentElement;
@@ -348,13 +360,14 @@ var formatPrice = {
               e.preventDefault();
             }
           });
-          document.getElementById(fields[i].field).addEventListener('keyup', function (e) {
-            var key = window.Event ? e.which : e.keyCod;
+          /*document.getElementById(fields[i].field).addEventListener('keyup', function(e) {
+              let key = window.Event ? e.which : e.keyCod;
+                    if( key == 8 || key >= 96 && key <= 105 ){
+                  e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
+              }
+              
+          });*/
 
-            if (key == 8 || key >= 96 && key <= 105) {
-              e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
-            }
-          });
           document.getElementById(fields[i].field).addEventListener('click', function (e) {
             if (e.target.value == '') e.target.value = '0' + spdor_decimal + '00';
           });
@@ -417,6 +430,13 @@ var formatPrice = {
     }
 
     return false;
+  },
+  moneda: function moneda(field) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i].field == field) {
+        return fields[i].money;
+      }
+    }
   }
 };
 
@@ -1472,6 +1492,9 @@ var render = function () {
                                       return _vm.changeFormInput($event)
                                     },
                                   ],
+                                  keyup: function ($event) {
+                                    return _vm.onKeyUpIsPrice($event)
+                                  },
                                 },
                               })
                             : form.type === "radio"
@@ -1520,6 +1543,9 @@ var render = function () {
                                       return _vm.changeFormInput($event)
                                     },
                                   ],
+                                  keyup: function ($event) {
+                                    return _vm.onKeyUpIsPrice($event)
+                                  },
                                 },
                               })
                             : _c("input", {
@@ -1552,6 +1578,9 @@ var render = function () {
                                 on: {
                                   change: function ($event) {
                                     return _vm.changeFormInput($event)
+                                  },
+                                  keyup: function ($event) {
+                                    return _vm.onKeyUpIsPrice($event)
                                   },
                                   input: function ($event) {
                                     if ($event.target.composing) {

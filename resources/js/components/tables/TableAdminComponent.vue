@@ -51,7 +51,7 @@
                         <div class="modal-body">
                             <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
                             <div class="text-muted mb-3 d-flex">
-                                <strong class="me-1">Nota: </strong> <p>Para el pago en bolivares, la tasa de cambio a considerar, es esta: <strong>{{tasa}} VES</strong></p>
+                                <strong class="me-1">Nota: </strong> <p>Para el pago en bolivares, la tasa de cambio a considerar, es esta: <strong>{{tasa}} VES</strong> y el monto total en Bolivares es de: <strong>{{factura.total_ves}} VES</strong></p>
                             </div>
                             <div class="form-floating mb-3" >
                                 <select class="form-select" name="tipo_pago" id="tipo_pago" v-model="pago.tipo_pago" >
@@ -67,6 +67,27 @@
                             <div class="mb-3">
                                 <div class="form-label">Subir Comprobante de Pago</div>
                                 <input type="file" class="form-control" @change="changeFileImage($event)" id="fileimage">
+                            </div>
+                            <div class="card">
+                                <div class="card-status-bottom bg-success"></div>
+                                <div class="card-body">
+                                    <div v-show="pago.tipo_pago == 'usd'">
+                                        <h3 class="card-title">BANK OF AMERICA</h3>
+                                        <p><strong>NRO DE CUENTA</strong> 3340 6659 9986 <strong>TIPO</strong>: CTA CORRIENTE</p>
+                                        <p><strong>ABA ROUTING NUMBER</strong> 061000052</p>
+                                        <p><strong>Nota:</strong> NO COLOCAR NADA EN EL ASUNTO DE LA TRANSFERENCIA</p>
+                                        <br>
+                                        <h3 class="card-title">ZELLE</h3>
+                                        <p><strong>CORREO ELECTRÓNICO</strong> VENEZUELACARGO@ICLOUD.COM</p>
+                                    </div>
+                                    <div v-show="pago.tipo_pago == 'ves'">
+                                        <h3 class="card-title">BANCO BANESCO</h3>
+                                        <p><strong>NRO DE CUENTA</strong> 0134 0869 6486 9302 5833 <strong>TIPO</strong>: CTA CORRIENTE</p>
+                                        <p><strong>TITULAR: </strong> CARLOS EDUARDO RESTREPO RUIZ <strong>C.I</strong>: V-17.632.959</p>
+                                        <p><strong>TELÉFONO: </strong> (0412)1812469 </p>
+                                        <p><strong>Nota:</strong> : PAGOS POR TRANSFERENCIAS Y PAGO MÓVIL</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -573,16 +594,29 @@ export default {
                 formData.append('tipo_moneda', this.pago.tipo_pago);
                 formData.append('comprobante', this.pago.comprobante);
                 formData.append('tasa', formatPrice.desctPrice(this.tasa, '.'));
-                formData.append('total_ves', total_ves);
+                formData.append('total_ves', formatPrice.desctPrice(this.factura.total_ves, '.'));
                 formData.append('usuario_id', this.$store.state.auth.user.usuario_id);
 
                 this.loader = true;
+                this.showFactura = false;
+                this.loaderCard = true;
 
                 this.axios.post('save-pago', formData, {headers: { "content-type": "multipart/form-data" } } ).then(response => {
                     console.log(response.data);
                     this.resp(response.data);
+                    this.msgAlert = {
+                        msg: response.data.message,
+                        clss: 'updated'
+                    }
+
+                    this.$store.dispatch('tableadmin/alertMessage', true);
+
+                setTimeout(() => {
+                    this.loaderCard = false;
+                }, 1500);
                     
                 }).catch(error => {
+                    console.log('err', error)
                     let status = error.response.status;
                     let message = error.response.data.message;
 
@@ -590,10 +624,16 @@ export default {
                         message = 'Error inesperado. por favor intentar más tarde.';
                     }
 
-                    this.resp({
-                        status: status,
-                        message: message
-                    })
+                    this.msgAlert = {
+                        msg: message,
+                        clss: 'error'
+                    }
+
+                    this.$store.dispatch('tableadmin/alertMessage', true);
+
+                    setTimeout(() => {
+                        this.loaderCard = false;
+                    }, 1500);
                 });
               
 

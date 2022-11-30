@@ -40,7 +40,7 @@
                             <div v-if="errors.has(form.name)" class="invalid-feedback">{{errors.first(form.name)}}</div>
                         </div>
                         <div class="form-floating mb-3" v-if="form.nodo == 'input'">
-                            <input  :key="index" :type="form.type" v-validate="form.validate" :name="form.name" class="form-control" :class="{'is-invalid': errors.first(form.name)}" :id="form.id" v-model="nodoForms[form.name]" :data-vv-validate-on="form.event" @change="changeFormInput($event)">
+                            <input  :key="index" :type="form.type" v-validate="form.validate" :name="form.name" class="form-control" :class="{'is-invalid': errors.first(form.name)}" :id="form.id" v-model="nodoForms[form.name]" :data-vv-validate-on="form.event" @change="changeFormInput($event)" @keyup="onKeyUpIsPrice($event)">
                             <label :for="form.label.for">{{form.label.title}}</label>
                             <div v-if="errors.has(form.name)" class="invalid-feedback">{{errors.first(form.name)}}</div>
                         </div>
@@ -66,6 +66,7 @@ import BtnVolver from '../BtnVolver.vue';
 
 const LoaderComponent = (() => import('../LoaderComponent.vue') );
 const AlertMessageComponent = (() => import('../AlertMessageComponent.vue') );
+
 
 //const init = formatPrice.
 export default {
@@ -200,6 +201,18 @@ export default {
         changeFormInput(e){
             console.log(e.target.value);
             this.nodoForms[e.target.name] = e.target.value;
+        },
+        onKeyUpIsPrice(e){
+            if( formatPrice.checkField(e.target.name) ){
+                const moneda = formatPrice.moneda(e.target.name);
+                if( moneda == 'ves' ){
+                    e.target.value = formatPrice.constPrice(e.target.value, '.', ',');
+                }else{
+                    e.target.value = formatPrice.constPrice(e.target.value, ',', '.');
+                }
+                
+            }
+            //formatPrice
         },
         clickSelectMulti(e){
             const check = e.target.checked;

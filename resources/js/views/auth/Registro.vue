@@ -99,6 +99,9 @@ export default {
         }
     },
      beforeCreate() {
+        if( this.$store.getters['auth/getUserStatus'] == true ){
+            this.$router.go(-1);
+        }
         this.$nextTick(async function () {
             setTimeout(() => {
                 this.loader = false;

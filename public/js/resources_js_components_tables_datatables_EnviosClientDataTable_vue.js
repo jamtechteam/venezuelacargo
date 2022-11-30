@@ -256,6 +256,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _map_TravelMap_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../map/TravelMap.vue */ "./resources/js/components/map/TravelMap.vue");
+/* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../formatPrice */ "./resources/js/formatPrice.js");
+/* harmony import */ var _helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../helpers/calcInvoice */ "./resources/js/helpers/calcInvoice.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -446,6 +448,8 @@ var AlertMessageComponent = function AlertMessageComponent() {
   return __webpack_require__.e(/*! import() */ "AlertMessageComponent").then(__webpack_require__.bind(__webpack_require__, /*! ../../AlertMessageComponent.vue */ "./resources/js/components/AlertMessageComponent.vue"));
 };
 
+
+
 var estados = [{
   title: 'ALMACÉN MIAMI',
   valor: 'FACTURADO',
@@ -594,11 +598,20 @@ var estados = [{
           nro_factura = _check.nro_factura,
           total_usd = _check.total_usd;
 
+      var total = _formatPrice__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(total_usd, ',');
+      var monto_tc = this.tasa;
+      monto_tc = monto_tc.replace(',', '.');
+      monto_tc = (0,_helpers_calcInvoice__WEBPACK_IMPORTED_MODULE_3__.parseNum)(monto_tc);
+      var total_ves = total * monto_tc;
+      total_ves = total_ves.toFixed(2);
+      total_ves = total_ves.replace('.', ',');
+      total_ves = _formatPrice__WEBPACK_IMPORTED_MODULE_2__.formatPrice.constPrice("".concat(total_ves), '.', ',');
       this.$emit('sendPagoFactura', {
         factura: {
           id_factura: id_factura,
           nro_factura: nro_factura,
-          total_usd: total_usd
+          total_usd: total_usd,
+          total_ves: total_ves
         },
         tasa: this.tasa
       }); //this.$refs.childComponent.init(value);
@@ -711,6 +724,401 @@ var estados = [{
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/helpers/calcInvoice.js":
+/*!*********************************************!*\
+  !*** ./resources/js/helpers/calcInvoice.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "add_box": () => (/* binding */ add_box),
+/* harmony export */   "cajas": () => (/* binding */ cajas),
+/* harmony export */   "calc_total_usd_data": () => (/* binding */ calc_total_usd_data),
+/* harmony export */   "calc_total_ves": () => (/* binding */ calc_total_ves),
+/* harmony export */   "create_factura": () => (/* binding */ create_factura),
+/* harmony export */   "data_contents": () => (/* binding */ data_contents),
+/* harmony export */   "generateRandomString": () => (/* binding */ generateRandomString),
+/* harmony export */   "parseNum": () => (/* binding */ parseNum),
+/* harmony export */   "suma_total_usd_var": () => (/* binding */ suma_total_usd_var),
+/* harmony export */   "warehouses_data": () => (/* binding */ warehouses_data)
+/* harmony export */ });
+/* harmony import */ var _formatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formatPrice */ "./resources/js/formatPrice.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+ //detalles
+
+var details = {
+  tarifa: '0.00',
+  fecha_factura: '',
+  nro_factura: '',
+  tipo_envio: '',
+  monto_tc: '0,00',
+  nro_container: ''
+}; // dato de content Aereo
+
+var dataContentAereo = {
+  warehouse: '',
+  pie_cubico: '',
+  volumen: '',
+  peso: '',
+  total_lb: '',
+  cost_env: '0.00',
+  seguro: '',
+  sub_total: '0.00'
+};
+/*
+id_almacen: '',
+almacen_ids: [],
+warehouse: '',
+warehouse_children: '',
+ancho: '',
+alto: '',
+largo: '',
+peso: '',
+pie_cubico: '',
+volumen: '',
+total_seguro: '',
+seguro: '',
+
+*/
+//funcion de construccion de data para facturar
+
+var create_factura = function create_factura() {
+  var almacen = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var extras = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var wh = []; //arreglo para determinar los wh
+  //let cajas = cajas(extras);
+
+  almacen.forEach(function (element) {
+    var tipo_envio = element.tipo_envio,
+        id_almacen = element.id_almacen,
+        warehouse = element.warehouse,
+        trackings = element.trackings;
+    details.tipo_envio = tipo_envio;
+    trackings.map(function (item) {
+      return wh.push(_objectSpread(_objectSpread({}, item), {}, {
+        id_almacen: id_almacen,
+        warehouse: warehouse,
+        total_seguro: _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(item.total_seguro, ',', '.')
+      }));
+    });
+  });
+  var costo_trackings = calc_costo_track_and_reempaque(extras, 'TRACKING', wh);
+  var costo_reempaque = calc_costo_track_and_reempaque(extras, 'REEMPAQUE', wh);
+  return {
+    wh: wh,
+    details: details,
+    costo_trackings: costo_trackings,
+    costo_reempaque: costo_reempaque
+  };
+};
+
+var cajas = function cajas() {
+  var extras = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var box = [];
+  extras.forEach(function (element) {
+    var id_gasto_extra = element.id_gasto_extra,
+        nombre = element.nombre,
+        monto_gasto_extra = element.monto_gasto_extra,
+        tipo = element.tipo;
+
+    if (tipo === 'CAJA') {
+      box.push({
+        id_gasto_extra: id_gasto_extra,
+        nombre: nombre,
+        monto_gasto_extra: _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(monto_gasto_extra, ',', '.')
+      });
+    }
+  });
+  return box;
+};
+
+var warehouses_data = function warehouses_data() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var envio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'directo';
+  var wh_old = [];
+  var wh_new = [];
+  data.forEach(function (element) {
+    if (element.total_seguro != '') {
+      var total_seguro = parseNum(element.total_seguro);
+      element.total_seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_seguro.toFixed(2)), ',', '.');
+    }
+
+    if (element.seguro != '') {
+      var seguro = parseNum(element.seguro);
+      element.seguro = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(seguro.toFixed(2)), ',', '.');
+    }
+
+    if (envio == 'reempaque') {
+      if (element.warehouse_padre == '' || element.warehouse_padre == null) {
+        var almacen_ids = [];
+        var warehouse_children = '';
+        data.forEach(function (item) {
+          if (element.id_factura_tracking == item.warehouse_padre) {
+            var _id_almacen = generateRandomString(46);
+
+            wh_old.push(_objectSpread(_objectSpread({}, item), {}, {
+              id_almacen: _id_almacen
+            }));
+            almacen_ids.push(_id_almacen);
+            warehouse_children = warehouse_children + '' + item.warehouse + ',';
+          }
+        });
+        var id_almacen = generateRandomString(46);
+        wh_new.push(_objectSpread(_objectSpread({}, element), {}, {
+          almacen_ids: almacen_ids,
+          warehouse_children: warehouse_children,
+          id_almacen: id_almacen
+        }));
+      }
+    } else {
+      wh_old.push(element);
+    }
+  });
+  return {
+    wh_old: wh_old,
+    wh_new: wh_new
+  };
+}; //costo trackings y costo reempaque
+
+
+var calc_costo_track_and_reempaque = function calc_costo_track_and_reempaque() {
+  var extras = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'TRACKING';
+  var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  var costo = 0;
+  extras.forEach(function (element) {
+    var cant_cond = element.cant_cond,
+        condicion = element.condicion,
+        activo = element.activo,
+        monto_cond = element.monto_cond,
+        monto_gasto_extra = element.monto_gasto_extra,
+        tipo_cond = element.tipo_cond,
+        tipo = element.tipo;
+
+    if (activo === 1 && tipo === type) {
+      costo = parseNum(monto_gasto_extra);
+
+      if (condicion === 1) {
+        if (tipo_cond == 'MAYOR' && data.length > parseNum(cant_cond)) {
+          costo = parseNum(monto_cond) * data.length;
+        } else if (tipo_cond == 'MENOR' && data.length < parseNum(cant_cond)) {
+          costo = parseNum(monto_cond) * data.length;
+        }
+      }
+    }
+  });
+
+  if (type == 'TRACKING') {
+    costo = costo * data.length;
+  }
+
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(costo.toFixed(2)), ',', '.');
+}; //funcion dataContents
+
+
+var data_contents = function data_contents() {
+  var wh = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var type_envio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'aereo';
+  var tarifa = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '0.00';
+  var envio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'directo';
+  var data = [];
+  var costo_envio = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(tarifa, ',');
+  costo_envio = parseNum(costo_envio);
+  wh.forEach(function (element) {
+    var ft = 0,
+        vol = 0,
+        secure = 0,
+        sub_total = 0,
+        cost_env = 0;
+    var pie_cubico = element.pie_cubico,
+        volumen = element.volumen,
+        seguro = element.seguro,
+        warehouse = element.warehouse,
+        peso = element.peso;
+    ft = parseNum(pie_cubico);
+    vol = parseNum(volumen);
+    secure = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(seguro, ',');
+    secure = parseNum(secure);
+
+    if (type_envio === 'maritimo') {
+      cost_env = costo_envio * ft;
+    }
+
+    sub_total = cost_env + secure;
+    cost_env = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(cost_env.toFixed(2)), ',', '.');
+    secure = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(secure.toFixed(2)), ',', '.');
+    sub_total = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(sub_total.toFixed(2)), ',', '.');
+    data.push({
+      warehouse: warehouse,
+      pie_cubico: pie_cubico,
+      volumen: volumen,
+      peso: peso,
+      total_lb: '',
+      cost_env: cost_env,
+      seguro: secure,
+      sub_total: sub_total
+    });
+  });
+  return type_envio == 'aereo' && data.length > 0 ? calc_cost_env_aereo(data, envio, costo_envio) : data;
+};
+
+var calc_cost_env_aereo = function calc_cost_env_aereo() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var envio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'directo';
+  var costo_envio = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var vol = 0,
+      peso = 0,
+      total_lb = 0,
+      cost_env = 0,
+      sub_total = 0;
+  data.forEach(function (element) {
+    var volumen = parseNum(element.volumen);
+    var weight = parseNum(element.peso);
+
+    if (envio === 'directo') {
+      if (volumen >= weight) {
+        total_lb = total_lb + volumen;
+      } else {
+        total_lb = total_lb + weight;
+      }
+    } else {
+      vol = vol + volumen;
+      peso = peso + weight;
+    }
+  });
+
+  if (envio === 'directo') {
+    total_lb = total_lb <= 3.33 ? 3.33 : total_lb;
+  } else {
+    if (vol > peso && vol > 3.33) {
+      total_lb = vol;
+    } else if (peso > vol && peso > 3.33) {
+      total_lb = peso;
+    } else {
+      total_lb = 3.33;
+    }
+  }
+
+  cost_env = total_lb * costo_envio;
+  sub_total = cost_env;
+  cost_env = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(cost_env.toFixed(2)), ',', '.');
+  sub_total = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(sub_total.toFixed(2)), ',', '.');
+  data.push(_objectSpread(_objectSpread({}, dataContentAereo), {}, {
+    total_lb: total_lb,
+    cost_env: cost_env,
+    sub_total: sub_total
+  }));
+  return data;
+}; //calculo de total usd, de acuerdo a la data
+
+
+var calc_total_usd_data = function calc_total_usd_data() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var field = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'sub_total';
+  var total = 0;
+  data.forEach(function (element) {
+    for (var property in element) {
+      if (property === field) {
+        var sub_total = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(element[property], ',');
+        sub_total = parseNum(sub_total);
+        total = total + sub_total;
+      }
+    }
+  });
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total.toFixed(2)), ',', '.');
+}; //suma de cualquier variable a la variable total USD
+
+
+var suma_total_usd_var = function suma_total_usd_var(total, field) {
+  var total_usd = 0;
+  var usd = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(total, ','));
+  var varField = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(field, ','));
+  total_usd = usd + varField;
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_usd.toFixed(2)), ',', '.');
+}; //calculo de total en VES
+
+
+var calc_total_ves = function calc_total_ves(total, tasa) {
+  var total_usd = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(total, ','));
+  var tasa_ves = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(tasa, '.');
+  tasa_ves = tasa_ves.replace(',', '.');
+  tasa_ves = parseNum(tasa_ves);
+  var total_ves = total_usd * tasa_ves;
+  total_ves = total_ves.toFixed(2);
+  total_ves = total_ves.replace('.', ',');
+  return _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(total_ves), '.', ',');
+}; //agregar caja a listCajas
+
+
+var add_box = function add_box() {
+  var listCajas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var id_gasto_extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  var nombre = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  var monto_gasto_extra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '0.00';
+  var cant_caja = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+  var monto = 0,
+      cant = 0,
+      sub_total = 0;
+  monto = parseNum(_formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.desctPrice(monto_gasto_extra, ','));
+  cant = parseNum(cant_caja);
+  var check = listCajas.filter(function (caja) {
+    return caja.id_gasto_extra == id_gasto_extra;
+  });
+
+  if (check.length == 0) {
+    sub_total = cant * monto;
+    sub_total = sub_total.toFixed(2);
+    listCajas.push({
+      id_gasto_extra: id_gasto_extra,
+      nombre: nombre,
+      monto_gasto_extra: monto_gasto_extra,
+      cant: cant,
+      sub_total: _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(sub_total), ',', '.')
+    });
+  } else {
+    for (var i = 0; i < listCajas.length; i++) {
+      if (listCajas[i].id_gasto_extra == id_gasto_extra) {
+        cant = cant + parseNum(listCajas[i].cant);
+        sub_total = cant * monto;
+        sub_total = sub_total.toFixed(2);
+        listCajas[i].cant = cant;
+        listCajas[i].sub_total = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice("".concat(sub_total), ',', '.');
+        break;
+      }
+    }
+  }
+
+  return listCajas;
+}; //parseNum, es un numero entero o flotante
+
+
+var parseNum = function parseNum(val) {
+  return val % 1 == 0 ? parseInt(val) : parseFloat(val);
+};
+
+var generateRandomString = function generateRandomString(num) {
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result1 = '';
+  var charactersLength = characters.length;
+
+  for (var i = 0; i < num; i++) {
+    result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result1;
+};
+
+
 
 /***/ }),
 

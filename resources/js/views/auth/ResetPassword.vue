@@ -55,6 +55,9 @@ export default {
         }
     },
     beforeCreate(){
+        if( this.$store.getters['auth/getUserStatus'] == true ){
+            this.$router.go(-1);
+        }
         this.$nextTick(async function () {
             if( Object.keys(this.$route.params).length !== 0 && this.$route.params.hasOwnProperty('id') ){
                 const response = { token:  this.$route.params.id};

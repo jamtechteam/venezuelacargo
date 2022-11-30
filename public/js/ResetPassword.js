@@ -80,6 +80,10 @@ var Error404 = function Error404() {
     };
   },
   beforeCreate: function beforeCreate() {
+    if (this.$store.getters['auth/getUserStatus'] == true) {
+      this.$router.go(-1);
+    }
+
     this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var _this = this;
 
@@ -181,7 +185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*background-image: url('/images/bg-01.jpg');*/\n.page-vzlc{\r\n        height: 100vh;\n}\n.baactive {\r\n        background-color: #24298D;\n}\n.page-vzlc .container {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\n}\n@media ( max-width: 480px ){\n.auth-page{\r\n            width: 100%;\n}\n.auth-page .forn_auth{\r\n            padding: 25px 15px;\r\n                margin: 0;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*background-image: url('/images/bg-01.jpg');*/\n.page-vzlc{\r\n        height: 100vh;\n}\n.baactive {\r\n        background-color: #24298D;\n}\n.page-vzlc .container {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\n}\n@media ( max-width: 480px ){\n.auth-page{\r\n            width: 100%;\n}\n.auth-page .forn_auth{\r\n            padding: 25px 15px;\r\n                margin: 0;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -286,13 +286,14 @@ var formatPrice = {
               e.preventDefault();
             }
           });
-          document.getElementById(fields[i].field).addEventListener('keyup', function (e) {
-            var key = window.Event ? e.which : e.keyCod;
+          /*document.getElementById(fields[i].field).addEventListener('keyup', function(e) {
+              let key = window.Event ? e.which : e.keyCod;
+                    if( key == 8 || key >= 96 && key <= 105 ){
+                  e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
+              }
+              
+          });*/
 
-            if (key == 8 || key >= 96 && key <= 105) {
-              e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
-            }
-          });
           document.getElementById(fields[i].field).addEventListener('click', function (e) {
             if (e.target.value == '') e.target.value = '0' + spdor_decimal + '00';
           });
@@ -355,6 +356,13 @@ var formatPrice = {
     }
 
     return false;
+  },
+  moneda: function moneda(field) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i].field == field) {
+        return fields[i].money;
+      }
+    }
   }
 };
 

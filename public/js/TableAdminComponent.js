@@ -228,6 +228,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -698,9 +719,11 @@ var LoaderComponent = function LoaderComponent() {
       formData.append('tipo_moneda', this.pago.tipo_pago);
       formData.append('comprobante', this.pago.comprobante);
       formData.append('tasa', _formatPrice_js__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(this.tasa, '.'));
-      formData.append('total_ves', total_ves);
+      formData.append('total_ves', _formatPrice_js__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(this.factura.total_ves, '.'));
       formData.append('usuario_id', this.$store.state.auth.user.usuario_id);
       this.loader = true;
+      this.showFactura = false;
+      this.loaderCard = true;
       this.axios.post('save-pago', formData, {
         headers: {
           "content-type": "multipart/form-data"
@@ -709,7 +732,19 @@ var LoaderComponent = function LoaderComponent() {
         console.log(response.data);
 
         _this6.resp(response.data);
+
+        _this6.msgAlert = {
+          msg: response.data.message,
+          clss: 'updated'
+        };
+
+        _this6.$store.dispatch('tableadmin/alertMessage', true);
+
+        setTimeout(function () {
+          _this6.loaderCard = false;
+        }, 1500);
       })["catch"](function (error) {
+        console.log('err', error);
         var status = error.response.status;
         var message = error.response.data.message;
 
@@ -717,10 +752,16 @@ var LoaderComponent = function LoaderComponent() {
           message = 'Error inesperado. por favor intentar más tarde.';
         }
 
-        _this6.resp({
-          status: status,
-          message: message
-        });
+        _this6.msgAlert = {
+          msg: message,
+          clss: 'error'
+        };
+
+        _this6.$store.dispatch('tableadmin/alertMessage', true);
+
+        setTimeout(function () {
+          _this6.loaderCard = false;
+        }, 1500);
       });
     } else {
       this.respAlert(403, 'Debe completar el formulario');
@@ -777,13 +818,14 @@ var formatPrice = {
               e.preventDefault();
             }
           });
-          document.getElementById(fields[i].field).addEventListener('keyup', function (e) {
-            var key = window.Event ? e.which : e.keyCod;
+          /*document.getElementById(fields[i].field).addEventListener('keyup', function(e) {
+              let key = window.Event ? e.which : e.keyCod;
+                    if( key == 8 || key >= 96 && key <= 105 ){
+                  e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
+              }
+              
+          });*/
 
-            if (key == 8 || key >= 96 && key <= 105) {
-              e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
-            }
-          });
           document.getElementById(fields[i].field).addEventListener('click', function (e) {
             if (e.target.value == '') e.target.value = '0' + spdor_decimal + '00';
           });
@@ -846,6 +888,13 @@ var formatPrice = {
     }
 
     return false;
+  },
+  moneda: function moneda(field) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i].field == field) {
+        return fields[i].money;
+      }
+    }
   }
 };
 
@@ -1818,6 +1867,10 @@ var render = function () {
                             "Para el pago en bolivares, la tasa de cambio a considerar, es esta: "
                           ),
                           _c("strong", [_vm._v(_vm._s(_vm.tasa) + " VES")]),
+                          _vm._v(" y el monto total en Bolivares es de: "),
+                          _c("strong", [
+                            _vm._v(_vm._s(_vm.factura.total_ves) + " VES"),
+                          ]),
                         ]),
                       ]),
                       _vm._v(" "),
@@ -1890,6 +1943,74 @@ var render = function () {
                           },
                         }),
                       ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card" }, [
+                        _c("div", {
+                          staticClass: "card-status-bottom bg-success",
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.pago.tipo_pago == "usd",
+                                  expression: "pago.tipo_pago == 'usd'",
+                                },
+                              ],
+                            },
+                            [
+                              _c("h3", { staticClass: "card-title" }, [
+                                _vm._v("BANK OF AMERICA"),
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(0),
+                              _vm._v(" "),
+                              _vm._m(1),
+                              _vm._v(" "),
+                              _vm._m(2),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("h3", { staticClass: "card-title" }, [
+                                _vm._v("ZELLE"),
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(3),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.pago.tipo_pago == "ves",
+                                  expression: "pago.tipo_pago == 'ves'",
+                                },
+                              ],
+                            },
+                            [
+                              _c("h3", { staticClass: "card-title" }, [
+                                _vm._v("BANCO BANESCO"),
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(4),
+                              _vm._v(" "),
+                              _vm._m(5),
+                              _vm._v(" "),
+                              _vm._m(6),
+                              _vm._v(" "),
+                              _vm._m(7),
+                            ]
+                          ),
+                        ]),
+                      ]),
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-footer" }, [
@@ -1951,7 +2072,7 @@ var render = function () {
                   Array.isArray(_vm.accion.create) &&
                   _vm.accion.create.length != 0
                     ? _c("div", { staticClass: "dropdown" }, [
-                        _vm._m(0),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -2044,7 +2165,7 @@ var render = function () {
                   Array.isArray(_vm.accion.delete) &&
                   _vm.accion.delete.length != 0
                     ? _c("div", { staticClass: "dropdown" }, [
-                        _vm._m(1),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -2323,6 +2444,84 @@ var render = function () {
   )
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("NRO DE CUENTA")]),
+      _vm._v(" 3340 6659 9986 "),
+      _c("strong", [_vm._v("TIPO")]),
+      _vm._v(": CTA CORRIENTE"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("ABA ROUTING NUMBER")]),
+      _vm._v(" 061000052"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("Nota:")]),
+      _vm._v(" NO COLOCAR NADA EN EL ASUNTO DE LA TRANSFERENCIA"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("CORREO ELECTRÓNICO")]),
+      _vm._v(" VENEZUELACARGO@ICLOUD.COM"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("NRO DE CUENTA")]),
+      _vm._v(" 0134 0869 6486 9302 5833 "),
+      _c("strong", [_vm._v("TIPO")]),
+      _vm._v(": CTA CORRIENTE"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("TITULAR: ")]),
+      _vm._v(" CARLOS EDUARDO RESTREPO RUIZ "),
+      _c("strong", [_vm._v("C.I")]),
+      _vm._v(": V-17.632.959"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("TELÉFONO: ")]),
+      _vm._v(" (0412)1812469 "),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("Nota:")]),
+      _vm._v(" : PAGOS POR TRANSFERENCIAS Y PAGO MÓVIL"),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

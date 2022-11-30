@@ -44,6 +44,11 @@ export default {
     components: {
         alert: () => import(/* webpackChunkName: "AlertMessageComponent" */'../../components/AlertMessageComponent.vue')    
     },
+    beforeCreate() {
+        if( this.$store.getters['auth/getUserStatus'] == true ){
+            this.$router.go(-1);
+        }
+    },
     methods: {
         login(){
             this.$validator.validate().then(valid => {

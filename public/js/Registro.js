@@ -126,6 +126,10 @@ var LoaderComponent = function LoaderComponent() {
     };
   },
   beforeCreate: function beforeCreate() {
+    if (this.$store.getters['auth/getUserStatus'] == true) {
+      this.$router.go(-1);
+    }
+
     this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var _this = this;
 

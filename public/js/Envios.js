@@ -1173,11 +1173,14 @@ var render = function () {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "w-100 process mb-3 mt-3" },
+                      { staticClass: "w-100 process mb-3 mt-3 row" },
                       _vm._l(_vm.estados, function (item, index) {
                         return _c(
                           "div",
-                          { key: index, staticClass: "process_item" },
+                          {
+                            key: index,
+                            staticClass: "process_item col-md-2 col-12",
+                          },
                           [
                             _c(
                               "div",

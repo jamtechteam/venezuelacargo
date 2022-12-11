@@ -6,8 +6,8 @@
                 <form name="actualizarEnvio" @submit.prevent="actualizarEnvio()"  enctype="multipart/form-data" class="card card-lg" v-if="componentRender == ''">
                     <div class="card-body">
                         <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
-                        <div class="w-100 process mb-3 mt-3">
-                             <div class="process_item" v-for="(item, index) in estados" :key="index">
+                        <div class="w-100 process mb-3 mt-3 row">
+                             <div class="process_item col-md-2 col-12" v-for="(item, index) in estados" :key="index">
                                 <div class="process_text" :class="{'process_disabled':item.check == false, 'process_check':item.check == true}">
                                     <p class="process_text-title">{{item.title}}</p>
                                 </div>

@@ -422,6 +422,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var check = function check() {
@@ -862,6 +875,7 @@ var warehouses_data = function warehouses_data() {
       if (element.warehouse_padre == '' || element.warehouse_padre == null) {
         var almacen_ids = [];
         var warehouse_children = '';
+        var wh_child = [];
         data.forEach(function (item) {
           if (element.id_factura_tracking == item.warehouse_padre) {
             var _id_almacen = generateRandomString(46);
@@ -870,9 +884,14 @@ var warehouses_data = function warehouses_data() {
               id_almacen: _id_almacen
             }));
             almacen_ids.push(_id_almacen);
-            warehouse_children = warehouse_children + '' + item.warehouse + ',';
+            wh_child.push(item.warehouse);
           }
         });
+
+        for (var i = 0; i < wh_child.length; i++) {
+          warehouse_children = warehouse_children + '' + "".concat(i !== wh_child.length - 1 ? wh_child[i] + ', ' : wh_child[i]);
+        }
+
         var id_almacen = generateRandomString(46);
         wh_new.push(_objectSpread(_objectSpread({}, element), {}, {
           almacen_ids: almacen_ids,
@@ -3249,85 +3268,108 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("td", [
-            _c("div", { staticClass: "btn-list flex-nowrap" }, [
-              item.estado_pago == "Pendiente"
-                ? _c(
-                    "button",
-                    {
-                      directives: [{ name: "title", rawName: "v-title" }],
-                      staticClass: "align-text-top me-2 nav-link mb-0",
-                      staticStyle: { padding: "0" },
-                      attrs: {
-                        value: item.id_factura,
-                        id: "pagar",
-                        type: "button",
-                        title: "Pagar Factura",
+            _c(
+              "div",
+              { staticClass: "btn-list flex-nowrap" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    directives: [{ name: "title", rawName: "v-title" }],
+                    staticClass: "nav-link",
+                    staticStyle: { padding: "0" },
+                    attrs: {
+                      to: {
+                        name: "ShowInvoice",
+                        params: { id: item.id_factura },
+                        query: { envio: item.reempaque, type: "show" },
                       },
-                      on: {
-                        click: function ($event) {
-                          return _vm.showModalFactura($event)
+                      title: "Ver detalles de factura",
+                    },
+                  },
+                  [_c("i", { staticClass: "ti ti-file-info fs-19" })]
+                ),
+                _vm._v(" "),
+                item.estado_pago == "Pendiente"
+                  ? _c(
+                      "button",
+                      {
+                        directives: [{ name: "title", rawName: "v-title" }],
+                        staticClass: "align-text-top me-2 nav-link mb-0",
+                        staticStyle: { padding: "0" },
+                        attrs: {
+                          value: item.id_factura,
+                          id: "pagar",
+                          type: "button",
+                          title: "Pagar Factura",
+                        },
+                        on: {
+                          click: function ($event) {
+                            return _vm.showModalFactura($event)
+                          },
                         },
                       },
+                      [_c("i", { staticClass: "ti ti-report-money fs-19" })]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    directives: [{ name: "title", rawName: "v-title" }],
+                    staticClass: "align-text-top me-2 nav-link mb-0",
+                    staticStyle: { padding: "0" },
+                    attrs: {
+                      value: item.id_envio,
+                      type: "button",
+                      title: "Ver estado de envio",
                     },
-                    [_c("i", { staticClass: "ti ti-report-money fs-19" })]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  directives: [{ name: "title", rawName: "v-title" }],
-                  staticClass: "align-text-top me-2 nav-link mb-0",
-                  staticStyle: { padding: "0" },
-                  attrs: {
-                    value: item.id_envio,
-                    type: "button",
-                    title: "Ver estado de envio",
-                  },
-                  on: {
-                    click: function ($event) {
-                      return _vm.showModalEstado($event)
-                    },
-                  },
-                },
-                [_c("i", { staticClass: "ti ti-truck-delivery fs-19" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  directives: [{ name: "title", rawName: "v-title" }],
-                  staticClass: "align-text-top me-2 nav-link mb-0",
-                  staticStyle: { padding: "0" },
-                  attrs: {
-                    value: item.id_envio,
-                    type: "button",
-                    title: "Ver seguimiento de envio",
-                  },
-                  on: {
-                    click: function ($event) {
-                      return _vm.showModalMap($event)
+                    on: {
+                      click: function ($event) {
+                        return _vm.showModalEstado($event)
+                      },
                     },
                   },
-                },
-                [_c("i", { staticClass: "ti ti-location fs-19" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "nav-link",
-                  staticStyle: { padding: "0" },
-                  attrs: { type: "button", value: item.id_factura },
-                  on: {
-                    click: function ($event) {
-                      return _vm.download($event)
+                  [_c("i", { staticClass: "ti ti-truck-delivery fs-19" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    directives: [{ name: "title", rawName: "v-title" }],
+                    staticClass: "align-text-top me-2 nav-link mb-0",
+                    staticStyle: { padding: "0" },
+                    attrs: {
+                      value: item.id_envio,
+                      type: "button",
+                      title: "Ver seguimiento de envio",
+                    },
+                    on: {
+                      click: function ($event) {
+                        return _vm.showModalMap($event)
+                      },
                     },
                   },
-                },
-                [_c("i", { staticClass: "ti ti-file-download fs-19" })]
-              ),
-            ]),
+                  [_c("i", { staticClass: "ti ti-location fs-19" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "nav-link",
+                    staticStyle: { padding: "0" },
+                    attrs: { type: "button", value: item.id_factura },
+                    on: {
+                      click: function ($event) {
+                        return _vm.download($event)
+                      },
+                    },
+                  },
+                  [_c("i", { staticClass: "ti ti-file-download fs-19" })]
+                ),
+              ],
+              1
+            ),
           ]),
         ])
       }),

@@ -8,7 +8,7 @@
                 <div class="card-body">
                      <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
                     <div class="row mb-4">
-                        <div class="col-6">
+                        <div class="col-12 col-md-6">
                             <p class="h3">Detalles</p>
                             <address>
                                 <p v-show="details.fecha_factura != ''">Fecha Factura: <span style="text-transform: uppercase;">{{details.fecha_factura}}</span> </p>
@@ -19,7 +19,7 @@
                                 <p>Tasa Bs: {{details.monto_tc}} VES</p>
                             </address>
                         </div>
-                        <div class="col-6 text-end">
+                        <div class="col-12 col-md-6 text-end text-start-xs">
                             <p class="h3">Cliente</p>
                             <address>
                                 <p>Nombre Completo: {{client.nombres}} {{client.apellidos}}</p>
@@ -85,8 +85,7 @@
                                     Total WH
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
-                                    <input v-else disabled type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;">
+                                    <input disabled type="text" class="form-control" v-model="costo_trackings" name="costo_trackings" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end" v-if="envio === 'reempaque'">
@@ -94,8 +93,7 @@
                                     Total WH Reemp.
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
-                                    <input v-else disabled type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;">
+                                    <input disabled type="text" class="form-control" v-model="costo_reempaque" name="costo_reempaque" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -103,8 +101,7 @@
                                     Gastos Extras
                                 </span>
                                 <span style="max-width: 80px;">
-                                    <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;" @keyup="keyUpPrecio($event)" @change="changePrecio($event)">
-                                    <input v-else disabled type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;">
+                                    <input disabled type="text" class="form-control" v-model="gastos_extras" name="gastos_extras" style="padding: 0.4375rem 5px;text-align: end;">
                                 </span>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
@@ -128,27 +125,21 @@
                     <div class="d-flex align-items-center mt-5 mb-3">
                         <div class=" m-0 ms-auto" style="width: 330px;">
                             <div class="form-floating mb-3 w-100">
-                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
-                                <input v-else disabled type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
+                                <input disabled type="text" class="form-control" name="nro_factura" v-model="details.nro_factura" id="nro_factura"  >
                                 <label for="nro_factura">Nro. Factura</label>
                             </div>
                             <div class="form-floating mb-3 w-100">
-                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
-                                <input v-else disabled type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
+                                <input disabled type="text" class="form-control" name="nro_container" v-model="details.nro_container" id="nro_container"  >
                                 <label for="nro_container">Nro. Container</label>
                             </div>
                             <div class="form-floating mb-3 w-100">
-                                <input v-if="type_form === 'new' || type_form === 'edit'" type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa" @keyup="keyUpPrecio($event)" @change="changePrecioTarifa" >
-                                <input v-else disabled type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa">
+                                <input disabled type="text" class="form-control" name="tarifa" v-model="details.tarifa" id="tarifa">
                                 <label for="tarifa">Tarifa de Envio ( {{details.tipo_envio}} )</label>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mt-3">
                         <btn-volver :classe="'btn-light'"></btn-volver>
-                        <button type="button" @click="confirmInvoice" class="btn btn-info ms-auto" v-if="type_form === 'new' || type_form === 'edit'">
-                            <span>Guardar</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -267,21 +258,19 @@ export default {
     beforeCreate(){
         this.$nextTick(async function () {
             const query = this.$route.query;
+            const params = this.$route.params;
             if( 
-                Object.keys(query).length === 0 || 
-                ( Object.keys(query).length !== 0 && ( !query.hasOwnProperty('id') || !query.hasOwnProperty('envio' ) ||  !query.hasOwnProperty('type') ) ) ||
-                ( Object.keys(query).length !== 0 && query.hasOwnProperty('type') && ( query.type != 'new' && query.type != 'edit' && query.type != 'show' ) ) ||
-                ( Object.keys(query).length !== 0 && query.hasOwnProperty('envio' ) && ( query.envio != 'no' && query.envio != 'si' ) ) ||
-                (  Object.keys(query).length !== 0 && query.hasOwnProperty('id') && Array.isArray(query.id) && query.hasOwnProperty('type') && ( query.type == 'edit' || query.type == 'show' ) )
+                Object.keys(query).length === 0 ||
+                Object.keys(params).length === 0
             ){
                 this.componentRender = Error404;
                 return;
             }
 
             this.envio = query.envio == 'no' ? 'directo' : 'reempaque';
-            this.type_form = query.type;
+            this.type_form = 'show';
 
-            const url = query.type == 'show' ? `facturas/${query.id}` : query.type == 'edit' ? `facturas/${query.id}/edit` : 'almacen/paquetes/data'
+            const url = `shipments/${params.id}`;
 
             
 
@@ -613,5 +602,11 @@ export default {
 <style>
     .modal.show{
         display: block;
+    }
+
+    @media (max-width: 768px){
+        .text-start-xs{
+            text-align: left !important;
+        }
     }
 </style>

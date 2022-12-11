@@ -14,12 +14,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="hiddenCheckPago()"></button>
                     <div class="modal-status bg-success"></div>
                     <div class="modal-body text-center py-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><path d="M9 12l2 2l4 -4"></path></svg>
-                        <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
-                        <h3>¿Estás seguro de verificar el pago de esta factura {{factura.nro_factura}}?</h3>
-                        <div class="text-muted">
-                            Una vez verificado, no podras editar el estado de pago de la factura...
-                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <div class="w-100">
@@ -31,12 +26,54 @@
                             </div>
                             <div class="col">
                                 <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" @click="guadarCheckPago">
-                                    Guardar
+                                    Pagado
                                 </button>
                             </div>
                         </div>
                         </div>
                     </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal modal-blur fade" :class="{'show': showCheckPago == true}" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div v-show="loader" class="div-loader_white" style="margin: 0;"><loader></loader></div>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Número de factura: {{factura.nro_factura}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="hiddenCheckPago"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-floating mb-3 w-100">
+                                <input disabled type="text" class="form-control" name="titular" v-model="factura.titular" id="titular" >
+                                <label for="titular">Titular</label>
+                            </div>
+                            <div class="form-floating mb-3 w-100">
+                                <input disabled type="text" class="form-control" name="nro_comprobante" v-model="factura.nro_comprobante" id="nro_comprobante" >
+                                <label for="nro_comprobante">Numero de comprobante</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="w-100">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn w-100" data-bs-dismiss="modal" @click="hiddenCheckPago()">
+                                        Cancelar
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal" @click="guadarCheckNoPago">
+                                       No pagado
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" @click="guadarCheckPago">
+                                        Pagado
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,6 +100,14 @@
                                     </option>
                                 </select>
                                 <label for="tipo_envio">Selecciona la Moneda de Pago</label>
+                            </div>
+                            <div class="form-floating mb-3 w-100">
+                                <input type="text" class="form-control" name="titular" v-model="pago.titular" id="titular" >
+                                <label for="titular">Titular</label>
+                            </div>
+                            <div class="form-floating mb-3 w-100">
+                                <input type="text" class="form-control" name="nro_comprobante" v-model="pago.nro_comprobante" id="nro_comprobante" >
+                                <label for="nro_comprobante">Numero de comprobante</label>
                             </div>
                             <div class="mb-3">
                                 <div class="form-label">Subir Comprobante de Pago</div>
@@ -228,11 +273,15 @@ export default {
             factura: {
                 nro_factura: '',
                 id_factura: '',
-                total_usd: ''
+                total_usd: '',
+                nro_comprobante: '',
+                titular: ''
             },
             pago: {
                 tipo_pago: '',
-                comprobante: ''
+                comprobante: '',
+                nro_comprobante: '',
+                titular: ''
             },
             loader: false,
             loaderCard: false,
@@ -286,10 +335,13 @@ export default {
 
     },
     methods: {
-        sendCheckPago({id_factura, nro_factura}){
+        sendCheckPago({id_factura, nro_factura, pago: { nro_comprobante, titular }}){
             this.factura.id_factura = id_factura;
             this.factura.nro_factura = nro_factura;
+            this.factura.nro_comprobante = nro_comprobante;
+            this.factura.titular = titular;
             this.showCheckPago = true;
+
         },
         hiddenCheckPago(){
             this.showCheckPago = false;
@@ -354,7 +406,29 @@ export default {
             this.loader = true;
             this.axios.put(`pago-factura/${this.factura.id_factura}`).then(response => {
                 console.log(response.data);
-                this.resp(response.data);
+                this.msgAlert = {
+                        msg: response.data.message,
+                        clss: 'updated'
+                    }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+                this.loader = false;
+                this.showCheckPago = false;
+
+                setTimeout(() => {
+                    this.showFactura = false;
+                    this.showCheckPago = false;
+                    this.factura.id_factura = '';
+                    this.factura.nro_factura = '';
+                    this.factura.total_usd = '';
+                    this.activeComponent = '';
+                    this.pago = {
+                        tipo_pago: '',
+                        comprobante: ''
+                    };
+                    this.tasa = '';
+                    this.$store.dispatch('tableadmin/resetInit');
+                }, 2000);
                 
             }).catch(error => {
                 let status = error.response.status;
@@ -364,10 +438,62 @@ export default {
                     message = 'Error inesperado. por favor intentar más tarde.';
                 }
 
-                this.resp({
-                    status: status,
-                    message: message
-                })
+                this.msgAlert = {
+                        msg: response.data.message,
+                        clss: 'error'
+                    }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+                this.loader = false;
+                this.showCheckPago = false;
+            });
+        },
+        guadarCheckNoPago(){
+            this.loader = true;
+            this.axios.put(`no-pago-factura/${this.factura.id_factura}`).then(response => {
+                console.log(response.data);
+                this.resp(response.data);
+                this.msgAlert = {
+                        msg: response.data.message,
+                        clss: 'updated'
+                    }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+                this.loader = false;
+                this.showCheckPago = false;
+
+                setTimeout(() => {
+                    this.showFactura = false;
+                    this.showCheckPago = false;
+                    this.factura.id_factura = '';
+                    this.factura.nro_factura = '';
+                    this.factura.total_usd = '';
+                    this.activeComponent = '';
+                    this.pago = {
+                        tipo_pago: '',
+                        comprobante: ''
+                    };
+                    this.tasa = '';
+                    this.$store.dispatch('tableadmin/resetInit');
+                }, 2000);
+                
+            }).catch(error => {
+                let status = error.response.status;
+                let message = error.response.data.message;
+
+                if( status == 500 ){
+                    message = 'Error inesperado. por favor intentar más tarde.';
+                }
+
+                this.msgAlert = {
+                        msg: response.data.message,
+                        clss: 'error'
+                    }
+
+                this.$store.dispatch('tableadmin/alertMessage', true);
+                this.loader = false;
+                this.showCheckPago = false;
+
             });
         },
         resp(resp){
@@ -556,7 +682,7 @@ export default {
             }
         },
         savePago() {
-            if( this.pago.tipo_pago != '' && this.pago.comprobante != '' ){
+            if( this.pago.tipo_pago != '' && this.pago.comprobante != '' && this.pago.nro_comprobante != '' && this.pago.titular != ''){
                 let total_usd = this.factura.total_usd;
                 let total_ves = 0;
 
@@ -593,6 +719,8 @@ export default {
                 formData.append('id_factura', this.factura.id_factura);
                 formData.append('tipo_moneda', this.pago.tipo_pago);
                 formData.append('comprobante', this.pago.comprobante);
+                formData.append('nro_comprobante', this.pago.nro_comprobante);
+                formData.append('titular', this.pago.titular);
                 formData.append('tasa', formatPrice.desctPrice(this.tasa, '.'));
                 formData.append('total_ves', formatPrice.desctPrice(this.factura.total_ves, '.'));
                 formData.append('usuario_id', this.$store.state.auth.user.usuario_id);
@@ -638,7 +766,7 @@ export default {
               
 
             }else{
-                this.respAlert(403,'Debe completar el formulario');
+                alert('Debe completar el formulario')
             }
         },
     }

@@ -21,11 +21,11 @@ return new class extends Migration
             $table->uuid('id_usuario_info')->primary();
             $table->uuid('usuario_id');
             $table->uuid('id_estado');
-            $table->uuid('id_ubigeo');
+            $table->uuid('id_ubigeo')->nullable();
             $table->char('cod_usuario', 36)->nullable();
             $table->string('nombres', 80);
             $table->string('apellidos', 80);
-            $table->string('telefono', 12);
+            $table->string('telefono', 20);
             $table->integer('cedula');
             $table->string('direccion', 180);
             $table->string('ref_direccion', 180)->nullable();
@@ -47,9 +47,7 @@ return new class extends Migration
 
             $table->foreign('id_ubigeo')
                 ->references('id_ubigeo')
-                ->on('geo_ubigeo')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->on('geo_ubigeo');
         });
     }
 

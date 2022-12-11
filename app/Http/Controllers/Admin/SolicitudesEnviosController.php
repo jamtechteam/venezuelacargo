@@ -26,8 +26,11 @@ class SolicitudesEnviosController extends Controller
             'usuarios_info.apellidos', 
             'usuarios_info.cedula',
             'empresas_transportes.id_empresa_transporte',
-            'empresas_transportes.nombre'
+            'empresas_transportes.nombre',
+            'trackings.id_tracking',
+            'trackings.tracking',
         ];
+
 
         extract(request()->only(['query', 'limit', 'page', 'orderBy', 'ascending',]));
 
@@ -41,6 +44,7 @@ class SolicitudesEnviosController extends Controller
         $this->fecha_final = ( $query != null && isset($query->fecha_final) && $query->fecha_final != '' ) ? $query->fecha_final : "";
        
         $records = SolicitudesEnvios::select($select)
+        ->leftJoin('trackings', 'trackings.id_solicitud', '=', 'solicitudes_envios.id_solicitud')
         ->leftJoin('usuarios', 'usuarios.usuario_id', '=', 'solicitudes_envios.usuario_id')
         ->leftJoin('usuarios_info', 'usuarios_info.usuario_id', '=', 'usuarios.usuario_id')
         ->leftJoin('empresas_transportes', 'empresas_transportes.id_empresa_transporte', '=', 'solicitudes_envios.id_empresa_transporte')
@@ -51,7 +55,8 @@ class SolicitudesEnviosController extends Controller
             $query->orWhere('empresas_transportes.nombre',  'LIKE', '%'.$this->search.'%')
                 ->orWhere('usuarios.email',  'LIKE', '%'.$this->search.'%')
                 ->orWhere('usuarios_info.nombres',  'LIKE', '%'.$this->search.'%')
-                ->orWhere('usuarios_info.apellidos',  'LIKE', '%'.$this->search.'%');
+                ->orWhere('usuarios_info.apellidos',  'LIKE', '%'.$this->search.'%')
+                ->orWhere('trackings.tracking',  'LIKE', '%'.$this->search.'%');
         });
 
         if( $this->estado != '' && $this->estado != 'all' ){

@@ -14,13 +14,13 @@
                     <span class=""> {{ item.tracking }}</span>
                 </td>
                 <td>
-                    <span class=""> {{ item.pie_cubico }}</span>
+                    <span class=""> {{ item.peso }}</span>
                 </td>
                 <td>
                     <span class=""> {{ item.volumen }}</span>
                 </td>
                 <td>
-                    <span class=""> {{ item.peso }}</span>
+                    <span class=""> {{ item.pie_cubico }}</span>
                 </td>
                 <td>
                     <span class=""> {{ item.tipo_envio }}</span>

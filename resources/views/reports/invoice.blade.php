@@ -261,7 +261,7 @@
 
                 <tr>
                     <td colspan="2" style="text-align: left; padding-left: 10px; font-size:13px;">
-                        {{ \Str::upper($user->estado_ve.', '. $user->zona.', '.$user->codigo_postal.', '.$user->ref_direccion) }}
+                        {{ \Str::upper($user->direccion.', '.$user->estado_ve.' '. $user->zona.' '.$user->codigo_postal) }}
                     </td>
                 </tr>
             </table>

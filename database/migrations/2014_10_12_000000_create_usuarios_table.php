@@ -19,7 +19,7 @@ return new class extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->uuid('usuario_id')->primary();
-            $table->string('nombre_usuario', 20)->nullable();
+            $table->string('nombre_usuario', 191)->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('activo')->default(true);

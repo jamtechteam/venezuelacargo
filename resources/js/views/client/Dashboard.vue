@@ -88,7 +88,7 @@ export default {
             filters: {
                 name: 'IndexDashboard',
                 first: {
-                    placeholder: 'Busca por nombre de empresa'
+                    placeholder: 'Busca por numero de tracking o nombre de empresa'
                 },
                 second: [
                     {

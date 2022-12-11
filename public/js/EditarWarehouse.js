@@ -311,6 +311,7 @@ var check = function check() {
                   telefono: response.data.results.telefono,
                   estado: response.data.results.estado_ve,
                   zona: response.data.results.zona,
+                  direccion: response.data.results.direccion,
                   ref_direccion: response.data.results.ref_direccion,
                   codigo_postal: response.data.results.codigo_postal
                 };
@@ -1317,11 +1318,19 @@ var render = function () {
                           _c("p", [
                             _vm._v(
                               "Dirección: " +
-                                _vm._s(_vm.user.estado) +
+                                _vm._s(_vm.user.direccion) +
                                 ". " +
-                                _vm._s(_vm.user.zona) +
-                                ", " +
-                                _vm._s(_vm.user.codigo_postal) +
+                                _vm._s(_vm.user.estado) +
+                                " " +
+                                _vm._s(
+                                  "" +
+                                    (_vm.user.zona != null
+                                      ? ", " +
+                                        _vm.user.zona +
+                                        ", " +
+                                        _vm.user.codigo_postal
+                                      : "")
+                                ) +
                                 " "
                             ),
                           ]),

@@ -24,6 +24,19 @@
             </td>
             <td>
                 <div class="btn-list flex-nowrap">
+                    <router-link
+                        class="nav-link"
+                        style="padding: 0;"
+                        :to="{
+                            name: 'ShowInvoice',
+                            params:{id: item.id_factura},
+                            query: { envio: item.reempaque, type: 'show' }
+                        }"
+                        title="Ver detalles de factura" 
+                        v-title
+                    >
+                        <i class="ti ti-file-info fs-19"></i>
+                    </router-link>
                     <button
                         :value="item.id_factura"
                         id="pagar"

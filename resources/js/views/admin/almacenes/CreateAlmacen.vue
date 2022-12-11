@@ -14,7 +14,7 @@
                                          <div class="form-floating mt-2">
                                             <input type="text"   class="form-control dropdown-toggle" data-bs-toggle="dropdown" v-model="cliente" value="" id="cliente" name="cliente" @keyup="inputSearch($event)" aria-expanded="false" v-validate="'required'" data-vv-validate-on="change" :class="{'is-invalid': errors.first('cliente')}">
                                             <label for="cliente">Buscar Cliente</label>
-                                            <ul class="dropdown-menu input-result-search" id="cliente">
+                                            <ul class="dropdown-menu input-result-search" id="cliente" :style="`${usuarios.length > 10 ? 'height: 220px;overflow-y: auto;' : ''}`">
                                                 <li v-if="usuarios.length == 0">No se encontraron resultados</li>
                                                 <li v-for="(usuario, index) in usuarios" :key="index">
                                                     <label class="form-check" :for="index">

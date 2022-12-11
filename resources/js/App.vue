@@ -14,7 +14,7 @@
                     </li>
                     <li class="list-inline-item">
                         Programador
-                        <a href="https://www.linkedin.com/in/abrahamfreitez98/" target="_blank" class="link-secondary" rel="noopener">Abraham Freitez</a>
+                        <a href="https://www.linkedin.com/in/abraham-freitez/" target="_blank" class="link-secondary" rel="noopener">Abraham Freitez</a>
                     </li>
                     <li class="list-inline-item">
                         Derechos de autor © 2022

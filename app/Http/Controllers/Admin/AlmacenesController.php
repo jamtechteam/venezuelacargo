@@ -450,6 +450,11 @@ class AlmacenesController extends Controller
         ];
 
         $id = $request->id;
+        if( !is_array($id) ){
+            $new_id = [];
+            array_push($new_id, $id);
+            $id = $new_id;
+        }
         $usuario_id = '';
         $results = [
             'almacen' => [],

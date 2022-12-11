@@ -1,5 +1,5 @@
 <template>
-<div class="mb-4">
+<div class="mb-4 table-responsive">
     <div class="d-flex align-items-center mb-3" v-if="envio === 'reempaque' && type_form != 'show'">
         <button @click="reempaque" type="button" class="btn btn-info ms-auto">
             <span>Reempacar</span>
@@ -9,13 +9,15 @@
         <thead>
             <tr>
                 <th style="width: 10%;"></th>
-                <th style="width: 20%;">Nro. WareHouse</th>
-                <th style="width: 10%;">Alto</th>
-                <th style="width: 10%;">Ancho</th>
-                <th style="width: 10%;">Largo</th>
-                <th style="width: 10%;">Peso</th>
-                <th style="width: 10%;">Nro Piezas</th>
-                <th style="width: 20%;">Total Seguro</th>
+                <th style="width: 15%;">Nro. WareHouse</th>
+                <th style="width: 20%;">Nro. Tracking</th>
+                <th style="width: 20%;">Descripcion</th>
+                <th style="width: 5%;">Alto</th>
+                <th style="width: 5%;">Ancho</th>
+                <th style="width: 5%;">Largo</th>
+                <th style="width: 5%;">Peso</th>
+                <th style="width: 5%;">Piezas</th>
+                <th style="width: 10%;">Total Seguro</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +27,12 @@
                 </td>
                 <td>
                     <span class="">{{ item.warehouse }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.tracking }}</span>
+                </td>
+                <td>
+                    <span class="">{{ item.descripcion}}</span>
                 </td>
                 <td>
                     <span class="">{{ item.alto }}</span>
@@ -218,7 +226,7 @@ export default {
                         for (let i = 0; i < ids.length; i++) {
                             if( ids[i] === element.id_almacen ){
                                 total_seguro = total_seguro + totalseguro;
-                            this.dato.warehouse_children = this.dato.warehouse_children + '' + `${i !== ids.length - 1 ? ',' + element.warehouse : element.warehouse}`;
+                            this.dato.warehouse_children = this.dato.warehouse_children + '' + `${i !== ids.length - 1 ? ', ' + element.warehouse : element.warehouse}`;
                             }
                         }
                     });

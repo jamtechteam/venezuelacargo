@@ -20,6 +20,7 @@ Route::post('user/forgout/validate-token', 'App\Http\Controllers\Auth\ApiAuthCon
 
 Route::post('user/change_password_user', 'App\Http\Controllers\Auth\ApiAuthController@change_password_user');
 
+Route::post('users-old', 'App\Http\Controllers\Admin\UsersOldController@store');
         
 Route::middleware('auth:api')->group(function() { 
 
@@ -104,6 +105,7 @@ Route::middleware('auth:api')->group(function() {
                 Route::get('facturas-analyze', 'App\Http\Controllers\Admin\FacturasController@analyze');
                 Route::get('facturas-pendientes', 'App\Http\Controllers\Admin\FacturasController@state');
                 Route::put('pago-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@pagoVerificado');
+                Route::put('no-pago-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@pagoNoVerificado');
                 Route::post('save-invoice-reempaque', 'App\Http\Controllers\Admin\FacturasController@store_reempaque');
                 Route::post('save-invoice-directo', 'App\Http\Controllers\Admin\FacturasController@store_directo');
                 Route::post('send-factura/{id}', 'App\Http\Controllers\Admin\FacturasController@send_invoice');
@@ -136,6 +138,8 @@ Route::middleware('auth:api')->group(function() {
 
                 Route::get('shipments', 'App\Http\Controllers\Client\ShipmentsController@index');
                 Route::post('save-pago', 'App\Http\Controllers\Client\ShipmentsController@savePago');
+                
+                Route::get('shipments/{id}', 'App\Http\Controllers\Client\ShipmentsController@show');
                 //obtener tipo de cambio
                 Route::get('tasas-monedas', 'App\Http\Controllers\Admin\Configuracion\MonedasCambiosController@getTasa');
 

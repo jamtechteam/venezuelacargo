@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NoPagoInvoice;
 use App\Mail\NotificationInvoiceResend;
 use App\Models\Almacenes;
 use App\Models\Configuracion\GastosExtras;
@@ -643,6 +644,41 @@ class FacturasController extends Controller
             'status' => 200,
             'message' => 'El pago de la factura '.$factura->nro_factura. ' fue verficado con exito',
         ], 200);
+
+    }
+
+    public function pagoNOVerificado($id)
+    {
+        $factura = Facturas::find($id);
+
+        $factura->estado = 'Pendiente';
+        $factura->pago = json_encode([]);
+
+        
+
+        $invoice = ['nro_factura' => $factura->nro_factura];
+        $user = User::find($factura->usuario_id);
+
+        if( $user != null ){
+            try {
+                Mail::to($user->email)
+                ->send(new NoPagoInvoice($invoice));
+                
+                $factura->update();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'La notificacion de pago no verifiacdo de la factura '.$factura->nro_factura. ' fue enviado con exito a el cliente via email',
+                ], 200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Ocurrio un error, por favor intente mas tarde.',
+                ], 403);
+            }
+        }
+
+        
 
     }
 

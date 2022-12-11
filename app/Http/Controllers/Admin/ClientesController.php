@@ -40,7 +40,7 @@ class ClientesController extends Controller
 
         $query = isset($query) ? json_decode($query) : null;
 
-        $id_estado = ( $query != null && isset($query->id_estado) && $query->id_estado != '' ) ? $query->id_estado : '';
+        $id_estado = ( $query != null && isset($query->id_estado) && $query->id_estado != '' ) ? $query->id_estado : 'all';
         $this->search = ( $query != null && isset($query->search) && $query->search != '' ) ? $query->search : "";
         $this->fecha_inicio = ( $query != null && isset($query->fecha_inicio) && $query->fecha_inicio != '' ) ? $query->fecha_inicio : "";
         $this->fecha_final = ( $query != null && isset($query->fecha_final) && $query->fecha_final != '' ) ? $query->fecha_final : "";

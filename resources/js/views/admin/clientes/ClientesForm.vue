@@ -186,11 +186,12 @@ export default {
                 
                 await this.axios.get(`clientes/${this.$route.params.id}/edit`).then(response => {
                     const result = {...response.data.result};
+                    console.log(result)
                     if ( result != null ){
                         document.title = document.title +'  '+ result.nombre_usuario;
                         
                         //this.categorias = response.data.results.categorias;
-                        this.ubicacion = `${result.zona} - ${result.codigo_postal}`;
+                        this.ubicacion = `${result.zona != null ? result.zona + ' - '+ result.codigo_postal: result.estado}`;
                         this.id_estado = result.id_estado;
                         this.id_ubigeo = result.id_ubigeo;
                         this.nom_user = result.nombre_usuario;

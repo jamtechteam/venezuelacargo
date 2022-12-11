@@ -467,11 +467,13 @@ var AlertMessageComponent = function AlertMessageComponent() {
               return this.axios.get("clientes/".concat(this.$route.params.id, "/edit")).then(function (response) {
                 var result = _objectSpread({}, response.data.result);
 
+                console.log(result);
+
                 if (result != null) {
                   document.title = document.title + '  ' + result.nombre_usuario; //this.categorias = response.data.results.categorias;
 
                   //this.categorias = response.data.results.categorias;
-                  _this.ubicacion = "".concat(result.zona, " - ").concat(result.codigo_postal);
+                  _this.ubicacion = "".concat(result.zona != null ? result.zona + ' - ' + result.codigo_postal : result.estado);
                   _this.id_estado = result.id_estado;
                   _this.id_ubigeo = result.id_ubigeo;
                   _this.nom_user = result.nombre_usuario;

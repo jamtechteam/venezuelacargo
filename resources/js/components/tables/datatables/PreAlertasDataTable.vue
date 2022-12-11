@@ -8,6 +8,9 @@
                 <span class=""> {{ item.nombres }} {{ item.apellidos }}</span>
             </td>
             <td>
+                <span> {{ item.tracking }} </span>
+            </td>
+            <td>
                 <span> {{ item.fecha_creado }} </span>
             </td>
              <td>

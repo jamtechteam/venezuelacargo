@@ -1146,6 +1146,11 @@ var render = function () {
                                 {
                                   staticClass:
                                     "dropdown-menu input-result-search",
+                                  style:
+                                    "" +
+                                    (_vm.usuarios.length > 10
+                                      ? "height: 220px;overflow-y: auto;"
+                                      : ""),
                                   attrs: { id: "cliente" },
                                 },
                                 [

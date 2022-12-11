@@ -58,6 +58,12 @@ export const routes = [
 				meta: { title: 'Envíos', requireAuth: true },
 				component:  () => import(/* webpackChunkName: "IndexEnvio" */ '../views/client/Envios/IndexEnvios.vue')
 			},
+			{
+				name: 'ShowInvoice',
+				path: 'show/:id',
+				meta: { title: 'Ver Factura: ', requireAuth: true },
+				component:  () => import(/* webpackChunkName: "ShowInvoice" */ '../views/client/Envios/ShowInvoice.vue'),
+			},
 		]
 	},
 	{

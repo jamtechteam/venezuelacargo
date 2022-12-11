@@ -204,6 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -290,6 +291,7 @@ var estados = [{
         nro_warehouse: ''
       },
       estado: false,
+      almacen_status: false,
       estados: [],
       solicitud: {
         tipo_envio: '',
@@ -359,15 +361,13 @@ var estados = [{
                     estados[1].check = true;
                   }
 
-                  console.log(diaSemanaBol());
-
-                  if (response.data.results.hasOwnProperty('almacen_status') && response.data.results.almacen_status == 0 && solicitud_estado == 'recibido' && diaSemanaBol() == true) {
+                  if (response.data.results.almacen_status == 0) {
                     _this.estado = true;
                     _this.solicitud.id_almacen = response.data.results.id_almacen;
                   }
 
-                  if (response.data.results.hasOwnProperty('almacen_status') && response.data.results.almacen_status == 0 && solicitud_estado == 'recibido' && diaSemanaBol() == false) {
-                    _this.respAlert(403, 'solo se aceptan reempaques desde el sábado hasta el miércoles 3 pm de la tarde.');
+                  if (response.data.results.almacen_status == 1) {
+                    _this.almacen_status = true;
                   }
 
                   _this.estados = estados;
@@ -1502,13 +1502,26 @@ var render = function () {
                                     return _c("div", { key: index }, [
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-auto" }, [
-                                          _c("span", {
-                                            staticClass: "avatar",
-                                            style:
-                                              "background-image: url(" +
-                                              item.ruta_image +
-                                              ")",
-                                          }),
+                                          item.ruta_image != null
+                                            ? _c("a", {
+                                                staticClass: "avatar",
+                                                style:
+                                                  "background-image: url(" +
+                                                  item.ruta_image +
+                                                  ")",
+                                                attrs: {
+                                                  href: item.ruta_image,
+                                                  target: "_blank",
+                                                  rel: "noopener noreferrer",
+                                                },
+                                              })
+                                            : _c("span", {
+                                                staticClass: "avatar",
+                                                style:
+                                                  "background-image: url(" +
+                                                  item.ruta_image +
+                                                  ")",
+                                              }),
                                         ]),
                                         _vm._v(" "),
                                         _c("div", { staticClass: "col" }, [
@@ -1829,10 +1842,9 @@ var render = function () {
                                                           _vm._v(
                                                             _vm._s(
                                                               " " +
-                                                                (item.reempaque !=
-                                                                "no"
-                                                                  ? item.total_seguro
-                                                                  : "N/A")
+                                                                (!_vm.almacen_status
+                                                                  ? "N/A"
+                                                                  : item.total_seguro)
                                                             )
                                                           ),
                                                         ]),
@@ -1865,10 +1877,9 @@ var render = function () {
                                                           _vm._v(
                                                             _vm._s(
                                                               " " +
-                                                                (item.reempaque !=
-                                                                "no"
-                                                                  ? item.reempaque
-                                                                  : "N/A")
+                                                                (!_vm.almacen_status
+                                                                  ? "N/A"
+                                                                  : item.reempaque)
                                                             )
                                                           ),
                                                         ]),

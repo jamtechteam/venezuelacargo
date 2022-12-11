@@ -25,7 +25,7 @@
                                     <p v-if="user.cod_usuario != null">Código Usuario: {{user.cod_usuario}}</p>
                                     <p>Teléfono: {{user.telefono}}</p>
                                     <p>Cédula: {{user.cedula}}</p>
-                                    <p>Dirección: {{user.estado}}. {{user.zona}}, {{user.codigo_postal}} </p>
+                                    <p>Dirección: {{user.direccion}}. {{user.estado}} {{`${user.zona != null ? ', '+ user.zona + ', '+user.codigo_postal : ''}`}} </p>
                                     <p v-if="user.ref_direccion != null">Ref. Dirección: {{user.ref_direccion}}</p>
                                 </address>
                             </div>
@@ -243,6 +243,7 @@ export default {
                         telefono: response.data.results.telefono,
                         estado: response.data.results.estado_ve,
                         zona: response.data.results.zona,
+                        direccion: response.data.results.direccion,
                         ref_direccion: response.data.results.ref_direccion,
                         codigo_postal: response.data.results.codigo_postal
                     };

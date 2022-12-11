@@ -41,7 +41,8 @@
                                             <div v-for="(item, index) in trackings" :key="index">
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <span class="avatar" :style="`background-image: url(${item.ruta_image})`"></span>
+                                                        <a :href="item.ruta_image" target="_blank" rel="noopener noreferrer" class="avatar" :style="`background-image: url(${item.ruta_image})`" v-if="item.ruta_image != null"></a>
+                                                        <span class="avatar" v-else :style="`background-image: url(${item.ruta_image})`"></span>
                                                     </div>
                                                     <div class="col">
                                                         <div class="text-truncate">
@@ -90,11 +91,11 @@
                                                                 </div>
                                                                 <div class="dropdown-item disabled"> 
                                                                     <span class="small text-muted me-1">Total Seguro:</span>
-                                                                    <div> <strong>{{ ` ${ item.reempaque != 'no' ? item.total_seguro : 'N/A' }` }}</strong></div>
+                                                                    <div> <strong>{{ ` ${ !almacen_status ? 'N/A' : item.total_seguro }` }}</strong></div>
                                                                 </div>
                                                                 <div class="dropdown-item disabled"> 
                                                                     <span class="small text-muted me-1">Con Reempaque:</span>
-                                                                    <div> <strong>{{ ` ${ item.reempaque != 'no' ? item.reempaque : 'N/A' }`  }}</strong></div>
+                                                                    <div> <strong>{{ ` ${ !almacen_status ? 'N/A' : item.reempaque }`  }}</strong></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -233,6 +234,7 @@ export default {
                 nro_warehouse: ''
             },
             estado: false,
+            almacen_status: false,
             estados: [],
             solicitud: {
                 tipo_envio: '',
@@ -280,18 +282,15 @@ export default {
                             estados[1].check = true;
                         }
                         
-                        console.log(diaSemanaBol())
-
-                        if( response.data.results.hasOwnProperty('almacen_status') &&  response.data.results.almacen_status == 0 && solicitud_estado == 'recibido' && diaSemanaBol() == true ) 
-                        {
+                        if( response.data.results.almacen_status == 0){
                             this.estado = true;
                             this.solicitud.id_almacen = response.data.results.id_almacen;
-                            
                         }
 
-                        if( response.data.results.hasOwnProperty('almacen_status') &&  response.data.results.almacen_status == 0 && solicitud_estado == 'recibido' && diaSemanaBol() == false  ){
-                            this.respAlert(403, 'solo se aceptan reempaques desde el sábado hasta el miércoles 3 pm de la tarde.')
+                        if( response.data.results.almacen_status == 1 ){
+                            this.almacen_status = true;
                         }
+                        
 
                         this.estados = estados;
                         this.trackings = tracking;

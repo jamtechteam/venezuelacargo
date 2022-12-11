@@ -34,6 +34,7 @@ export default {
             data: {
                 th: [
                     {name: 'Usuario'},
+                    {name: 'Nro. Tracking'},  
                     {name: 'Registro de PreAlertas'},                    
                     {name: 'Nom. Empresa Transporte'},
                     {name: 'Fecha Llegada de Tracking'},
@@ -55,7 +56,7 @@ export default {
             filters: {
                 name: 'IndexPrealertas',
                 first: {
-                    placeholder: 'Escribe el nombre, apellido, C.I, código del usuario ó nombre de empresa'
+                    placeholder: 'Escribe el nro. Tracking, nombre, apellido, C.I, código del usuario ó nombre de empresa'
                 },
                 second: [
                     {

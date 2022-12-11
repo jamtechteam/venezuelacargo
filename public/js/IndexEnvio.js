@@ -82,7 +82,7 @@ var request = function request() {
       filters: {
         name: 'IndexEnvios',
         first: {
-          placeholder: 'Busca por numero de factura ó container'
+          placeholder: 'Busca por numero de warehouse, tracking, factura o container'
         },
         second: [
           /* {

@@ -40,5 +40,6 @@
     "/js/AlertMessageComponent.js": "/js/AlertMessageComponent.js",
     "/js/TableAdminComponent.js": "/js/TableAdminComponent.js",
     "/js/FilterComponent.js": "/js/FilterComponent.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/ShowInvoice.js": "/js/ShowInvoice.js"
 }

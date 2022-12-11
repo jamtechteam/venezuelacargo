@@ -249,6 +249,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -311,11 +356,15 @@ var LoaderComponent = function LoaderComponent() {
       factura: {
         nro_factura: '',
         id_factura: '',
-        total_usd: ''
+        total_usd: '',
+        nro_comprobante: '',
+        titular: ''
       },
       pago: {
         tipo_pago: '',
-        comprobante: ''
+        comprobante: '',
+        nro_comprobante: '',
+        titular: ''
       },
       loader: false,
       loaderCard: false,
@@ -367,9 +416,14 @@ var LoaderComponent = function LoaderComponent() {
 }), _defineProperty(_components$name$prop, "methods", {
   sendCheckPago: function sendCheckPago(_ref) {
     var id_factura = _ref.id_factura,
-        nro_factura = _ref.nro_factura;
+        nro_factura = _ref.nro_factura,
+        _ref$pago = _ref.pago,
+        nro_comprobante = _ref$pago.nro_comprobante,
+        titular = _ref$pago.titular;
     this.factura.id_factura = id_factura;
     this.factura.nro_factura = nro_factura;
+    this.factura.nro_comprobante = nro_comprobante;
+    this.factura.titular = titular;
     this.showCheckPago = true;
   },
   hiddenCheckPago: function hiddenCheckPago() {
@@ -471,8 +525,30 @@ var LoaderComponent = function LoaderComponent() {
     this.loader = true;
     this.axios.put("pago-factura/".concat(this.factura.id_factura)).then(function (response) {
       console.log(response.data);
+      _this3.msgAlert = {
+        msg: response.data.message,
+        clss: 'updated'
+      };
 
-      _this3.resp(response.data);
+      _this3.$store.dispatch('tableadmin/alertMessage', true);
+
+      _this3.loader = false;
+      _this3.showCheckPago = false;
+      setTimeout(function () {
+        _this3.showFactura = false;
+        _this3.showCheckPago = false;
+        _this3.factura.id_factura = '';
+        _this3.factura.nro_factura = '';
+        _this3.factura.total_usd = '';
+        _this3.activeComponent = '';
+        _this3.pago = {
+          tipo_pago: '',
+          comprobante: ''
+        };
+        _this3.tasa = '';
+
+        _this3.$store.dispatch('tableadmin/resetInit');
+      }, 2000);
     })["catch"](function (error) {
       var status = error.response.status;
       var message = error.response.data.message;
@@ -481,35 +557,92 @@ var LoaderComponent = function LoaderComponent() {
         message = 'Error inesperado. por favor intentar más tarde.';
       }
 
-      _this3.resp({
-        status: status,
-        message: message
-      });
+      _this3.msgAlert = {
+        msg: response.data.message,
+        clss: 'error'
+      };
+
+      _this3.$store.dispatch('tableadmin/alertMessage', true);
+
+      _this3.loader = false;
+      _this3.showCheckPago = false;
+    });
+  },
+  guadarCheckNoPago: function guadarCheckNoPago() {
+    var _this4 = this;
+
+    this.loader = true;
+    this.axios.put("no-pago-factura/".concat(this.factura.id_factura)).then(function (response) {
+      console.log(response.data);
+
+      _this4.resp(response.data);
+
+      _this4.msgAlert = {
+        msg: response.data.message,
+        clss: 'updated'
+      };
+
+      _this4.$store.dispatch('tableadmin/alertMessage', true);
+
+      _this4.loader = false;
+      _this4.showCheckPago = false;
+      setTimeout(function () {
+        _this4.showFactura = false;
+        _this4.showCheckPago = false;
+        _this4.factura.id_factura = '';
+        _this4.factura.nro_factura = '';
+        _this4.factura.total_usd = '';
+        _this4.activeComponent = '';
+        _this4.pago = {
+          tipo_pago: '',
+          comprobante: ''
+        };
+        _this4.tasa = '';
+
+        _this4.$store.dispatch('tableadmin/resetInit');
+      }, 2000);
+    })["catch"](function (error) {
+      var status = error.response.status;
+      var message = error.response.data.message;
+
+      if (status == 500) {
+        message = 'Error inesperado. por favor intentar más tarde.';
+      }
+
+      _this4.msgAlert = {
+        msg: response.data.message,
+        clss: 'error'
+      };
+
+      _this4.$store.dispatch('tableadmin/alertMessage', true);
+
+      _this4.loader = false;
+      _this4.showCheckPago = false;
     });
   },
   resp: function resp(_resp) {
-    var _this4 = this;
+    var _this5 = this;
 
     setTimeout(function () {
-      _this4.loader = false;
+      _this5.loader = false;
 
-      _this4.respAlert(_resp.status, _resp.message);
+      _this5.respAlert(_resp.status, _resp.message);
 
       if (_resp.status == 200) {
         setTimeout(function () {
-          _this4.showFactura = false;
-          _this4.showCheckPago = false;
-          _this4.factura.id_factura = '';
-          _this4.factura.nro_factura = '';
-          _this4.factura.total_usd = '';
-          _this4.activeComponent = '';
-          _this4.pago = {
+          _this5.showFactura = false;
+          _this5.showCheckPago = false;
+          _this5.factura.id_factura = '';
+          _this5.factura.nro_factura = '';
+          _this5.factura.total_usd = '';
+          _this5.activeComponent = '';
+          _this5.pago = {
             tipo_pago: '',
             comprobante: ''
           };
-          _this4.tasa = '';
+          _this5.tasa = '';
 
-          _this4.$store.dispatch('tableadmin/resetInit');
+          _this5.$store.dispatch('tableadmin/resetInit');
         }, 4000);
       }
     }, 2000);
@@ -524,7 +657,7 @@ var LoaderComponent = function LoaderComponent() {
     return;
   },
   getMessageDelete: function getMessageDelete(response) {
-    var _this5 = this;
+    var _this6 = this;
 
     this.msgAlert = {
       msg: response.message,
@@ -534,13 +667,13 @@ var LoaderComponent = function LoaderComponent() {
 
     if (response.status == 200) {
       setTimeout(function () {
-        _this5.itemDataId = '';
-        _this5.idAlmacen = [];
+        _this6.itemDataId = '';
+        _this6.idAlmacen = [];
         window.sessionStorage.removeItem('idLocalStorage');
 
-        _this5.$store.dispatch('tableadmin/modalDelete', false);
+        _this6.$store.dispatch('tableadmin/modalDelete', false);
 
-        _this5.$store.dispatch('tableadmin/resetInit');
+        _this6.$store.dispatch('tableadmin/resetInit');
       }, 2000);
     }
   },
@@ -684,9 +817,9 @@ var LoaderComponent = function LoaderComponent() {
     }
   },
   savePago: function savePago() {
-    var _this6 = this;
+    var _this7 = this;
 
-    if (this.pago.tipo_pago != '' && this.pago.comprobante != '') {
+    if (this.pago.tipo_pago != '' && this.pago.comprobante != '' && this.pago.nro_comprobante != '' && this.pago.titular != '') {
       var total_usd = this.factura.total_usd;
       var total_ves = 0;
       total_usd = _formatPrice_js__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(total_usd, ',');
@@ -718,6 +851,8 @@ var LoaderComponent = function LoaderComponent() {
       formData.append('id_factura', this.factura.id_factura);
       formData.append('tipo_moneda', this.pago.tipo_pago);
       formData.append('comprobante', this.pago.comprobante);
+      formData.append('nro_comprobante', this.pago.nro_comprobante);
+      formData.append('titular', this.pago.titular);
       formData.append('tasa', _formatPrice_js__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(this.tasa, '.'));
       formData.append('total_ves', _formatPrice_js__WEBPACK_IMPORTED_MODULE_2__.formatPrice.desctPrice(this.factura.total_ves, '.'));
       formData.append('usuario_id', this.$store.state.auth.user.usuario_id);
@@ -731,17 +866,17 @@ var LoaderComponent = function LoaderComponent() {
       }).then(function (response) {
         console.log(response.data);
 
-        _this6.resp(response.data);
+        _this7.resp(response.data);
 
-        _this6.msgAlert = {
+        _this7.msgAlert = {
           msg: response.data.message,
           clss: 'updated'
         };
 
-        _this6.$store.dispatch('tableadmin/alertMessage', true);
+        _this7.$store.dispatch('tableadmin/alertMessage', true);
 
         setTimeout(function () {
-          _this6.loaderCard = false;
+          _this7.loaderCard = false;
         }, 1500);
       })["catch"](function (error) {
         console.log('err', error);
@@ -752,19 +887,19 @@ var LoaderComponent = function LoaderComponent() {
           message = 'Error inesperado. por favor intentar más tarde.';
         }
 
-        _this6.msgAlert = {
+        _this7.msgAlert = {
           msg: message,
           clss: 'error'
         };
 
-        _this6.$store.dispatch('tableadmin/alertMessage', true);
+        _this7.$store.dispatch('tableadmin/alertMessage', true);
 
         setTimeout(function () {
-          _this6.loaderCard = false;
+          _this7.loaderCard = false;
         }, 1500);
       });
     } else {
-      this.respAlert(403, 'Debe completar el formulario');
+      alert('Debe completar el formulario');
     }
   }
 }), _components$name$prop);
@@ -1675,66 +1810,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-status bg-success" }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "modal-body text-center py-4" }, [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "icon mb-2 text-green icon-lg",
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "24",
-                            height: "24",
-                            viewBox: "0 0 24 24",
-                            "stroke-width": "2",
-                            stroke: "currentColor",
-                            fill: "none",
-                            "stroke-linecap": "round",
-                            "stroke-linejoin": "round",
-                          },
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              stroke: "none",
-                              d: "M0 0h24v24H0z",
-                              fill: "none",
-                            },
-                          }),
-                          _c("circle", {
-                            attrs: { cx: "12", cy: "12", r: "9" },
-                          }),
-                          _c("path", { attrs: { d: "M9 12l2 2l4 -4" } }),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm.activeComponent != ""
-                        ? _c(
-                            "div",
-                            { staticClass: "w-100 mb-3" },
-                            [
-                              _c(_vm.activeComponent, {
-                                tag: "component",
-                                attrs: { alert: _vm.alert },
-                              }),
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("h3", [
-                        _vm._v(
-                          "¿Estás seguro de verificar el pago de esta factura " +
-                            _vm._s(_vm.factura.nro_factura) +
-                            "?"
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "text-muted" }, [
-                        _vm._v(
-                          "\n                        Una vez verificado, no podras editar el estado de pago de la factura...\n                    "
-                        ),
-                      ]),
-                    ]),
+                    _c("div", { staticClass: "modal-body text-center py-4" }),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-footer" }, [
                       _c("div", { staticClass: "w-100" }, [
@@ -1775,7 +1851,208 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\n                                Guardar\n                            "
+                                  "\n                                Pagado\n                            "
+                                ),
+                              ]
+                            ),
+                          ]),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal modal-blur fade",
+              class: { show: _vm.showCheckPago == true },
+              attrs: { tabindex: "-1", "aria-modal": "true", role: "dialog" },
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-centered",
+                  attrs: { role: "document" },
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.loader,
+                            expression: "loader",
+                          },
+                        ],
+                        staticClass: "div-loader_white",
+                        staticStyle: { margin: "0" },
+                      },
+                      [_c("loader")],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-header" }, [
+                      _c("h5", { staticClass: "modal-title" }, [
+                        _vm._v(
+                          "Número de factura: " +
+                            _vm._s(_vm.factura.nro_factura)
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn-close",
+                        attrs: {
+                          type: "button",
+                          "data-bs-dismiss": "modal",
+                          "aria-label": "Close",
+                        },
+                        on: { click: _vm.hiddenCheckPago },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.factura.titular,
+                              expression: "factura.titular",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            disabled: "",
+                            type: "text",
+                            name: "titular",
+                            id: "titular",
+                          },
+                          domProps: { value: _vm.factura.titular },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.factura,
+                                "titular",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "titular" } }, [
+                          _vm._v("Titular"),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.factura.nro_comprobante,
+                              expression: "factura.nro_comprobante",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            disabled: "",
+                            type: "text",
+                            name: "nro_comprobante",
+                            id: "nro_comprobante",
+                          },
+                          domProps: { value: _vm.factura.nro_comprobante },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.factura,
+                                "nro_comprobante",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "nro_comprobante" } }, [
+                          _vm._v("Numero de comprobante"),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c("div", { staticClass: "w-100" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn w-100",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal",
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.hiddenCheckPago()
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    Cancelar\n                                "
+                                ),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger w-100",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal",
+                                },
+                                on: { click: _vm.guadarCheckNoPago },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                   No pagado\n                                "
+                                ),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success w-100",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal",
+                                },
+                                on: { click: _vm.guadarCheckPago },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    Pagado\n                                "
                                 ),
                               ]
                             ),
@@ -1925,6 +2202,74 @@ var render = function () {
                         _vm._v(" "),
                         _c("label", { attrs: { for: "tipo_envio" } }, [
                           _vm._v("Selecciona la Moneda de Pago"),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.pago.titular,
+                              expression: "pago.titular",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "titular",
+                            id: "titular",
+                          },
+                          domProps: { value: _vm.pago.titular },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.pago, "titular", $event.target.value)
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "titular" } }, [
+                          _vm._v("Titular"),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.pago.nro_comprobante,
+                              expression: "pago.nro_comprobante",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "nro_comprobante",
+                            id: "nro_comprobante",
+                          },
+                          domProps: { value: _vm.pago.nro_comprobante },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.pago,
+                                "nro_comprobante",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "nro_comprobante" } }, [
+                          _vm._v("Numero de comprobante"),
                         ]),
                       ]),
                       _vm._v(" "),

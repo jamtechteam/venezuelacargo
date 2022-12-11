@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["LayoutFormFacturar"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["ShowInvoice"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************************************************!*\
@@ -497,10 +497,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -527,15 +527,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -800,28 +791,29 @@ var save_directo = 'save-invoice-directo';
   },
   beforeCreate: function beforeCreate() {
     this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var query, url;
+      var query, params, url;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               query = this.$route.query;
+              params = this.$route.params;
 
-              if (!(Object.keys(query).length === 0 || Object.keys(query).length !== 0 && (!query.hasOwnProperty('id') || !query.hasOwnProperty('envio') || !query.hasOwnProperty('type')) || Object.keys(query).length !== 0 && query.hasOwnProperty('type') && query.type != 'new' && query.type != 'edit' && query.type != 'show' || Object.keys(query).length !== 0 && query.hasOwnProperty('envio') && query.envio != 'no' && query.envio != 'si' || Object.keys(query).length !== 0 && query.hasOwnProperty('id') && Array.isArray(query.id) && query.hasOwnProperty('type') && (query.type == 'edit' || query.type == 'show'))) {
-                _context.next = 4;
+              if (!(Object.keys(query).length === 0 || Object.keys(params).length === 0)) {
+                _context.next = 5;
                 break;
               }
 
               this.componentRender = Error404;
               return _context.abrupt("return");
 
-            case 4:
+            case 5:
               this.envio = query.envio == 'no' ? 'directo' : 'reempaque';
-              this.type_form = query.type;
-              url = query.type == 'show' ? "facturas/".concat(query.id) : query.type == 'edit' ? "facturas/".concat(query.id, "/edit") : 'almacen/paquetes/data';
+              this.type_form = 'show';
+              url = "shipments/".concat(params.id);
               this.get_axios(query, url);
 
-            case 8:
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -1772,10 +1764,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.modal.show{\n    display: block;\n}
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1788,7 +1780,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal.show{\n    display: block;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal.show{\n    display: block;\n}\n@media (max-width: 768px){\n.text-start-xs{\n        text-align: left !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1899,10 +1891,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1911,7 +1903,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowInvoice.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&");
 
             
 
@@ -1920,11 +1912,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -2360,19 +2352,19 @@ component.options.__file = "resources/js/components/facturas/WareHouses.vue"
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue":
-/*!******************************************************************!*\
-  !*** ./resources/js/views/admin/facturas/LayoutFormFacturar.vue ***!
-  \******************************************************************/
+/***/ "./resources/js/views/client/Envios/ShowInvoice.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/views/client/Envios/ShowInvoice.vue ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LayoutFormFacturar.vue?vue&type=template&id=68f1062d& */ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d&");
-/* harmony import */ var _LayoutFormFacturar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LayoutFormFacturar.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js&");
-/* harmony import */ var _LayoutFormFacturar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowInvoice.vue?vue&type=template&id=72403836& */ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836&");
+/* harmony import */ var _ShowInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowInvoice.vue?vue&type=script&lang=js& */ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ShowInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShowInvoice.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -2383,9 +2375,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _LayoutFormFacturar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__.render,
-  _LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ShowInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -2395,7 +2387,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/admin/facturas/LayoutFormFacturar.vue"
+component.options.__file = "resources/js/views/client/Envios/ShowInvoice.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -2460,18 +2452,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LayoutFormFacturar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowInvoice.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -2487,14 +2479,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************************************/
+/***/ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LayoutFormFacturar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowInvoice.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -2563,18 +2555,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d&":
-/*!*************************************************************************************************!*\
-  !*** ./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d& ***!
-  \*************************************************************************************************/
+/***/ "./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836& ***!
+  \*****************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LayoutFormFacturar_vue_vue_type_template_id_68f1062d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LayoutFormFacturar.vue?vue&type=template&id=68f1062d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowInvoice_vue_vue_type_template_id_72403836___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowInvoice.vue?vue&type=template&id=72403836& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836&");
 
 
 /***/ }),
@@ -3443,10 +3435,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/facturas/LayoutFormFacturar.vue?vue&type=template&id=68f1062d& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/client/Envios/ShowInvoice.vue?vue&type=template&id=72403836& ***!
+  \********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -3505,7 +3497,7 @@ var render = function () {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "row mb-4" }, [
-                      _c("div", { staticClass: "col-6" }, [
+                      _c("div", { staticClass: "col-12 col-md-6" }, [
                         _c("p", { staticClass: "h3" }, [_vm._v("Detalles")]),
                         _vm._v(" "),
                         _c("address", [
@@ -3578,65 +3570,73 @@ var render = function () {
                         ]),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-6 text-end" }, [
-                        _c("p", { staticClass: "h3" }, [_vm._v("Cliente")]),
-                        _vm._v(" "),
-                        _c("address", [
-                          _c("p", [
-                            _vm._v(
-                              "Nombre Completo: " +
-                                _vm._s(_vm.client.nombres) +
-                                " " +
-                                _vm._s(_vm.client.apellidos)
-                            ),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-12 col-md-6 text-end text-start-xs",
+                        },
+                        [
+                          _c("p", { staticClass: "h3" }, [_vm._v("Cliente")]),
+                          _vm._v(" "),
+                          _c("address", [
+                            _c("p", [
+                              _vm._v(
+                                "Nombre Completo: " +
+                                  _vm._s(_vm.client.nombres) +
+                                  " " +
+                                  _vm._s(_vm.client.apellidos)
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _vm.client.cod_usuario != null
+                              ? _c("p", [
+                                  _vm._v(
+                                    "Código Usuario: " +
+                                      _vm._s(_vm.client.cod_usuario)
+                                  ),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Teléfono: " + _vm._s(_vm.client.telefono)
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v("Cédula: " + _vm._s(_vm.client.cedula)),
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Dirección: " +
+                                  _vm._s(_vm.client.direccion) +
+                                  " " +
+                                  _vm._s(_vm.client.estado_ve) +
+                                  " " +
+                                  _vm._s(
+                                    "" +
+                                      (_vm.client.zona != null
+                                        ? ", " +
+                                          _vm.client.zona +
+                                          ", " +
+                                          _vm.client.codigo_postal
+                                        : "")
+                                  )
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _vm.client.ref_direccion != null
+                              ? _c("p", [
+                                  _vm._v(
+                                    "Ref. Dirección: " +
+                                      _vm._s(_vm.client.ref_direccion)
+                                  ),
+                                ])
+                              : _vm._e(),
                           ]),
-                          _vm._v(" "),
-                          _vm.client.cod_usuario != null
-                            ? _c("p", [
-                                _vm._v(
-                                  "Código Usuario: " +
-                                    _vm._s(_vm.client.cod_usuario)
-                                ),
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v("Teléfono: " + _vm._s(_vm.client.telefono)),
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v("Cédula: " + _vm._s(_vm.client.cedula)),
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v(
-                              "Dirección: " +
-                                _vm._s(_vm.client.direccion) +
-                                " " +
-                                _vm._s(_vm.client.estado_ve) +
-                                " " +
-                                _vm._s(
-                                  "" +
-                                    (_vm.client.zona != null
-                                      ? ", " +
-                                        _vm.client.zona +
-                                        ", " +
-                                        _vm.client.codigo_postal
-                                      : "")
-                                )
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _vm.client.ref_direccion != null
-                            ? _c("p", [
-                                _vm._v(
-                                  "Ref. Dirección: " +
-                                    _vm._s(_vm.client.ref_direccion)
-                                ),
-                              ])
-                            : _vm._e(),
-                        ]),
-                      ]),
+                        ]
+                      ),
                     ]),
                     _vm._v(" "),
                     _c("ware-houses", {
@@ -3855,77 +3855,36 @@ var render = function () {
                                 "span",
                                 { staticStyle: { "max-width": "80px" } },
                                 [
-                                  _vm.type_form === "new" ||
-                                  _vm.type_form === "edit"
-                                    ? _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.costo_trackings,
-                                            expression: "costo_trackings",
-                                          },
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: {
-                                          padding: "0.4375rem 5px",
-                                          "text-align": "end",
-                                        },
-                                        attrs: {
-                                          type: "text",
-                                          name: "costo_trackings",
-                                        },
-                                        domProps: {
-                                          value: _vm.costo_trackings,
-                                        },
-                                        on: {
-                                          keyup: function ($event) {
-                                            return _vm.keyUpPrecio($event)
-                                          },
-                                          change: function ($event) {
-                                            return _vm.changePrecio($event)
-                                          },
-                                          input: function ($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.costo_trackings =
-                                              $event.target.value
-                                          },
-                                        },
-                                      })
-                                    : _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.costo_trackings,
-                                            expression: "costo_trackings",
-                                          },
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: {
-                                          padding: "0.4375rem 5px",
-                                          "text-align": "end",
-                                        },
-                                        attrs: {
-                                          disabled: "",
-                                          type: "text",
-                                          name: "costo_trackings",
-                                        },
-                                        domProps: {
-                                          value: _vm.costo_trackings,
-                                        },
-                                        on: {
-                                          input: function ($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.costo_trackings =
-                                              $event.target.value
-                                          },
-                                        },
-                                      }),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.costo_trackings,
+                                        expression: "costo_trackings",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    staticStyle: {
+                                      padding: "0.4375rem 5px",
+                                      "text-align": "end",
+                                    },
+                                    attrs: {
+                                      disabled: "",
+                                      type: "text",
+                                      name: "costo_trackings",
+                                    },
+                                    domProps: { value: _vm.costo_trackings },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.costo_trackings =
+                                          $event.target.value
+                                      },
+                                    },
+                                  }),
                                 ]
                               ),
                             ]
@@ -3949,77 +3908,38 @@ var render = function () {
                                     "span",
                                     { staticStyle: { "max-width": "80px" } },
                                     [
-                                      _vm.type_form === "new" ||
-                                      _vm.type_form === "edit"
-                                        ? _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.costo_reempaque,
-                                                expression: "costo_reempaque",
-                                              },
-                                            ],
-                                            staticClass: "form-control",
-                                            staticStyle: {
-                                              padding: "0.4375rem 5px",
-                                              "text-align": "end",
-                                            },
-                                            attrs: {
-                                              type: "text",
-                                              name: "costo_reempaque",
-                                            },
-                                            domProps: {
-                                              value: _vm.costo_reempaque,
-                                            },
-                                            on: {
-                                              keyup: function ($event) {
-                                                return _vm.keyUpPrecio($event)
-                                              },
-                                              change: function ($event) {
-                                                return _vm.changePrecio($event)
-                                              },
-                                              input: function ($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.costo_reempaque =
-                                                  $event.target.value
-                                              },
-                                            },
-                                          })
-                                        : _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.costo_reempaque,
-                                                expression: "costo_reempaque",
-                                              },
-                                            ],
-                                            staticClass: "form-control",
-                                            staticStyle: {
-                                              padding: "0.4375rem 5px",
-                                              "text-align": "end",
-                                            },
-                                            attrs: {
-                                              disabled: "",
-                                              type: "text",
-                                              name: "costo_reempaque",
-                                            },
-                                            domProps: {
-                                              value: _vm.costo_reempaque,
-                                            },
-                                            on: {
-                                              input: function ($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.costo_reempaque =
-                                                  $event.target.value
-                                              },
-                                            },
-                                          }),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.costo_reempaque,
+                                            expression: "costo_reempaque",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: {
+                                          padding: "0.4375rem 5px",
+                                          "text-align": "end",
+                                        },
+                                        attrs: {
+                                          disabled: "",
+                                          type: "text",
+                                          name: "costo_reempaque",
+                                        },
+                                        domProps: {
+                                          value: _vm.costo_reempaque,
+                                        },
+                                        on: {
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.costo_reempaque =
+                                              $event.target.value
+                                          },
+                                        },
+                                      }),
                                     ]
                                   ),
                                 ]
@@ -4043,73 +3963,35 @@ var render = function () {
                                 "span",
                                 { staticStyle: { "max-width": "80px" } },
                                 [
-                                  _vm.type_form === "new" ||
-                                  _vm.type_form === "edit"
-                                    ? _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.gastos_extras,
-                                            expression: "gastos_extras",
-                                          },
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: {
-                                          padding: "0.4375rem 5px",
-                                          "text-align": "end",
-                                        },
-                                        attrs: {
-                                          type: "text",
-                                          name: "gastos_extras",
-                                        },
-                                        domProps: { value: _vm.gastos_extras },
-                                        on: {
-                                          keyup: function ($event) {
-                                            return _vm.keyUpPrecio($event)
-                                          },
-                                          change: function ($event) {
-                                            return _vm.changePrecio($event)
-                                          },
-                                          input: function ($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.gastos_extras =
-                                              $event.target.value
-                                          },
-                                        },
-                                      })
-                                    : _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.gastos_extras,
-                                            expression: "gastos_extras",
-                                          },
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: {
-                                          padding: "0.4375rem 5px",
-                                          "text-align": "end",
-                                        },
-                                        attrs: {
-                                          disabled: "",
-                                          type: "text",
-                                          name: "gastos_extras",
-                                        },
-                                        domProps: { value: _vm.gastos_extras },
-                                        on: {
-                                          input: function ($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.gastos_extras =
-                                              $event.target.value
-                                          },
-                                        },
-                                      }),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.gastos_extras,
+                                        expression: "gastos_extras",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    staticStyle: {
+                                      padding: "0.4375rem 5px",
+                                      "text-align": "end",
+                                    },
+                                    attrs: {
+                                      disabled: "",
+                                      type: "text",
+                                      name: "gastos_extras",
+                                    },
+                                    domProps: { value: _vm.gastos_extras },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.gastos_extras = $event.target.value
+                                      },
+                                    },
+                                  }),
                                 ]
                               ),
                             ]
@@ -4193,71 +4075,36 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _vm.type_form === "new" ||
-                                _vm.type_form === "edit"
-                                  ? _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.nro_factura,
-                                          expression: "details.nro_factura",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        name: "nro_factura",
-                                        id: "nro_factura",
-                                      },
-                                      domProps: {
-                                        value: _vm.details.nro_factura,
-                                      },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "nro_factura",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    })
-                                  : _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.nro_factura,
-                                          expression: "details.nro_factura",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        disabled: "",
-                                        type: "text",
-                                        name: "nro_factura",
-                                        id: "nro_factura",
-                                      },
-                                      domProps: {
-                                        value: _vm.details.nro_factura,
-                                      },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "nro_factura",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    }),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.details.nro_factura,
+                                      expression: "details.nro_factura",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled: "",
+                                    type: "text",
+                                    name: "nro_factura",
+                                    id: "nro_factura",
+                                  },
+                                  domProps: { value: _vm.details.nro_factura },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.details,
+                                        "nro_factura",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
                                 _vm._v(" "),
                                 _c("label", { attrs: { for: "nro_factura" } }, [
                                   _vm._v("Nro. Factura"),
@@ -4269,71 +4116,38 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _vm.type_form === "new" ||
-                                _vm.type_form === "edit"
-                                  ? _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.nro_container,
-                                          expression: "details.nro_container",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        name: "nro_container",
-                                        id: "nro_container",
-                                      },
-                                      domProps: {
-                                        value: _vm.details.nro_container,
-                                      },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "nro_container",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    })
-                                  : _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.nro_container,
-                                          expression: "details.nro_container",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        disabled: "",
-                                        type: "text",
-                                        name: "nro_container",
-                                        id: "nro_container",
-                                      },
-                                      domProps: {
-                                        value: _vm.details.nro_container,
-                                      },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "nro_container",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    }),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.details.nro_container,
+                                      expression: "details.nro_container",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled: "",
+                                    type: "text",
+                                    name: "nro_container",
+                                    id: "nro_container",
+                                  },
+                                  domProps: {
+                                    value: _vm.details.nro_container,
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.details,
+                                        "nro_container",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
                                 _vm._v(" "),
                                 _c(
                                   "label",
@@ -4347,71 +4161,36 @@ var render = function () {
                               "div",
                               { staticClass: "form-floating mb-3 w-100" },
                               [
-                                _vm.type_form === "new" ||
-                                _vm.type_form === "edit"
-                                  ? _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.tarifa,
-                                          expression: "details.tarifa",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        name: "tarifa",
-                                        id: "tarifa",
-                                      },
-                                      domProps: { value: _vm.details.tarifa },
-                                      on: {
-                                        keyup: function ($event) {
-                                          return _vm.keyUpPrecio($event)
-                                        },
-                                        change: _vm.changePrecioTarifa,
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "tarifa",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    })
-                                  : _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.details.tarifa,
-                                          expression: "details.tarifa",
-                                        },
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        disabled: "",
-                                        type: "text",
-                                        name: "tarifa",
-                                        id: "tarifa",
-                                      },
-                                      domProps: { value: _vm.details.tarifa },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.details,
-                                            "tarifa",
-                                            $event.target.value
-                                          )
-                                        },
-                                      },
-                                    }),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.details.tarifa,
+                                      expression: "details.tarifa",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled: "",
+                                    type: "text",
+                                    name: "tarifa",
+                                    id: "tarifa",
+                                  },
+                                  domProps: { value: _vm.details.tarifa },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.details,
+                                        "tarifa",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
                                 _vm._v(" "),
                                 _c("label", { attrs: { for: "tarifa" } }, [
                                   _vm._v(
@@ -4430,21 +4209,7 @@ var render = function () {
                     _c(
                       "div",
                       { staticClass: "d-flex align-items-center mt-3" },
-                      [
-                        _c("btn-volver", { attrs: { classe: "btn-light" } }),
-                        _vm._v(" "),
-                        _vm.type_form === "new" || _vm.type_form === "edit"
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-info ms-auto",
-                                attrs: { type: "button" },
-                                on: { click: _vm.confirmInvoice },
-                              },
-                              [_c("span", [_vm._v("Guardar")])]
-                            )
-                          : _vm._e(),
-                      ],
+                      [_c("btn-volver", { attrs: { classe: "btn-light" } })],
                       1
                     ),
                   ],

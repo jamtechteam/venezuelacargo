@@ -299,6 +299,28 @@ class PrealertasController extends Controller
 
         $tracking = Trackings::find($request->id_tracking);
 
+        $date = Carbon::now();
+        $fecha_actual = $date->format('Y-m-d');
+        $dia_semana = date('w', strtotime($fecha_actual));
+
+        if( $dia_semana == 6 || $dia_semana === 7 || ( $dia_semana >= 1 && $dia_semana <= 4 ) ){
+            $hora = $date->toTimeString();
+            if( $request->reempaque == 'no' && $dia_semana == 3 && $hora <= '13:00:00'  ){
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Error, Para las instrucciones de envio directo ( SIN REEMPAQUE ), son de Sabados a Miercoles hasta la 03:00 PM',
+                ], 403);
+            }
+            
+        }else{
+            return response()->json([
+                'status' => 403,
+                'message' => 'Error, solo puede agregar instrucciones de Sabados a Jueves para lo envios con Reempaque y para los envios sin reempaque, de Sabados a Miercoles hasta la 03:00 PM',
+            ], 403);
+        }
+
+        
+
         $tracking->reempaque =  $request->reempaque;
         $tracking->total_seguro = $request->total_seguro;
         $tracking->seguro = ( $tracking->total_seguro != '0' || $tracking->total_seguro != '0.00' ) ? ( $tracking->total_seguro * 10 ) / 100 : '0';

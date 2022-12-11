@@ -96,14 +96,19 @@ const warehouses_data = (data = [], envio = 'directo') => {
             if( element.warehouse_padre == '' || element.warehouse_padre == null){
                 let almacen_ids = [];
                 let warehouse_children = '';
+                let wh_child = [];
                 data.forEach((item) => {
                     if( element.id_factura_tracking == item.warehouse_padre){
                         let id_almacen = generateRandomString(46);
                         wh_old.push({...item, id_almacen});
                         almacen_ids.push(id_almacen);
-                        warehouse_children = warehouse_children + '' + item.warehouse + ',';
+                        wh_child.push(item.warehouse)
                     }
                 });
+
+                for (let i = 0; i < wh_child.length; i++) {
+                    warehouse_children = warehouse_children + '' + `${i !== wh_child.length - 1 ? wh_child[i] + ', ': wh_child[i]}`;
+                }
                 
                 let id_almacen = generateRandomString(46);
                 wh_new.push({...element, almacen_ids, warehouse_children, id_almacen});

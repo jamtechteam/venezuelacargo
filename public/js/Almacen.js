@@ -60,11 +60,11 @@ var request = function request() {
         }, {
           name: 'Nro. Tracking'
         }, {
-          name: 'FT³'
+          name: 'Peso LB'
         }, {
           name: 'Vol'
         }, {
-          name: 'Peso LB'
+          name: 'FT³'
         }, {
           name: 'tipo de Envio'
         }, {

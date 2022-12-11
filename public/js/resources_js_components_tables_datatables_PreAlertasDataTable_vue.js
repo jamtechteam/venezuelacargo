@@ -46,6 +46,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PreAlertasDataTable',
   props: ['data'],
@@ -185,6 +188,8 @@ var render = function () {
             _vm._v(" " + _vm._s(item.nombres) + " " + _vm._s(item.apellidos)),
           ]),
         ]),
+        _vm._v(" "),
+        _c("td", [_c("span", [_vm._v(" " + _vm._s(item.tracking) + " ")])]),
         _vm._v(" "),
         _c("td", [_c("span", [_vm._v(" " + _vm._s(item.fecha_creado) + " ")])]),
         _vm._v(" "),

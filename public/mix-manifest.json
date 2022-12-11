@@ -10,6 +10,7 @@
     "/js/InfoPrealerta.js": "/js/InfoPrealerta.js",
     "/js/Client.js": "/js/Client.js",
     "/js/IndexEnvio.js": "/js/IndexEnvio.js",
+    "/js/ShowInvoice.js": "/js/ShowInvoice.js",
     "/js/UserClient.js": "/js/UserClient.js",
     "/js/Error404.js": "/js/Error404.js",
     "/js/UserAdmin.js": "/js/UserAdmin.js",
@@ -40,6 +41,5 @@
     "/js/AlertMessageComponent.js": "/js/AlertMessageComponent.js",
     "/js/TableAdminComponent.js": "/js/TableAdminComponent.js",
     "/js/FilterComponent.js": "/js/FilterComponent.js",
-    "/css/app.css": "/css/app.css",
-    "/js/ShowInvoice.js": "/js/ShowInvoice.js"
+    "/css/app.css": "/css/app.css"
 }

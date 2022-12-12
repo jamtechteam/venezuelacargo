@@ -78,7 +78,14 @@
                         <div class="card-status-bottom bg-success"></div>
                         <div class="card-body">
                             <h3 class="card-title">Resultado</h3>
-                            <p>{{result}}</p>
+                            <div v-show="result.total != ''">
+                                <p>TARIFA DE ENVIÓ: {{result.tarifa}} USD</p>
+                                <p>VOLUMEN: {{result.volumen}}</p>
+                                <p>PIE CUBICO: {{result.pie_cubico}}</p>
+                                <p>COSTO REEMPAQUE: {{result.cost_reempaque}} USD</p>
+                                <p>COSTO X TRACKING: {{result.cost_tracking}} USD</p>
+                                <p>TOTAL DE ENVIÓ: {{result.total}} USD</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,6 +106,7 @@
 <script>
 import LoaderComponent from './LoaderComponent.vue';
 import { formatPrice } from '../formatPrice.js';
+import { parseNum } from '../helpers/calcInvoice';
 
 export default {
     name: 'CalculadoraEnvio',
@@ -107,14 +115,21 @@ export default {
         return {
             loader: false,
             estados: [],
-            result: '',
             estado_id: '',
             tipo_envio: '',
             reempaque: '',
             alto: '',
             largo: '',
             ancho: '',
-            peso: ''
+            peso: '',
+            result: {
+                tarifa: '', 
+                volumen: '', 
+                pie_cubico: '', 
+                total: '', 
+                cost_reempaque: '', 
+                cost_tracking: ''
+            }
         };
     },
     components: {
@@ -152,7 +167,16 @@ export default {
                         await this.axios.get('calculadora', {params : params})
                         .then(response => {
                             this.loader = false;
-                            this.result = response.data.message;
+                            const { tarifa, volumen, pie_cubico, total, cost_reempaque, cost_tracking } = response.data.result;
+                            //this.result = response.data.message;
+                            this.result ={
+                                tarifa: formatPrice.constPrice(`${parseNum(tarifa).toFixed(2)}`, ',', '.'),
+                                volumen: parseNum(volumen).toFixed(2),
+                                pie_cubico: parseNum(pie_cubico).toFixed(2),
+                                total: formatPrice.constPrice(`${parseNum(total).toFixed(2)}`, ',', '.'),
+                                cost_reempaque: formatPrice.constPrice(`${parseNum(cost_reempaque).toFixed(2)}`, ',', '.'),
+                                cost_tracking: formatPrice.constPrice(`${parseNum(cost_tracking).toFixed(2)}`, ',', '.'),
+                            }
                             console.log('response', response.data)
                         }).catch(error => {
                             console.log(error.response.data)

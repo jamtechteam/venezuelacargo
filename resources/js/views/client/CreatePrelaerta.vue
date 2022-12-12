@@ -34,9 +34,6 @@
                                         <div v-if="errors.has('desp_tracking')" class="invalid-feedback">{{errors.first('desp_tracking')}}</div>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-dark w-100" @click="addTracking">Agregar Tracking</button>
-                                </div>
                                 <div class="col-12 mb-3">
                                     <div class="form-floating mt-2">
                                         <input type="date"   class="form-control" v-model="fecha_llegada"  id="fecha_llegada" name="fecha_llegada" aria-expanded="false" v-validate="'required'" data-vv-validate-on="change" :class="{'is-invalid': errors.first('fecha_llegada')}">
@@ -44,8 +41,11 @@
                                         <div v-if="errors.has('fecha_llegada')" class="invalid-feedback">{{errors.first('fecha_llegada')}}</div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-dark w-100" @click="addTracking">Agregar Tracking</button>
+                                </div>
                             </div>
-                            <div class="col-md-8 col-lg-8 col-12 mb-3 ps-4">
+                            <div class="col-md-8 col-lg-8 col-12 mb-3 ps-4 table-responsive">
                                 <table class="table table-transparent table-responsive">
                                     <thead>
                                         <tr>

@@ -74,6 +74,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var reItemAlmacen = function reItemAlmacen() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -118,6 +129,10 @@ var reItemAlmacen = function reItemAlmacen() {
     })));
   },
   methods: {
+    destroy_wh: function destroy_wh(e) {
+      var value = e.target.parentNode.value;
+      this.$emit('destroyWH', value);
+    },
     getStorage: function getStorage() {
       if (window.sessionStorage.getItem('idLocalStorage') !== undefined && window.sessionStorage.getItem('idLocalStorage')) {
         return JSON.parse(sessionStorage.getItem('idLocalStorage')).data;
@@ -496,6 +511,29 @@ var render = function () {
                     staticStyle: { "font-size": "21px" },
                   }),
                 ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  directives: [{ name: "title", rawName: "v-title" }],
+                  staticClass: "align-text-top nav-link m-0",
+                  staticStyle: {
+                    padding: "0",
+                    "margin-bottom": "0 !important",
+                  },
+                  attrs: {
+                    type: "button",
+                    value: item.id_almacen,
+                    title: "Eliminar WH",
+                  },
+                  on: {
+                    click: function ($event) {
+                      return _vm.destroy_wh($event)
+                    },
+                  },
+                },
+                [_c("i", { staticClass: "ti ti-trash fs-19" })]
               ),
             ],
             1

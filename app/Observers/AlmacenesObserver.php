@@ -73,11 +73,27 @@ class AlmacenesObserver
      */
     public function deleted(Almacenes $almacenes)
     {
-        if( $almacenes->estado == 'Miami' ){
+        //if( $almacenes->estado == 'Miami' ){
             SolicitudesEnvios::where('id_solicitud', '=', $almacenes->id_solicitud)
             ->where('activo', '=', true)
             ->update(['estado' => 'pendiente']);
-        }
+
+            Trackings::where('id_solicitud', '=', $almacenes->id_solicitud)
+            ->update([
+                'ancho' => null,
+                'alto' => null,
+                'largo' => null,
+                'peso' => null,
+                'num_piezas' => null,
+                'volumen' => null,
+                'pie_cubico' => null,
+                'ruta_image' => null,
+                'original' => true, // Original (true) o Modificado (false)
+                'reempaque' => 'no', 
+                'seguro' => 0,
+                'total_seguro' => 0
+            ]);
+        //}
     }
 
     /**

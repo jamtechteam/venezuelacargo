@@ -222,7 +222,7 @@
                 </thead>
                 <transition name="component-fade" mode="out-in">
                     <keep-alive>
-                        <component :is='tbodyComponent' v-bind:data="dataTble" v-bind:th="columns.th" @getId="getId" @sendCheckPago="sendCheckPago" @exporDonwload_pdf="exporDonwload_pdf" @send_invoice_pdf="send_invoice_pdf" @sendPagoFactura="sendPagoFactura"></component>
+                        <component :is='tbodyComponent' v-bind:data="dataTble" v-bind:th="columns.th" @getId="getId" @sendCheckPago="sendCheckPago" @exporDonwload_pdf="exporDonwload_pdf" @send_invoice_pdf="send_invoice_pdf" @sendPagoFactura="sendPagoFactura" @destroyWH="destroyWH"></component>
                     </keep-alive>
                 </transition>
             </table>
@@ -569,6 +569,13 @@ export default {
                 window.sessionStorage.removeItem('idLocalStorage');
                 this.$router.push({ name: 'CreateFacturas', query: { id: this.idAlmacen, envio: getDataLocalStorage.reempaque, type: 'new' } });
             }
+        },
+        destroyWH(id){
+            this.deleteData = {
+                url: 'almacenes',
+                id: id
+            }
+            this.$store.dispatch('tableadmin/modalDelete', true);
         },
         eliminar(e){
             let value = e.target.value;

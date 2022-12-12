@@ -273,6 +273,7 @@ class TasasDestinosController extends Controller
 
         $cost = $xTarifa * $tarifa;
         $cost_reempaque = 0;
+        
 
         if( $request->reempaque === 'si' ){
             $gastos_extras = GastosExtras::select(['monto_gasto_extra'])
@@ -283,9 +284,16 @@ class TasasDestinosController extends Controller
             $msg = $msg.' El costo reempaque es de '.$cost_reempaque.' USD.';
         }
 
-        $subtotal = $cost + $cost_reempaque;
+        $tracking = GastosExtras::select(['monto_gasto_extra'])
+            ->where('tipo', '=', 'TRACKING')
+            ->first();
+
+        $const_track = $tracking->monto_gasto_extra;
+
+        $subtotal = ($cost + $cost_reempaque) + $const_track;
         $total = round( $subtotal * 100 ) / 100;
 
+        
 
         $msg = $msg.' Y el costo total del envío es de '.$total.' USD';
 
@@ -293,7 +301,14 @@ class TasasDestinosController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => $msg,
+            'result' => [
+                'tarifa' => $tarifa,
+                'volumen' => $volumen,
+                'pie_cubico' => $pie_cubico,
+                'total' => $total,
+                'cost_reempaque' => $cost_reempaque,
+                'cost_tracking' => $tracking->monto_gasto_extra
+            ]
         ], 200);
         
     }

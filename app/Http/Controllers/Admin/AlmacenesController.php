@@ -556,7 +556,7 @@ class AlmacenesController extends Controller
         if ( FacturasInfoTrackings::where('warehouse', '=', $almacen->warehouse)->count() > 0 ) {
             return response()->json([
                 'status' => 422,
-                'message' => 'No se puede eliminar',
+                'message' => 'El WH no puede ser eliminado porque ya se encuentra facturado',
             ], 422);
         }
 
@@ -566,7 +566,7 @@ class AlmacenesController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'El warehouse: '. $warehouse.' fue eliminado con exito con éxito',
+            'message' => 'El warehouse: '. $warehouse.' fue eliminado con éxito',
         ], 200);
     }
 }

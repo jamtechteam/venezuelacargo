@@ -47,6 +47,17 @@
                         >
                         <i class="ti ti-edit" style="font-size: 21px;"></i>
                         </router-link>
+                        <button
+                            type="button"
+                            :value="item.id_almacen" 
+                            class="align-text-top nav-link m-0"
+                            style="padding: 0;margin-bottom: 0 !important;"
+                            title="Eliminar WH" 
+                            @click="destroy_wh($event)"
+                            v-title
+                        >
+                            <i class="ti ti-trash fs-19"></i>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -86,6 +97,10 @@ export default {
         })
     },
     methods: {
+        destroy_wh(e){
+            const { value } = e.target.parentNode;
+            this.$emit('destroyWH', value);
+        },
         getStorage(){
             if( window.sessionStorage.getItem('idLocalStorage') !== undefined && window.sessionStorage.getItem('idLocalStorage') ){
                 return JSON.parse(sessionStorage.getItem('idLocalStorage')).data;

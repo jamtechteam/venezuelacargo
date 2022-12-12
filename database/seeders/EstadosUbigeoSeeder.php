@@ -1130,7 +1130,7 @@ class EstadosUbigeoSeeder extends Seeder
                     'Matanzas',
                     'Moitaco',
                     'Otras Poblaciones',
-                    'Puerto Ordáz',
+                    'Puerto Ordaz',
                     'Puruey',
                     'San Félix',
                     'San Francisco de La Paragua',

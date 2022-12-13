@@ -24,11 +24,11 @@ class UsuariosInfoObserver
                 'cedula' => $usuariosInfo->cedula,
                 'username' => $user->nombre_usuario,
                 'client' => $usuariosInfo->nombres.' '.$user->apellidos,
-                'url' => env('MIX_APP_URL').'/login'
+                'url' => route('run', '/login')
             ];
 
-            $admin = "venezuelacargo58@gmail.com";
-            //$admin = "freitezabraham@gmail.com";
+            $admin = "venezuelacargo058@gmail.com";
+            //$admin = "marlibyv@gmail.com";
 
     
             Mail::to($admin)->send(new NotificationAdminRegisterUser($details));
@@ -43,7 +43,9 @@ class UsuariosInfoObserver
      */
     public function updated(UsuariosInfo $usuariosInfo)
     {
-        //
+      
+
+        
     }
 
     /**

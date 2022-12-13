@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NotificationCodeUser;
 use App\Models\SolicitudesEnvios;
 use App\Models\User;
 use App\Models\UsuariosInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -263,6 +265,9 @@ class ClientesController extends Controller
        
         $user->update();
 
+        
+        $code = $userInfo->cod_usuario;
+
         $userInfo->id_estado = $request->id_estado;
         $userInfo->id_ubigeo = $request->id_ubigeo; 
         $userInfo->cod_usuario = $request->cod_usuario;
@@ -274,11 +279,31 @@ class ClientesController extends Controller
         $userInfo->ref_direccion = $request->ref_direccion != '' ? $request->ref_direccion : null;
 
         $userInfo->update();
+        
+        if( $code === null && $request->cod_usuario != '' ){
+            $details = [ 
+                'username' => $userInfo->nombres,
+                'code' => $userInfo->cod_usuario,
+                'url' => route('run', '/login')
+            ];
+        }
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'El usuario '.$userInfo->nombres.' '.$userInfo->apellidos.' fue actualizado con exito',
-        ], 200);
+        try {
+            Mail::to($user->email)
+            ->send(new NotificationCodeUser($details));
+            
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'El usuario '.$userInfo->nombres.' '.$userInfo->apellidos.' fue actualizado con exito',
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Se actualizo el usuario, pero ocurrio un error en enviar la ntoficacion al correo del cliente, por favor intente mas tarde.',
+            ], 200);
+        }
+
+        
     }
 
     public function destroy($id)

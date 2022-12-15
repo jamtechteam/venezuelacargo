@@ -24,6 +24,8 @@ class EnviosController extends Controller
             'envios.fecha_estimada',
             'envios.fecha_creado',
             'envios.fecha_editado',
+            'usuarios_info.nombres', 
+            'usuarios_info.apellidos', 
         ];
 
         extract(request()->only(['query', 'limit', 'page', 'orderBy', 'ascending',]));
@@ -38,10 +40,14 @@ class EnviosController extends Controller
 
         $records = Envios::select($select)
         ->leftJoin('facturas', 'facturas.id_factura', '=', 'envios.id_factura')
+        ->leftJoin('usuarios_info', 'usuarios_info.usuario_id', '=', 'facturas.usuario_id')
         ->where('facturas.activo', '=', true)
         ->Where(function($query) {
             $query->orWhere('facturas.nro_factura',  'LIKE', '%'.$this->search.'%')
-                ->orWhere('facturas.nro_container',  'LIKE', '%'.$this->search.'%');
+                ->orWhere('facturas.nro_container',  'LIKE', '%'.$this->search.'%')
+                ->orWhere('usuarios_info.nombres',  'LIKE', '%'.$this->search.'%')
+                ->orWhere('usuarios_info.apellidos',  'LIKE', '%'.$this->search.'%')
+                ->orWhere('usuarios_info.cod_usuario',  'LIKE', '%'.$this->search.'%');
         });
 
         if( $this->estado != '' && $this->estado != 'all' ){

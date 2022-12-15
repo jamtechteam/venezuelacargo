@@ -1,1 +1,837 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[5833],{4609:(a,t,e)=>{e.d(t,{Z:()=>i});const o={name:"BtnVolver",props:["classe"],methods:{volver:function(){this.$router.go(-1)}}};const i=(0,e(1900).Z)(o,(function(){var a=this,t=a.$createElement,e=a._self._c||t;return e("button",{staticClass:"btn",class:a.classe,attrs:{type:"button"},on:{click:a.volver}},[e("i",{staticClass:"ti ti-arrow-back-up me-1"}),a._v("\n    Volver\n")])}),[],!1,null,null,null).exports},8302:(a,t,e)=>{e.r(t),e.d(t,{default:()=>v});var o=e(7757),i=e.n(o),s=e(4609);function c(a,t,e,o,i,s,c){try{var r=a[s](c),n=r.value}catch(a){return void e(a)}r.done?t(n):Promise.resolve(n).then(o,i)}function r(a){return function(){var t=this,e=arguments;return new Promise((function(o,i){var s=a.apply(t,e);function r(a){c(s,o,i,r,n,"next",a)}function n(a){c(s,o,i,r,n,"throw",a)}r(void 0)}))}}var n=function(){return e.e(8845).then(e.bind(e,555))},l=function(){return e.e(1093).then(e.bind(e,5852))};const d={name:"EditGeolocalizacion",data:function(){return{categoria:null,categorias:[],loader:!1,activeComponent:"",component404:"",alert:{msg:"",clss:""}}},beforeCreate:function(){this.$nextTick(r(i().mark((function a(){var t=this;return i().wrap((function(a){for(;;)switch(a.prev=a.next){case 0:return a.next=2,this.axios.get("geolocalizacion/".concat(this.$route.params.id,"/edit")).then((function(a){t.categoria=a.data.results.categoria,null!=t.categoria?(document.title=document.title+" : "+t.categoria.zona,t.categorias=a.data.results.categorias):t.component404=l,console.log(a.data)})).catch((function(a){console.log(a.response)}));case 2:case"end":return a.stop()}}),a,this)}))))},components:{loader:function(){return e.e(4932).then(e.bind(e,4932))},BtnVolver:s.Z},methods:{save:function(){var a=this;this.$validator.validate().then((function(t){t&&(a.loader=!0,a.activeComponent=n,a.axios.put("geolocalizacion/".concat(a.$route.params.id),a.categoria).then((function(t){console.log(t.data),a.loader=!1,a.alert={msg:t.data.message,clss:"updated"}})).catch((function(t){console.log(t.response),a.loader=!1,a.alert={msg:t.response.data.message,clss:"error"}})))}))}}};const v=(0,e(1900).Z)(d,(function(){var a=this,t=a.$createElement,e=a._self._c||t;return e("div",{staticClass:"container-xl"},[e("div",{staticClass:"row row-cards"},[e("div",{staticClass:"col-12"},[null!=a.categoria?e("div",{staticClass:"card card-edit"},[e("div",{directives:[{name:"show",rawName:"v-show",value:a.loader,expression:"loader"}],staticClass:"div-loader_white"},[e("loader")],1),a._v(" "),e("div",{staticClass:"card-header"},[e("h4",{staticClass:"card-title"},[a._v(a._s(a.categoria.zona))])]),a._v(" "),e("div",{staticClass:"card-body"},[e("div",{staticClass:"row"},[a.activeComponent?e("div",{staticClass:"col-xl-12 col-md-12"},[e(a.activeComponent,{tag:"component",attrs:{alert:a.alert}})],1):a._e(),a._v(" "),e("div",{staticClass:"col-xl-6 col-md-6"},[e("div",{staticClass:"mb-3"},[e("div",{staticClass:"form-floating mb-3"},[e("select",{directives:[{name:"model",rawName:"v-model",value:a.categoria.id_estado,expression:"categoria.id_estado"}],staticClass:"form-select",attrs:{id:"estado","aria-label":"Selecciona un estado"},on:{change:function(t){var e=Array.prototype.filter.call(t.target.options,(function(a){return a.selected})).map((function(a){return"_value"in a?a._value:a.value}));a.$set(a.categoria,"id_estado",t.target.multiple?e:e[0])}}},a._l(a.categorias,(function(t,o){return e("option",{key:o,domProps:{value:t.id_estado}},[a._v("\n                                            "+a._s(t.estado)+"\n                                        ")])})),0),a._v(" "),e("label",{attrs:{for:"estado"}},[a._v("Estados")])]),a._v(" "),e("div",{staticClass:"form-floating"},[e("input",{directives:[{name:"validate",rawName:"v-validate",value:"required|max:60",expression:"'required|max:60'"},{name:"model",rawName:"v-model",value:a.categoria.zona,expression:"categoria.zona"}],staticClass:"form-control",class:{"is-invalid":a.errors.first("zona")},attrs:{type:"text",name:"zona",id:"zona"},domProps:{value:a.categoria.zona},on:{input:function(t){t.target.composing||a.$set(a.categoria,"zona",t.target.value)}}}),a._v(" "),e("label",{attrs:{for:"zona"}},[a._v("Ubicaciòn o Zona")]),a._v(" "),a.errors.has("zona")?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.first("zona")))]):a._e()])])]),a._v(" "),e("div",{staticClass:"col-xl-6 col-md-6"},[e("div",{staticClass:"mb-3"},[e("div",{staticClass:"form-floating"},[e("input",{directives:[{name:"model",rawName:"v-model",value:a.categoria.codigo_postal,expression:"categoria.codigo_postal"},{name:"validate",rawName:"v-validate",value:"required|max:30|numeric",expression:"'required|max:30|numeric'"}],staticClass:"form-control",class:{"is-invalid":a.errors.first("codigo_postal")},attrs:{type:"text",name:"codigo_postal",id:"codigo_postal"},domProps:{value:a.categoria.codigo_postal},on:{input:function(t){t.target.composing||a.$set(a.categoria,"codigo_postal",t.target.value)}}}),a._v(" "),e("label",{attrs:{for:"codigo_postal"}},[a._v("Còdigo Postal")]),a._v(" "),a.errors.has("codigo_postal")?e("div",{staticClass:"invalid-feedback"},[a._v(a._s(a.errors.first("codigo_postal")))]):a._e()])]),a._v(" "),e("div",{staticClass:"mb-3"},[e("div",{staticClass:"form-label"},[a._v("Visible")]),a._v(" "),e("div",[e("label",{staticClass:"form-check form-check-inline"},[1==a.categoria.activo?e("input",{directives:[{name:"model",rawName:"v-model",value:a.categoria.activo,expression:"categoria.activo"}],staticClass:"form-check-input",attrs:{name:"activo",type:"radio",id:"1",checked:"",value:"1"},domProps:{checked:a._q(a.categoria.activo,"1")},on:{change:function(t){return a.$set(a.categoria,"activo","1")}}}):e("input",{directives:[{name:"model",rawName:"v-model",value:a.categoria.activo,expression:"categoria.activo"}],staticClass:"form-check-input",attrs:{name:"activo",type:"radio",id:"0",value:"1"},domProps:{checked:a._q(a.categoria.activo,"1")},on:{change:function(t){return a.$set(a.categoria,"activo","1")}}}),a._v(" "),e("span",{staticClass:"form-check-label",attrs:{id:"1"}},[a._v("Activo")])]),a._v(" "),e("label",{staticClass:"form-check form-check-inline"},[0==a.categoria.activo?e("input",{directives:[{name:"model",rawName:"v-model",value:a.categoria.activo,expression:"categoria.activo"}],staticClass:"form-check-input",attrs:{name:"activo",id:"0",type:"radio",checked:"",value:"0"},domProps:{checked:a._q(a.categoria.activo,"0")},on:{change:function(t){return a.$set(a.categoria,"activo","0")}}}):e("input",{directives:[{name:"model",rawName:"v-model",value:a.categoria.activo,expression:"categoria.activo"}],staticClass:"form-check-input",attrs:{name:"activo",id:"0",type:"radio",value:"0"},domProps:{checked:a._q(a.categoria.activo,"0")},on:{change:function(t){return a.$set(a.categoria,"activo","0")}}}),a._v(" "),e("span",{staticClass:"form-check-label",attrs:{id:"0"}},[a._v("Inactivo")])])])])])])]),a._v(" "),e("div",{staticClass:"card-footer text-end"},[e("div",{staticClass:"d-flex"},[e("btn-volver",{attrs:{classe:"btn-light"}}),a._v(" "),e("button",{staticClass:"btn btn-primary ms-auto",attrs:{type:"submit"},on:{click:a.save}},[e("i",{staticClass:"ti ti-plus me-1"}),a._v("\n                            Guardar\n                        ")])],1)])]):e(a.component404,{tag:"component"})],1)])])}),[],!1,null,null,null).exports}}]);
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["EditGeolocalizacion"],{
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'BtnVolver',
+  props: ['classe'],
+  methods: {
+    volver: function volver() {
+      this.$router.go(-1);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_BtnVolver_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/BtnVolver.vue */ "./resources/js/components/BtnVolver.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var LoaderComponent = function LoaderComponent() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_LoaderComponent_vue-_c2860").then(__webpack_require__.bind(__webpack_require__, /*! ../../../../components/LoaderComponent.vue */ "./resources/js/components/LoaderComponent.vue"));
+};
+
+var AlertMessageComponent = function AlertMessageComponent() {
+  return __webpack_require__.e(/*! import() */ "AlertMessageComponent").then(__webpack_require__.bind(__webpack_require__, /*! ../../../../components/AlertMessageComponent.vue */ "./resources/js/components/AlertMessageComponent.vue"));
+};
+
+var Component404 = function Component404() {
+  return __webpack_require__.e(/*! import() */ "Error404").then(__webpack_require__.bind(__webpack_require__, /*! ../../../../components/Error404Component.vue */ "./resources/js/components/Error404Component.vue"));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'EditGeolocalizacion',
+  data: function data() {
+    return {
+      categoria: null,
+      categorias: [],
+      loader: false,
+      activeComponent: '',
+      component404: '',
+      alert: {
+        msg: '',
+        clss: ''
+      }
+    };
+  },
+  beforeCreate: function beforeCreate() {
+    this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var _this = this;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.axios.get("geolocalizacion/".concat(this.$route.params.id, "/edit")).then(function (response) {
+                _this.categoria = response.data.results.categoria;
+
+                if (_this.categoria != null) {
+                  document.title = document.title + ' : ' + _this.categoria.zona;
+                  _this.categorias = response.data.results.categorias;
+                } else {
+                  _this.component404 = Component404;
+                }
+
+                console.log(response.data);
+              })["catch"](function (error) {
+                console.log(error.response);
+              });
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+  },
+  components: {
+    loader: LoaderComponent,
+    BtnVolver: _components_BtnVolver_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  methods: {
+    save: function save() {
+      var _this2 = this;
+
+      this.$validator.validate().then(function (valid) {
+        if (valid) {
+          _this2.loader = true;
+          _this2.activeComponent = AlertMessageComponent;
+
+          _this2.axios.put("geolocalizacion/".concat(_this2.$route.params.id), _this2.categoria).then(function (response) {
+            console.log(response.data);
+            _this2.loader = false;
+            _this2.alert = {
+              msg: response.data.message,
+              clss: 'updated'
+            };
+          })["catch"](function (error) {
+            console.log(error.response);
+            _this2.loader = false;
+            _this2.alert = {
+              msg: error.response.data.message,
+              clss: 'error'
+            };
+          });
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/BtnVolver.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/BtnVolver.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BtnVolver.vue?vue&type=template&id=34e53391& */ "./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391&");
+/* harmony import */ var _BtnVolver_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BtnVolver.vue?vue&type=script&lang=js& */ "./resources/js/components/BtnVolver.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BtnVolver_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__.render,
+  _BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/BtnVolver.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditGeolocalizacion.vue?vue&type=template&id=18f49b84& */ "./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84&");
+/* harmony import */ var _EditGeolocalizacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditGeolocalizacion.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditGeolocalizacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__.render,
+  _EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/BtnVolver.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/BtnVolver.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnVolver_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BtnVolver.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnVolver_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditGeolocalizacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditGeolocalizacion.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditGeolocalizacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnVolver_vue_vue_type_template_id_34e53391___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BtnVolver.vue?vue&type=template&id=34e53391& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391&");
+
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84& ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditGeolocalizacion_vue_vue_type_template_id_18f49b84___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditGeolocalizacion.vue?vue&type=template&id=18f49b84& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/BtnVolver.vue?vue&type=template&id=34e53391& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "btn",
+      class: _vm.classe,
+      attrs: { type: "button" },
+      on: { click: _vm.volver },
+    },
+    [
+      _c("i", { staticClass: "ti ti-arrow-back-up me-1" }),
+      _vm._v("\n    Volver\n"),
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/configuracion/ubigeo/EditGeolocalizacion.vue?vue&type=template&id=18f49b84& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-xl" }, [
+    _c("div", { staticClass: "row row-cards" }, [
+      _c(
+        "div",
+        { staticClass: "col-12" },
+        [
+          _vm.categoria != null
+            ? _c("div", { staticClass: "card card-edit" }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.loader,
+                        expression: "loader",
+                      },
+                    ],
+                    staticClass: "div-loader_white",
+                  },
+                  [_c("loader")],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h4", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.categoria.zona)),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm.activeComponent
+                      ? _c(
+                          "div",
+                          { staticClass: "col-xl-12 col-md-12" },
+                          [
+                            _c(_vm.activeComponent, {
+                              tag: "component",
+                              attrs: { alert: _vm.alert },
+                            }),
+                          ],
+                          1
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-xl-6 col-md-6" }, [
+                      _c("div", { staticClass: "mb-3" }, [
+                        _c("div", { staticClass: "form-floating mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.categoria.id_estado,
+                                  expression: "categoria.id_estado",
+                                },
+                              ],
+                              staticClass: "form-select",
+                              attrs: {
+                                id: "estado",
+                                "aria-label": "Selecciona un estado",
+                              },
+                              on: {
+                                change: function ($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function (o) {
+                                      return o.selected
+                                    })
+                                    .map(function (o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.categoria,
+                                    "id_estado",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                              },
+                            },
+                            _vm._l(_vm.categorias, function (cat, index) {
+                              return _c(
+                                "option",
+                                {
+                                  key: index,
+                                  domProps: { value: cat.id_estado },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(cat.estado) +
+                                      "\n                                        "
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "estado" } }, [
+                            _vm._v("Estados"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-floating" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "validate",
+                                rawName: "v-validate",
+                                value: "required|max:60",
+                                expression: "'required|max:60'",
+                              },
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.categoria.zona,
+                                expression: "categoria.zona",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            class: { "is-invalid": _vm.errors.first("zona") },
+                            attrs: { type: "text", name: "zona", id: "zona" },
+                            domProps: { value: _vm.categoria.zona },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.categoria,
+                                  "zona",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "zona" } }, [
+                            _vm._v("Ubicaciòn o Zona"),
+                          ]),
+                          _vm._v(" "),
+                          _vm.errors.has("zona")
+                            ? _c("div", { staticClass: "invalid-feedback" }, [
+                                _vm._v(_vm._s(_vm.errors.first("zona"))),
+                              ])
+                            : _vm._e(),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-xl-6 col-md-6" }, [
+                      _c("div", { staticClass: "mb-3" }, [
+                        _c("div", { staticClass: "form-floating" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.categoria.codigo_postal,
+                                expression: "categoria.codigo_postal",
+                              },
+                              {
+                                name: "validate",
+                                rawName: "v-validate",
+                                value: "required|max:30|numeric",
+                                expression: "'required|max:30|numeric'",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.errors.first("codigo_postal"),
+                            },
+                            attrs: {
+                              type: "text",
+                              name: "codigo_postal",
+                              id: "codigo_postal",
+                            },
+                            domProps: { value: _vm.categoria.codigo_postal },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.categoria,
+                                  "codigo_postal",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "codigo_postal" } }, [
+                            _vm._v("Còdigo Postal"),
+                          ]),
+                          _vm._v(" "),
+                          _vm.errors.has("codigo_postal")
+                            ? _c("div", { staticClass: "invalid-feedback" }, [
+                                _vm._v(
+                                  _vm._s(_vm.errors.first("codigo_postal"))
+                                ),
+                              ])
+                            : _vm._e(),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mb-3" }, [
+                        _c("div", { staticClass: "form-label" }, [
+                          _vm._v("Visible"),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c(
+                            "label",
+                            { staticClass: "form-check form-check-inline" },
+                            [
+                              _vm.categoria.activo == 1
+                                ? _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.categoria.activo,
+                                        expression: "categoria.activo",
+                                      },
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      name: "activo",
+                                      type: "radio",
+                                      id: "1",
+                                      checked: "",
+                                      value: "1",
+                                    },
+                                    domProps: {
+                                      checked: _vm._q(
+                                        _vm.categoria.activo,
+                                        "1"
+                                      ),
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.$set(
+                                          _vm.categoria,
+                                          "activo",
+                                          "1"
+                                        )
+                                      },
+                                    },
+                                  })
+                                : _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.categoria.activo,
+                                        expression: "categoria.activo",
+                                      },
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      name: "activo",
+                                      type: "radio",
+                                      id: "0",
+                                      value: "1",
+                                    },
+                                    domProps: {
+                                      checked: _vm._q(
+                                        _vm.categoria.activo,
+                                        "1"
+                                      ),
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.$set(
+                                          _vm.categoria,
+                                          "activo",
+                                          "1"
+                                        )
+                                      },
+                                    },
+                                  }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "form-check-label",
+                                  attrs: { id: "1" },
+                                },
+                                [_vm._v("Activo")]
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            { staticClass: "form-check form-check-inline" },
+                            [
+                              _vm.categoria.activo == 0
+                                ? _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.categoria.activo,
+                                        expression: "categoria.activo",
+                                      },
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      name: "activo",
+                                      id: "0",
+                                      type: "radio",
+                                      checked: "",
+                                      value: "0",
+                                    },
+                                    domProps: {
+                                      checked: _vm._q(
+                                        _vm.categoria.activo,
+                                        "0"
+                                      ),
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.$set(
+                                          _vm.categoria,
+                                          "activo",
+                                          "0"
+                                        )
+                                      },
+                                    },
+                                  })
+                                : _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.categoria.activo,
+                                        expression: "categoria.activo",
+                                      },
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      name: "activo",
+                                      id: "0",
+                                      type: "radio",
+                                      value: "0",
+                                    },
+                                    domProps: {
+                                      checked: _vm._q(
+                                        _vm.categoria.activo,
+                                        "0"
+                                      ),
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.$set(
+                                          _vm.categoria,
+                                          "activo",
+                                          "0"
+                                        )
+                                      },
+                                    },
+                                  }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "form-check-label",
+                                  attrs: { id: "0" },
+                                },
+                                [_vm._v("Inactivo")]
+                              ),
+                            ]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-footer text-end" }, [
+                  _c(
+                    "div",
+                    { staticClass: "d-flex" },
+                    [
+                      _c("btn-volver", { attrs: { classe: "btn-light" } }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary ms-auto",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.save },
+                        },
+                        [
+                          _c("i", { staticClass: "ti ti-plus me-1" }),
+                          _vm._v(
+                            "\n                            Guardar\n                        "
+                          ),
+                        ]
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+              ])
+            : _c(_vm.component404, { tag: "component" }),
+        ],
+        1
+      ),
+    ]),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ })
+
+}]);

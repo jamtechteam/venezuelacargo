@@ -33,7 +33,8 @@ export default {
             data: {
                 th: [
                     {name: 'Nro Factura'}, 
-                    {name: 'Nro Container'},                    
+                    {name: 'Nro Container'},  
+                    {name: 'Cliente'},                  
                     {name: 'Tipo de Envio'},
                     {name: 'Estado de Envio'},
                     {name: 'Actualización de Envío'},
@@ -56,7 +57,7 @@ export default {
             filters: {
                 name: 'IndexEnvios',
                 first: {
-                    placeholder: 'Busca por numero de factura ó container'
+                    placeholder: 'Busca por numero de factura, contenedor ó cliente ( nombre, apellido o codigo )'
                 },
                 second: [
                     {

@@ -87,6 +87,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="w-100 mb-3" v-if="activeComponent != ''"><component :is='activeComponent' v-bind:alert="alert"></component></div>
+                            <div class="text-muted"><p>Monto en USD: <strong>{{factura.total_usd}}$</strong></p></div>
                             <div class="text-muted mb-3 d-flex">
                                 <strong class="me-1">Nota: </strong> <p>Para el pago en bolivares, la tasa de cambio a considerar, es esta: <strong>{{tasa}} VES</strong> y el monto total en Bolivares es de: <strong>{{factura.total_ves}} VES</strong></p>
                             </div>
@@ -118,19 +119,25 @@
                                 <div class="card-body">
                                     <div v-show="pago.tipo_pago == 'usd'">
                                         <h3 class="card-title">BANK OF AMERICA</h3>
-                                        <p><strong>NRO DE CUENTA</strong> 3340 6659 9986 <strong>TIPO</strong>: CTA CORRIENTE</p>
-                                        <p><strong>ABA ROUTING NUMBER</strong> 061000052</p>
+                                        <p><strong>NRO DE CUENTA:</strong> 3340 6659 9986</p>
+                                        <p><strong>TIPO:</strong> CTA CORRIENTE</p>
+                                        <p><strong>ABA ROUTING NUMBER:</strong> 061000052</p>
                                         <p><strong>Nota:</strong> NO COLOCAR NADA EN EL ASUNTO DE LA TRANSFERENCIA</p>
                                         <br>
                                         <h3 class="card-title">ZELLE</h3>
-                                        <p><strong>CORREO ELECTRÓNICO</strong> VENEZUELACARGO@ICLOUD.COM</p>
+                                        <p><strong>CORREO ELECTRÓNICO:</strong> VENEZUELACARGO@ICLOUD.COM</p>
+                                        <br>
+                                        <h3 class="card-title">BINANCE USDT</h3>
+                                        <p><strong>CORREO ELECTRÓNICO:</strong> Importacionesreca@hotmail.com</p>
                                     </div>
                                     <div v-show="pago.tipo_pago == 'ves'">
                                         <h3 class="card-title">BANCO BANESCO</h3>
-                                        <p><strong>NRO DE CUENTA</strong> 0134 0869 6486 9302 5833 <strong>TIPO</strong>: CTA CORRIENTE</p>
-                                        <p><strong>TITULAR: </strong> CARLOS EDUARDO RESTREPO RUIZ <strong>C.I</strong>: V-17.632.959</p>
+                                        <p><strong>NRO DE CUENTA:</strong> 0134 0869 6486 9302 5833</p>
+                                        <p><strong>TIPO:</strong>CTA CORRIENTE</p>
+                                        <p><strong>TITULAR: </strong> CARLOS EDUARDO RESTREPO RUIZ</p>
+                                        <p><strong>C.I:</strong>V-17.632.959</p>
                                         <p><strong>TELÉFONO: </strong> (0412)1812469 </p>
-                                        <p><strong>Nota:</strong> : PAGOS POR TRANSFERENCIAS Y PAGO MÓVIL</p>
+                                        <p><strong>Nota:</strong> PAGOS POR TRANSFERENCIAS Y PAGO MÓVIL</p>
                                     </div>
                                 </div>
                             </div>

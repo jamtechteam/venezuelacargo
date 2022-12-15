@@ -242,7 +242,7 @@ export default {
                 id_solicitud: '',
                 id_tracking: '',
                 reempaque: '',
-                total_seguro: 0.00
+                total_seguro: '0.00'
             },
             show: false,
             tracking: {}

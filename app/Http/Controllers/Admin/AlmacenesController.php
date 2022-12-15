@@ -51,8 +51,8 @@ class AlmacenesController extends Controller
         $this->search = ( $query != null && isset($query->search) && $query->search != '' ) ? $query->search : "";
         $this->estado = ( $query != null && isset($query->estado) && $query->estado != '' ) ? $query->estado : "";
         $this->instrucciones = ( $query != null && isset($query->instrucciones) && $query->instrucciones != '' ) ? $query->instrucciones : "";
-        $this->fecha_inicio = ( $query != null && isset($query->fecha_inicio) && $query->fecha_inicio != '' ) ? $query->fecha_inicio : "";
-        $this->fecha_final = ( $query != null && isset($query->fecha_final) && $query->fecha_final != '' ) ? $query->fecha_final : "";
+        $this->tipo_envio = ( $query != null && isset($query->tipo_envio) && $query->tipo_envio != '' ) ? $query->tipo_envio : "all";
+        $this->envio = ( $query != null && isset($query->envio) && $query->envio != '' ) ? $query->envio : "all";
        
        
         $records = Almacenes::select($select)
@@ -78,14 +78,14 @@ class AlmacenesController extends Controller
             }else if($this->instrucciones == 'si') {
                 $records = $records->where('almacenes.status', '=', true);
             }
-            
         }
 
-        if( $this->fecha_inicio != '' || $this->fecha_final != ''){
-            $this->fecha_inicio = ( $this->fecha_inicio == '' ) ? Carbon::now()->format('Y-m-d') : $this->fecha_inicio;
-            $this->fecha_final = (  $this->fecha_final == '' ) ? Carbon::now()->format('Y-m-d') :  $this->fecha_final;
-           
-            $records = $records->whereBetween('almacenes.fecha_editado', [$this->fecha_inicio, $this->fecha_final]);
+        if( $this->tipo_envio != 'all'){
+            $records = $records->where('almacenes.tipo_envio', '=', $this->tipo_envio);
+        }
+
+        if( $this->envio != 'all'){
+            $records = $records->where('trackings.reempaque', '=', $this->envio);
         }
 
         $count = $records->count();

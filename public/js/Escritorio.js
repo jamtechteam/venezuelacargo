@@ -1,1 +1,1144 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[4732],{7675:(t,e,a)=>{a.d(e,{T:()=>r});var n=[{field:"tarifa_maritimo",money:"usd"},{field:"tarifa_aereo",money:"usd"},{field:"monto_tc",money:"ves"},{field:"monto_gasto_extra",money:"usd"},{field:"monto_cond",money:"usd"},{field:"seguro",money:"usd"}],r={init:function(){console.log("as");for(var t=0;t<n.length;t++)document.getElementById(n[t].field)&&function(){console.log("ass");var e="usd"==n[t].money?".":"ves"==n[t].money?",":null;"usd"==n[t].money||n[t].money;document.getElementById(n[t].field).addEventListener("keypress",(function(t){var e=window.Event?t.which:t.keyCod;(e<48||e>57)&&t.preventDefault()})),document.getElementById(n[t].field).addEventListener("click",(function(t){""==t.target.value&&(t.target.value="0"+e+"00")}))}()},destructPrecio:function(t,e){var a=function(t){return n.filter((function(e){return e.field===t}))},r=t;if(console.log(a(e)),0!=a(e).length){var s="usd"==a(e)[0].money?",":"ves"==a(e)[0].money?".":null;if(t.includes(s)){for(var o=t.split(s),l="",i=0;i<o.length;i++)l=l+""+o[i];r=l}}return r},constPrice:function(t,e,a){return s(t,e,a)},desctPrice:function(t,e){var a=t;if(console.log("precio",t),t.includes(e)){for(var n=t.split(e),r="",s=0;s<n.length;s++)r=r+""+n[s];a=r}return a},checkField:function(t){for(var e=0;e<n.length;e++)if(n[e].field==t)return!0;return!1},moneda:function(t){for(var e=0;e<n.length;e++)if(n[e].field==t)return n[e].money}},s=function(t,e,a){for(var n=[],r=[],s=t.split(""),o=0;o<s.length;o++)isNaN(parseInt(s[o]))||n.push(s[o]);if(1==n.length||2==n.length)for(var l=2==n.length?1:2,i=0;i<l;i++)n.unshift(0);n=n.reverse();for(var c=4,d=0;d<n.length;d++){var u=!0,m="";1==d?(m=a,r.push(n[d])):c==d&&d!=n.length-1&&n.length>5?(m=e,c+=3,r.push(n[d])):4==n.length&&n.length-1==d&&0==n[d]&&0==n[n.length-2]||4==n.length&&n.length-1==d&&0==n[d]&&0!=n[n.length-2]?(u=!1,console.log("*")):m=n[d],u&&r.push(m)}return r.reverse().join("")}},9844:(t,e,a)=>{a.r(e),a.d(e,{default:()=>f});var n=a(7757),r=a.n(n),s=a(7675);function o(t,e){return function(t){if(Array.isArray(t))return t}(t)||function(t,e){var a=null==t?null:"undefined"!=typeof Symbol&&t[Symbol.iterator]||t["@@iterator"];if(null==a)return;var n,r,s=[],o=!0,l=!1;try{for(a=a.call(t);!(o=(n=a.next()).done)&&(s.push(n.value),!e||s.length!==e);o=!0);}catch(t){l=!0,r=t}finally{try{o||null==a.return||a.return()}finally{if(l)throw r}}return s}(t,e)||function(t,e){if(!t)return;if("string"==typeof t)return l(t,e);var a=Object.prototype.toString.call(t).slice(8,-1);"Object"===a&&t.constructor&&(a=t.constructor.name);if("Map"===a||"Set"===a)return Array.from(t);if("Arguments"===a||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(a))return l(t,e)}(t,e)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function l(t,e){(null==e||e>t.length)&&(e=t.length);for(var a=0,n=new Array(e);a<e;a++)n[a]=t[a];return n}function i(t,e,a,n,r,s,o){try{var l=t[s](o),i=l.value}catch(t){return void a(t)}l.done?e(i):Promise.resolve(i).then(n,r)}function c(t){return function(){var e=this,a=arguments;return new Promise((function(n,r){var s=t.apply(e,a);function o(t){i(s,n,r,o,l,"next",t)}function l(t){i(s,n,r,o,l,"throw",t)}o(void 0)}))}}var d=function(){return a.e(5075).then(a.bind(a,5075))},u=function(){return a.e(5344).then(a.bind(a,5344))},m=function(){return a.e(828).then(a.bind(a,828))},v=function(){return a.e(9258).then(a.bind(a,9258))},C=function(){return a.e(4592).then(a.bind(a,5757))};const h={name:"Escritorio",data:function(){return{CalcularEnvioComponent:"",showModalCalcular:!1,CardClientsComponent:d,CardPrealertasComponent:d,CardEnviosComponent:d,CardFacturasComponent:d,dataClients:{title:"Clientes",value:7,result:"",var:"dataClients",event:"changeCardSmall"},dataPrealertas:{title:"Paq. Recibidos",value:7,result:"",var:"dataPrealertas",event:"changeCardSmall"},dataEnviados:{title:"Enviados",value:7,result:"",var:"dataEnvios",event:"changeCardSmall"},dataFacturas:{title:"Ingresos",value:7,result:"",var:"dataFacturas",event:"changeCardSmall"},CardSmPrealertsComponent:m,dataPreAlerts:{title:"Prealertas",subtitle:"SOLICITUDES DE ENVÍOS",icon:"ti ti-bell-ringing",bg:"bg-red",result:"",name:"IndexPrealertas",query:{search:"",estado:"pendiente",fecha_inicio:"",fecha_final:""}},CardSmClientStateComponent:m,dataClientState:{title:"Clientes",subtitle:"SIN CÓDIGOS",icon:"ti ti-users",bg:"bg-blue",result:"",name:"IndexClientes",query:{id_estado:"all",cod_user:"1",search:"",fecha_inicio:"",fecha_final:""}},CardSmWarehouseComponent:m,dataWarehouse:{title:"Warehouse",subtitle:"SIN INTRUCCIONES",icon:"ti ti-building-warehouse",bg:"bg-yellow",result:"",name:"IndexAlmacen",query:{search:"",estado:"all",instrucciones:"no",fecha_inicio:"",fecha_final:""}},CardSmInvoicesComponent:m,dataInvoices:{title:"Por Cobrar",subtitle:"FACTURAS",icon:"ti ti-file-invoice",bg:"bg-lime",result:"",name:"IndexFacturas",query:{search:"",estado:"pendiente",fecha_inicio:"",fecha_final:""}},dataEstUsers:[]}},beforeCreate:function(){this.$nextTick(c(r().mark((function t(){return r().wrap((function(t){for(;;)switch(t.prev=t.next){case 0:return t.next=2,this.getCardSmallWhereFech("clientes-analyze",this.dataClients.value,this.dataClients.var);case 2:return t.next=4,this.getCardSmallWhereFech("prealertas-analyze",this.dataPrealertas.value,this.dataPrealertas.var);case 4:return t.next=6,this.getCardSmallWhereFech("envios-analyze",this.dataEnviados.value,this.dataEnviados.var);case 6:return t.next=8,this.getCardSmallWhereFech("facturas-analyze",this.dataFacturas.value,this.dataFacturas.var);case 8:return t.next=10,this.getCardSmallWhereFech("clientes-sincodigos","","dataClientState");case 10:return t.next=12,this.getCardSmallWhereFech("prealertas-pendientes","","dataPreAlerts");case 12:return t.next=14,this.getCardSmallWhereFech("warehouse-pendientes","","dataWarehouse");case 14:return t.next=16,this.getCardSmallWhereFech("facturas-pendientes","","dataInvoices");case 16:return t.next=18,this.getCardSmallWhereFech("estados-usuarios","","dataEstUsers");case 18:case"end":return t.stop()}}),t,this)}))))},methods:{abrirCalculadora:function(){""==this.CalcularEnvioComponent&&(this.CalcularEnvioComponent=C),this.showModalCalcular=!0},closeModalCalcularEnvio:function(){this.showModalCalcular=!1},getCardSmallWhereFech:function(t,e,a){var n=this;return c(r().mark((function o(){var l;return r().wrap((function(r){for(;;)switch(r.prev=r.next){case 0:return l=function(t){setTimeout((function(){switch(t){case 1:n.CardClientsComponent=u;break;case 2:n.CardPrealertasComponent=u;break;case 3:n.CardEnviosComponent=u;break;case 4:n.CardFacturasComponent=u;break;case 5:n.CardSmPrealertsComponent=v;break;case 6:n.CardSmWarehouseComponent=v;break;case 7:n.CardSmInvoicesComponent=v;break;case 8:n.CardSmClientStateComponent=v}}),2e3)},r.next=3,n.axios.get(t,{params:{valor:e}}).then((function(t){if(console.log(t.data),"dataClients"===a)n.dataClients.value=t.data.valor,n.dataClients.result=t.data.result,l(1);else if("dataPrealertas"===a)n.dataPrealertas.value=t.data.valor,n.dataPrealertas.result=t.data.result,l(2);else if("dataEnvios"==a)n.dataEnviados.value=t.data.valor,n.dataEnviados.result=t.data.result,l(3);else if("dataFacturas"==a){n.dataFacturas.value=t.data.valor;var e=t.data.result;e=(e=(e=e%1==0?parseInt(e):parseFloat(e))%1==0?parseInt(e):parseFloat(e)).toFixed(2),e=s.T.constPrice("".concat(e),",","."),n.dataFacturas.result="$".concat(e),l(4)}else"dataPreAlerts"==a?(n.dataPreAlerts.result=t.data.result,l(5)):"dataWarehouse"==a?(n.dataWarehouse.result=t.data.result,l(6)):"dataInvoices"==a?(n.dataInvoices.result=t.data.result,l(7)):"dataClientState"==a?(n.dataClientState.result=t.data.result,l(8)):"dataEstUsers"==a&&(n.dataEstUsers=t.data.result)})).catch((function(t){console.log(t.response.data)}));case 3:case"end":return r.stop()}}),o)})))()},changeCardSmall:function(t){var e=this;return c(r().mark((function a(){var n,s,l,i;return r().wrap((function(a){for(;;)switch(a.prev=a.next){case 0:return n=o(t,2),s=n[0],l=n[1],i="clientes-analyze","dataClients"===l?e.CardClientsComponent=d:"dataPrealertas"===l?(i="prealertas-analyze",e.CardPrealertasComponent=d):"dataEnvios"==l?(i="envios-analyze",e.CardEnviosComponent=d):"dataFacturas"==l&&(i="facturas-analyze",e.CardFacturasComponent=d),a.next=5,e.getCardSmallWhereFech(i,s,l);case 5:case"end":return a.stop()}}),a)})))()}}};const f=(0,a(1900).Z)(h,(function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("div",{staticClass:"page-body"},[a("div",{staticClass:"container-xl mb-3"},[a("div",{staticClass:"page-header d-print-none"},[a("div",{staticClass:"row align-items-center"},[t._m(0),t._v(" "),a("div",{staticClass:"col-auto ms-auto d-print-none"},[a("div",{staticClass:"btn-list"},[a("button",{staticClass:"btn btn-primary",attrs:{type:"button"},on:{click:t.abrirCalculadora}},[a("i",{staticClass:"ti ti-calculator me-2",staticStyle:{"font-size":"16px"}}),t._v(" "),a("span",{staticClass:"d-none d-sm-inline-block"},[t._v("Calculadora")])])]),t._v(" "),a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CalcularEnvioComponent,{tag:"component",attrs:{show:t.showModalCalcular},on:{closeModalCalcularEnvio:t.closeModalCalcularEnvio}})],1)],1)],1)])])]),t._v(" "),a("div",{staticClass:"container-xl"},[a("div",{staticClass:"row row-deck row-cards"},[a("div",{staticClass:"col-sm-6 col-lg-3 mb-3"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardClientsComponent,{ref:"dataClientsCard",tag:"component",attrs:{data:t.dataClients},on:{changeCardSmall:t.changeCardSmall}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-sm-6 col-lg-3 mb-3"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardPrealertasComponent,{ref:"dataPrealertasCard",tag:"component",attrs:{data:t.dataPrealertas},on:{changeCardSmall:t.changeCardSmall}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-sm-6 col-lg-3 mb-3"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardEnviosComponent,{ref:"dataEnviosCard",tag:"component",attrs:{data:t.dataEnviados},on:{changeCardSmall:t.changeCardSmall}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-sm-6 col-lg-3 mb-3"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardFacturasComponent,{ref:"dataFacturasCard",tag:"component",attrs:{data:t.dataFacturas},on:{changeCardSmall:t.changeCardSmall}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-md-8"},[a("div",{staticClass:"card",staticStyle:{height:"calc(20rem + 15px)"}},[a("div",{staticClass:"card-table table-responsive"},[a("table",{staticClass:"table table-vcenter"},[t._m(1),t._v(" "),a("tbody",t._l(t.dataEstUsers,(function(e,n){return a("tr",{key:n},[a("td",{staticClass:"td-truncate text-muted"},[a("div",{staticClass:"text-truncate"},[t._v("\r\n                                    "+t._s(e.estado)+"\r\n                                ")])]),t._v(" "),a("td",{staticClass:"text-center"},[a("router-link",{attrs:{to:{name:"IndexClientes",query:{id_estado:e.id_estado,cod_user:"0",search:"",fecha_inicio:"",fecha_final:""}}}},[t._v("\r\n                                    "+t._s(e.cant)+"\r\n                                ")])],1)])})),0)])])])]),t._v(" "),a("div",{staticClass:"col-md-4"},[a("div",{staticClass:"row row-cards"},[a("div",{staticClass:"col-12"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardSmClientStateComponent,{tag:"component",attrs:{data:t.dataClientState}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-12"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardSmPrealertsComponent,{tag:"component",attrs:{data:t.dataPreAlerts}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-12"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardSmWarehouseComponent,{tag:"component",attrs:{data:t.dataWarehouse}})],1)],1)],1),t._v(" "),a("div",{staticClass:"col-12"},[a("transition",{attrs:{name:"component-fade",mode:"out-in"}},[a("keep-alive",[a(t.CardSmInvoicesComponent,{tag:"component",attrs:{data:t.dataInvoices}})],1)],1)],1)])])])])])}),[function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("div",{staticClass:"col"},[a("div",{staticClass:"page-pretitle"},[t._v("\r\n                Visión general\r\n                ")]),t._v(" "),a("h2",{staticClass:"page-title"},[t._v("\r\n                Tablero\r\n                ")])])},function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("thead",[a("tr",[a("th",[t._v("Estado")]),t._v(" "),a("th",{attrs:{colspan:"2"}},[t._v("Clientes")])])])}],!1,null,null,null).exports}}]);
+"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["Escritorio"],{
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _formatPrice_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../formatPrice.js */ "./resources/js/formatPrice.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var CardSmallSkeleton = function CardSmallSkeleton() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_cards_CardSmallSkeleton_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/cards/CardSmallSkeleton.vue */ "./resources/js/components/cards/CardSmallSkeleton.vue"));
+};
+
+var CardSmall = function CardSmall() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_cards_CardSmall_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/cards/CardSmall.vue */ "./resources/js/components/cards/CardSmall.vue"));
+};
+
+var CardSmSkeleton = function CardSmSkeleton() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_cards_CardSmSkeleton_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/cards/CardSmSkeleton.vue */ "./resources/js/components/cards/CardSmSkeleton.vue"));
+};
+
+var CardSm = function CardSm() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_cards_CardSm_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/cards/CardSm.vue */ "./resources/js/components/cards/CardSm.vue"));
+};
+
+var CalculadoraEnvio = function CalculadoraEnvio() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_CalculadoraEnvio_vue-_34de1").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/CalculadoraEnvio.vue */ "./resources/js/components/CalculadoraEnvio.vue"));
+};
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Escritorio',
+  data: function data() {
+    return {
+      CalcularEnvioComponent: '',
+      showModalCalcular: false,
+      CardClientsComponent: CardSmallSkeleton,
+      CardPrealertasComponent: CardSmallSkeleton,
+      CardEnviosComponent: CardSmallSkeleton,
+      CardFacturasComponent: CardSmallSkeleton,
+      dataClients: {
+        title: 'Clientes',
+        value: 7,
+        result: '',
+        "var": 'dataClients',
+        event: 'changeCardSmall'
+      },
+      dataPrealertas: {
+        title: 'Paq. Recibidos',
+        value: 7,
+        result: '',
+        "var": 'dataPrealertas',
+        event: 'changeCardSmall'
+      },
+      dataEnviados: {
+        title: 'Enviados',
+        value: 7,
+        result: '',
+        "var": 'dataEnvios',
+        event: 'changeCardSmall'
+      },
+      dataFacturas: {
+        title: 'Ingresos',
+        value: 7,
+        result: '',
+        "var": 'dataFacturas',
+        event: 'changeCardSmall'
+      },
+      CardSmPrealertsComponent: CardSmSkeleton,
+      dataPreAlerts: {
+        title: 'Prealertas',
+        subtitle: 'SOLICITUDES DE ENVÍOS',
+        icon: 'ti ti-bell-ringing',
+        bg: 'bg-red',
+        result: '',
+        name: 'IndexPrealertas',
+        query: {
+          search: '',
+          estado: 'pendiente',
+          fecha_inicio: '',
+          fecha_final: ''
+        }
+      },
+      CardSmClientStateComponent: CardSmSkeleton,
+      dataClientState: {
+        title: 'Clientes',
+        subtitle: 'SIN CÓDIGOS',
+        icon: 'ti ti-users',
+        bg: 'bg-blue',
+        result: '',
+        name: 'IndexClientes',
+        query: {
+          id_estado: 'all',
+          cod_user: '1',
+          search: '',
+          fecha_inicio: '',
+          fecha_final: ''
+        }
+      },
+      CardSmWarehouseComponent: CardSmSkeleton,
+      dataWarehouse: {
+        title: 'Warehouse',
+        subtitle: 'SIN INTRUCCIONES',
+        icon: 'ti ti-building-warehouse',
+        bg: 'bg-yellow',
+        result: '',
+        name: 'IndexAlmacen',
+        query: {
+          search: '',
+          estado: 'all',
+          instrucciones: 'no',
+          fecha_inicio: '',
+          fecha_final: ''
+        }
+      },
+      CardSmInvoicesComponent: CardSmSkeleton,
+      dataInvoices: {
+        title: 'Por Cobrar',
+        subtitle: 'FACTURAS',
+        icon: 'ti ti-file-invoice',
+        bg: 'bg-lime',
+        result: '',
+        name: 'IndexFacturas',
+        query: {
+          search: '',
+          estado: 'pendiente',
+          fecha_inicio: '',
+          fecha_final: ''
+        }
+      },
+      dataEstUsers: []
+    };
+  },
+  beforeCreate: function beforeCreate() {
+    this.$nextTick( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.getCardSmallWhereFech('clientes-analyze', this.dataClients.value, this.dataClients["var"]);
+
+            case 2:
+              _context.next = 4;
+              return this.getCardSmallWhereFech('prealertas-analyze', this.dataPrealertas.value, this.dataPrealertas["var"]);
+
+            case 4:
+              _context.next = 6;
+              return this.getCardSmallWhereFech('envios-analyze', this.dataEnviados.value, this.dataEnviados["var"]);
+
+            case 6:
+              _context.next = 8;
+              return this.getCardSmallWhereFech('facturas-analyze', this.dataFacturas.value, this.dataFacturas["var"]);
+
+            case 8:
+              _context.next = 10;
+              return this.getCardSmallWhereFech('clientes-sincodigos', '', 'dataClientState');
+
+            case 10:
+              _context.next = 12;
+              return this.getCardSmallWhereFech('prealertas-pendientes', '', 'dataPreAlerts');
+
+            case 12:
+              _context.next = 14;
+              return this.getCardSmallWhereFech('warehouse-pendientes', '', 'dataWarehouse');
+
+            case 14:
+              _context.next = 16;
+              return this.getCardSmallWhereFech('facturas-pendientes', '', 'dataInvoices');
+
+            case 16:
+              _context.next = 18;
+              return this.getCardSmallWhereFech('estados-usuarios', '', 'dataEstUsers');
+
+            case 18:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+  },
+  methods: {
+    abrirCalculadora: function abrirCalculadora() {
+      if (this.CalcularEnvioComponent == '') this.CalcularEnvioComponent = CalculadoraEnvio;
+      this.showModalCalcular = true;
+    },
+    closeModalCalcularEnvio: function closeModalCalcularEnvio() {
+      this.showModalCalcular = false;
+    },
+    getCardSmallWhereFech: function getCardSmallWhereFech(url, value, val) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var re;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                re = function re(val) {
+                  setTimeout(function () {
+                    switch (val) {
+                      case 1:
+                        _this.CardClientsComponent = CardSmall;
+                        break;
+
+                      case 2:
+                        _this.CardPrealertasComponent = CardSmall;
+                        break;
+
+                      case 3:
+                        _this.CardEnviosComponent = CardSmall;
+                        break;
+
+                      case 4:
+                        _this.CardFacturasComponent = CardSmall;
+                        break;
+
+                      case 5:
+                        _this.CardSmPrealertsComponent = CardSm;
+                        break;
+
+                      case 6:
+                        _this.CardSmWarehouseComponent = CardSm;
+                        break;
+
+                      case 7:
+                        _this.CardSmInvoicesComponent = CardSm;
+                        break;
+
+                      case 8:
+                        _this.CardSmClientStateComponent = CardSm;
+                        break;
+
+                      default:
+                        break;
+                    }
+                  }, 2000);
+                };
+
+                _context2.next = 3;
+                return _this.axios.get(url, {
+                  params: {
+                    valor: value
+                  }
+                }).then(function (response) {
+                  console.log(response.data);
+
+                  if (val === 'dataClients') {
+                    _this.dataClients.value = response.data.valor;
+                    _this.dataClients.result = response.data.result;
+                    re(1);
+                  } else if (val === 'dataPrealertas') {
+                    _this.dataPrealertas.value = response.data.valor;
+                    _this.dataPrealertas.result = response.data.result;
+                    re(2);
+                  } else if (val == 'dataEnvios') {
+                    _this.dataEnviados.value = response.data.valor;
+                    _this.dataEnviados.result = response.data.result;
+                    re(3);
+                  } else if (val == 'dataFacturas') {
+                    _this.dataFacturas.value = response.data.valor;
+                    var total = response.data.result;
+
+                    if (total % 1 == 0) {
+                      total = parseInt(total);
+                    } else {
+                      total = parseFloat(total);
+                    }
+
+                    if (total % 1 == 0) {
+                      total = parseInt(total);
+                    } else {
+                      total = parseFloat(total);
+                    }
+
+                    total = total.toFixed(2);
+                    total = _formatPrice_js__WEBPACK_IMPORTED_MODULE_1__.formatPrice.constPrice("".concat(total), ',', '.');
+                    _this.dataFacturas.result = "$".concat(total);
+                    re(4);
+                  } else if (val == 'dataPreAlerts') {
+                    _this.dataPreAlerts.result = response.data.result;
+                    re(5);
+                  } else if (val == 'dataWarehouse') {
+                    _this.dataWarehouse.result = response.data.result;
+                    re(6);
+                  } else if (val == 'dataInvoices') {
+                    _this.dataInvoices.result = response.data.result;
+                    re(7);
+                  } else if (val == 'dataClientState') {
+                    _this.dataClientState.result = response.data.result;
+                    re(8);
+                  } else if (val == 'dataEstUsers') {
+                    _this.dataEstUsers = response.data.result;
+                  }
+                })["catch"](function (error) {
+                  console.log(error.response.data);
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    changeCardSmall: function changeCardSmall(_ref2) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var _ref3, value, valor, url;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _ref3 = _slicedToArray(_ref2, 2), value = _ref3[0], valor = _ref3[1];
+                url = 'clientes-analyze';
+
+                if (valor === 'dataClients') {
+                  _this2.CardClientsComponent = CardSmallSkeleton;
+                } else if (valor === 'dataPrealertas') {
+                  url = 'prealertas-analyze';
+                  _this2.CardPrealertasComponent = CardSmallSkeleton;
+                } else if (valor == 'dataEnvios') {
+                  url = 'envios-analyze';
+                  _this2.CardEnviosComponent = CardSmallSkeleton;
+                } else if (valor == 'dataFacturas') {
+                  url = 'facturas-analyze';
+                  _this2.CardFacturasComponent = CardSmallSkeleton;
+                }
+
+                _context3.next = 5;
+                return _this2.getCardSmallWhereFech(url, value, valor);
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/formatPrice.js":
+/*!*************************************!*\
+  !*** ./resources/js/formatPrice.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatPrice": () => (/* binding */ formatPrice)
+/* harmony export */ });
+var fields = [{
+  field: 'tarifa_maritimo',
+  money: 'usd'
+}, {
+  field: 'tarifa_aereo',
+  money: 'usd'
+}, {
+  field: 'monto_tc',
+  money: 'ves'
+}, {
+  field: 'monto_gasto_extra',
+  money: 'usd'
+}, {
+  field: 'monto_cond',
+  money: 'usd'
+}, {
+  field: 'seguro',
+  money: 'usd'
+}];
+var formatPrice = {
+  init: function init() {
+    console.log('as');
+
+    for (var i = 0; i < fields.length; i++) {
+      if (document.getElementById(fields[i].field)) {
+        (function () {
+          console.log('ass');
+          var spdor_decimal = fields[i].money == 'usd' ? '.' : fields[i].money == 'ves' ? ',' : null;
+          var spdor_unid = fields[i].money == 'usd' ? ',' : fields[i].money == 'ves' ? '.' : null;
+          document.getElementById(fields[i].field).addEventListener('keypress', function (e) {
+            var key = window.Event ? e.which : e.keyCod;
+
+            if (key < 48 || key > 57) {
+              e.preventDefault();
+            }
+          });
+          /*document.getElementById(fields[i].field).addEventListener('keyup', function(e) {
+              let key = window.Event ? e.which : e.keyCod;
+                    if( key == 8 || key >= 96 && key <= 105 ){
+                  e.target.value = constructPrice(e.target.value, spdor_unid, spdor_decimal);
+              }
+              
+          });*/
+
+          document.getElementById(fields[i].field).addEventListener('click', function (e) {
+            if (e.target.value == '') e.target.value = '0' + spdor_decimal + '00';
+          });
+        })();
+      }
+    }
+  },
+  destructPrecio: function destructPrecio(precio, fieldName) {
+    var field = function field(val) {
+      return fields.filter(function (item) {
+        return item.field === val;
+      });
+    };
+
+    var rePrecio = precio;
+    console.log(field(fieldName));
+
+    if (field(fieldName).length != 0) {
+      var spdor_unid = field(fieldName)[0].money == 'usd' ? ',' : field(fieldName)[0].money == 'ves' ? '.' : null;
+
+      if (precio.includes(spdor_unid)) {
+        var arrPrecio = precio.split(spdor_unid);
+        var aux = '';
+
+        for (var i = 0; i < arrPrecio.length; i++) {
+          aux = aux + '' + arrPrecio[i];
+        }
+
+        rePrecio = aux;
+      }
+    }
+
+    return rePrecio;
+  },
+  constPrice: function constPrice(value, spdor_unid, spdor_decimal) {
+    return constructPrice(value, spdor_unid, spdor_decimal);
+  },
+  desctPrice: function desctPrice(precio, spdor_unid) {
+    var rePrecio = precio;
+    console.log('precio', precio);
+
+    if (precio.includes(spdor_unid)) {
+      var arrPrecio = precio.split(spdor_unid);
+      var aux = '';
+
+      for (var i = 0; i < arrPrecio.length; i++) {
+        aux = aux + '' + arrPrecio[i];
+      }
+
+      rePrecio = aux;
+    }
+
+    return rePrecio;
+  },
+  checkField: function checkField(field) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i].field == field) {
+        return true;
+      }
+    }
+
+    return false;
+  },
+  moneda: function moneda(field) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i].field == field) {
+        return fields[i].money;
+      }
+    }
+  }
+};
+
+var constructPrice = function constructPrice(value, spdor_unid, spdor_decimal) {
+  var arrayAux = [];
+  var salida = [];
+  var arregloValue = value.split('');
+
+  for (var i = 0; i < arregloValue.length; i++) {
+    if (!isNaN(parseInt(arregloValue[i]))) {
+      arrayAux.push(arregloValue[i]);
+    }
+  }
+
+  if (arrayAux.length == 1 || arrayAux.length == 2) {
+    var arr = arrayAux.length == 2 ? 1 : 2;
+
+    for (var _i = 0; _i < arr; _i++) {
+      arrayAux.unshift(0);
+    }
+  }
+
+  arrayAux = arrayAux.reverse();
+  var j = 4;
+  /* Recorremosy aguardamos em arreglo de salida  */
+
+  for (var _i2 = 0; _i2 < arrayAux.length; _i2++) {
+    var boleano = true;
+    var aux = '';
+
+    if (_i2 == 1) {
+      aux = spdor_decimal;
+      salida.push(arrayAux[_i2]);
+    } else if (j == _i2 && _i2 != arrayAux.length - 1 && arrayAux.length > 5) {
+      aux = spdor_unid;
+      j = j + 3;
+      salida.push(arrayAux[_i2]);
+    } else if (arrayAux.length == 4 && arrayAux.length - 1 == _i2 && arrayAux[_i2] == 0 && arrayAux[arrayAux.length - 2] == 0 || arrayAux.length == 4 && arrayAux.length - 1 == _i2 && arrayAux[_i2] == 0 && arrayAux[arrayAux.length - 2] != 0) {
+      boleano = false;
+      console.log('*');
+    } else {
+      aux = arrayAux[_i2];
+    }
+
+    if (boleano) salida.push(aux);
+  }
+  /*Retornarmos el arreglo salido de forma inversa*/
+
+
+  return salida.reverse().join('');
+};
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/Escritorio.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/views/admin/Escritorio.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Escritorio.vue?vue&type=template&id=2d115530& */ "./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530&");
+/* harmony import */ var _Escritorio_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Escritorio.vue?vue&type=script&lang=js& */ "./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Escritorio_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/admin/Escritorio.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Escritorio_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Escritorio.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Escritorio_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Escritorio_vue_vue_type_template_id_2d115530___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Escritorio.vue?vue&type=template&id=2d115530& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/admin/Escritorio.vue?vue&type=template&id=2d115530& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "page-body" }, [
+    _c("div", { staticClass: "container-xl mb-3" }, [
+      _c("div", { staticClass: "page-header d-print-none" }, [
+        _c("div", { staticClass: "row align-items-center" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-auto ms-auto d-print-none" },
+            [
+              _c("div", { staticClass: "btn-list" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: { click: _vm.abrirCalculadora },
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "ti ti-calculator me-2",
+                      staticStyle: { "font-size": "16px" },
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-inline-block" }, [
+                      _vm._v("Calculadora"),
+                    ]),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "transition",
+                { attrs: { name: "component-fade", mode: "out-in" } },
+                [
+                  _c(
+                    "keep-alive",
+                    [
+                      _c(_vm.CalcularEnvioComponent, {
+                        tag: "component",
+                        attrs: { show: _vm.showModalCalcular },
+                        on: {
+                          closeModalCalcularEnvio: _vm.closeModalCalcularEnvio,
+                        },
+                      }),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-xl" }, [
+      _c("div", { staticClass: "row row-deck row-cards" }, [
+        _c(
+          "div",
+          { staticClass: "col-sm-6 col-lg-3 mb-3" },
+          [
+            _c(
+              "transition",
+              { attrs: { name: "component-fade", mode: "out-in" } },
+              [
+                _c(
+                  "keep-alive",
+                  [
+                    _c(_vm.CardClientsComponent, {
+                      ref: "dataClientsCard",
+                      tag: "component",
+                      attrs: { data: _vm.dataClients },
+                      on: { changeCardSmall: _vm.changeCardSmall },
+                    }),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-6 col-lg-3 mb-3" },
+          [
+            _c(
+              "transition",
+              { attrs: { name: "component-fade", mode: "out-in" } },
+              [
+                _c(
+                  "keep-alive",
+                  [
+                    _c(_vm.CardPrealertasComponent, {
+                      ref: "dataPrealertasCard",
+                      tag: "component",
+                      attrs: { data: _vm.dataPrealertas },
+                      on: { changeCardSmall: _vm.changeCardSmall },
+                    }),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-6 col-lg-3 mb-3" },
+          [
+            _c(
+              "transition",
+              { attrs: { name: "component-fade", mode: "out-in" } },
+              [
+                _c(
+                  "keep-alive",
+                  [
+                    _c(_vm.CardEnviosComponent, {
+                      ref: "dataEnviosCard",
+                      tag: "component",
+                      attrs: { data: _vm.dataEnviados },
+                      on: { changeCardSmall: _vm.changeCardSmall },
+                    }),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-sm-6 col-lg-3 mb-3" },
+          [
+            _c(
+              "transition",
+              { attrs: { name: "component-fade", mode: "out-in" } },
+              [
+                _c(
+                  "keep-alive",
+                  [
+                    _c(_vm.CardFacturasComponent, {
+                      ref: "dataFacturasCard",
+                      tag: "component",
+                      attrs: { data: _vm.dataFacturas },
+                      on: { changeCardSmall: _vm.changeCardSmall },
+                    }),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-8" }, [
+          _c(
+            "div",
+            {
+              staticClass: "card",
+              staticStyle: { height: "calc(20rem + 15px)" },
+            },
+            [
+              _c("div", { staticClass: "card-table table-responsive" }, [
+                _c("table", { staticClass: "table table-vcenter" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.dataEstUsers, function (item, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", { staticClass: "td-truncate text-muted" }, [
+                          _c("div", { staticClass: "text-truncate" }, [
+                            _vm._v(
+                              "\r\n                                    " +
+                                _vm._s(item.estado) +
+                                "\r\n                                "
+                            ),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-center" },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                attrs: {
+                                  to: {
+                                    name: "IndexClientes",
+                                    query: {
+                                      id_estado: item.id_estado,
+                                      cod_user: "0",
+                                      search: "",
+                                      fecha_inicio: "",
+                                      fecha_final: "",
+                                    },
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\r\n                                    " +
+                                    _vm._s(item.cant) +
+                                    "\r\n                                "
+                                ),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ]),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "row row-cards" }, [
+            _c(
+              "div",
+              { staticClass: "col-12" },
+              [
+                _c(
+                  "transition",
+                  { attrs: { name: "component-fade", mode: "out-in" } },
+                  [
+                    _c(
+                      "keep-alive",
+                      [
+                        _c(_vm.CardSmClientStateComponent, {
+                          tag: "component",
+                          attrs: { data: _vm.dataClientState },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12" },
+              [
+                _c(
+                  "transition",
+                  { attrs: { name: "component-fade", mode: "out-in" } },
+                  [
+                    _c(
+                      "keep-alive",
+                      [
+                        _c(_vm.CardSmPrealertsComponent, {
+                          tag: "component",
+                          attrs: { data: _vm.dataPreAlerts },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12" },
+              [
+                _c(
+                  "transition",
+                  { attrs: { name: "component-fade", mode: "out-in" } },
+                  [
+                    _c(
+                      "keep-alive",
+                      [
+                        _c(_vm.CardSmWarehouseComponent, {
+                          tag: "component",
+                          attrs: { data: _vm.dataWarehouse },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-12" },
+              [
+                _c(
+                  "transition",
+                  { attrs: { name: "component-fade", mode: "out-in" } },
+                  [
+                    _c(
+                      "keep-alive",
+                      [
+                        _c(_vm.CardSmInvoicesComponent, {
+                          tag: "component",
+                          attrs: { data: _vm.dataInvoices },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "page-pretitle" }, [
+        _vm._v("\r\n                Visión general\r\n                "),
+      ]),
+      _vm._v(" "),
+      _c("h2", { staticClass: "page-title" }, [
+        _vm._v("\r\n                Tablero\r\n                "),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "2" } }, [_vm._v("Clientes")]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ })
+
+}]);

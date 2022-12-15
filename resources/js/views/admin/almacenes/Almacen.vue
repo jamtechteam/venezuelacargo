@@ -24,8 +24,8 @@ const request = () => {
             search : '',
             estado: 'all',
             instrucciones: 'all',
-            fecha_inicio: '',
-            fecha_final: ''
+            tipo_envio: 'all',
+            envio: 'all'
         }
     }
    }
@@ -93,14 +93,52 @@ export default {
                        
                     },
                     {
-                        name: 'fecha_inicio',
-                        type: 'date',
-                        title: 'Desde'
+                        name: 'tipo_envio',
+                        type: 'select',
+                        title: 'Filtra por tipo de envio',
+                        option: {
+                            name: 'title',
+                            value: 'valor'
+                        },
+                        data: [
+                            {
+                                title: 'Aereo',
+                                valor: 'aereo'
+                            },
+                            {
+                                title: 'Maritimo',
+                                valor: 'maritimo'
+                            },
+                            {
+                                title: 'Seleccion Tipo Envio',
+                                valor: 'all'
+                            }
+                        ]
+                       
                     },
-                     {
-                        name: 'fecha_final',
-                        type: 'date',
-                        title: 'Hasta'
+                    {
+                        name: 'envio',
+                        type: 'select',
+                        title: 'Filtra por envio',
+                        option: {
+                            name: 'title',
+                            value: 'valor'
+                        },
+                        data: [
+                            {
+                                title: 'Directo',
+                                valor: 'no'
+                            },
+                            {
+                                title: 'Con Reempaque',
+                                valor: 'si'
+                            },
+                            {
+                                title: 'Seleccion Envio',
+                                valor: 'all'
+                            }
+                        ]
+                       
                     }
                 ]
             }

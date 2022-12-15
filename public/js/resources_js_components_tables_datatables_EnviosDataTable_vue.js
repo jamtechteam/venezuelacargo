@@ -53,6 +53,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'EnviosDataTable',
   props: ['data'],
@@ -191,6 +194,12 @@ var render = function () {
         _vm._v(" "),
         _c("td", [
           _c("span", [_vm._v(" " + _vm._s(item.nro_container) + " ")]),
+        ]),
+        _vm._v(" "),
+        _c("td", [
+          _c("span", {}, [
+            _vm._v(" " + _vm._s(item.nombres) + " " + _vm._s(item.apellidos)),
+          ]),
         ]),
         _vm._v(" "),
         _c("td", [

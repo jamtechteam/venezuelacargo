@@ -619,11 +619,12 @@ var estados = [{
       total_ves = total_ves.toFixed(2);
       total_ves = total_ves.replace('.', ',');
       total_ves = _formatPrice__WEBPACK_IMPORTED_MODULE_2__.formatPrice.constPrice("".concat(total_ves), '.', ',');
+      var totalUSD = _formatPrice__WEBPACK_IMPORTED_MODULE_2__.formatPrice.constPrice(total_usd, ',', '.');
       this.$emit('sendPagoFactura', {
         factura: {
           id_factura: id_factura,
           nro_factura: nro_factura,
-          total_usd: total_usd,
+          total_usd: totalUSD,
           total_ves: total_ves
         },
         tasa: this.tasa

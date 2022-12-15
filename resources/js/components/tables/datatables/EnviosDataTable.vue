@@ -10,6 +10,9 @@
             <td>
                 <span> {{ item.nro_container }} </span>
             </td>
+            <td>
+                <span class=""> {{ item.nombres }} {{ item.apellidos }}</span>
+            </td>
              <td>
                 <span class="" style="text-transform: uppercase;"> {{ item.tipo_envio }}</span>
             </td>

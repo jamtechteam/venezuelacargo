@@ -68,7 +68,8 @@
                                         <span class="">{{ item.peso }}</span>
                                     </td>
                                     <td>
-                                        <span class="avatar avatar-sm" :style="`background-image: url(${item.ruta_image})`"></span>
+                                        <a v-if="item.ruta_image != null" :href="item.ruta_image" target="_blank" rel="noopener noreferrer" class="avatar avatar-sm" :style="`background-image: url(${item.ruta_image})`"></a>
+                                        <span v-else class="avatar avatar-sm" :style="`background-image: url(${item.ruta_image})`"></span>
                                     </td>
                                     <td>
                                         <div class="btn-list flex-nowrap" >

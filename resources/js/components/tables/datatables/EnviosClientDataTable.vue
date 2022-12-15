@@ -291,8 +291,10 @@ export default {
                 total_ves = total_ves.toFixed(2);
                 total_ves = total_ves.replace('.', ',');
                 total_ves = formatPrice.constPrice(`${total_ves}`, '.', ',');
+                
+                let totalUSD = formatPrice.constPrice(total_usd, ',', '.');
 
-            this.$emit('sendPagoFactura', {factura: { id_factura, nro_factura, total_usd, total_ves}, tasa: this.tasa})
+            this.$emit('sendPagoFactura', {factura: { id_factura, nro_factura, total_usd: totalUSD, total_ves}, tasa: this.tasa})
             //this.$refs.childComponent.init(value);
         },
         showModalMap(e){

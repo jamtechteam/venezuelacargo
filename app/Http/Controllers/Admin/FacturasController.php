@@ -746,10 +746,17 @@ class FacturasController extends Controller
                 'fecha_creado' => $factura->fecha_creado,
                 'monto_tc' => '',
                 'cost_reempaque' => $factura->cost_reempaque,
-                'cost_x_tracking' => $factura->cost_x_tracking
+                'cost_x_tracking' => $factura->cost_x_tracking,
+                'pago' => 'POR PAGAR'
             ];
 
             $envio = Envios::where('id_factura', '=', $factura->id_factura)->first();
+
+            if( $factura->estado == 'Verificacion-Pago'  ){
+                $invoice['pago'] = 'VERIFICANDO PAGO';
+            }else if( $factura->estado == 'Pago-Verificado' ){
+                $invoice['pago'] = 'FACTURA PAGADA';
+            }
 
             if( $envio->estado != 'FACTURADO' ){
                 $invoice['fecha_estimada'] = Carbon::parse($envio->fecha_estimada)->format('d-m-Y');
@@ -829,10 +836,18 @@ class FacturasController extends Controller
             'fecha_creado' => $factura->fecha_creado,
             'monto_tc' => '',
             'cost_reempaque' => $factura->cost_reempaque,
-            'cost_x_tracking' => $factura->cost_x_tracking
+            'cost_x_tracking' => $factura->cost_x_tracking,
+            'pago' => 'POR PAGAR'
         ];
 
         $envio = Envios::where('id_factura', '=', $factura->id_factura)->first();
+
+        
+        if( $factura->estado = 'Verificacion-Pago'  ){
+            $invoice['pago'] = 'VERIFICANDO PAGO';
+        }else if( $factura->estado = 'Pago-Verificado' ){
+            $invoice['pago'] = 'FACTURA PAGADA';
+        }
 
         if( $envio->estado != 'FACTURADO' ){
             $invoice['fecha_estimada'] = Carbon::parse($envio->fecha_estimada)->format('d-m-Y');

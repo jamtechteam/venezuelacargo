@@ -49,8 +49,8 @@
                                 <table class="table table-transparent table-responsive">
                                     <thead>
                                         <tr>
-                                            <th style="width: 20%;">Nro. Tracking</th>
                                             <th style="width: 20%;">Transporte</th>
+                                            <th style="width: 20%;">Nro. Tracking</th>
                                             <th style="width: 40%;">Descripción</th>
                                             <th style="width: 15%;">F. Llegada</th>
                                             <th style="width: 5%;"></th>

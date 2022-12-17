@@ -54,12 +54,13 @@ export default {
                 this.prev = pagination.numPage - 1;
                 this.next = pagination.numPage + 1;
 
-                let totalPages = this.totalPage = Math.ceil(pagination.totalResult/8);
+                let totalPages = this.totalPage = Math.ceil(pagination.totalResult/pagination.resultPage);
 
-                console.log(Math.ceil(pagination.totalResult/pagination.resultPage))
+                console.log(Math.ceil(pagination.totalResult/pagination.resultPage), 'ass qaq')
 
                 let init = pagination.numPage;//lo inicializamos en el valor que viene en numPage
                 
+
                 let j = 1;//sirve para el control de orden
                 //arreglo auxiliar para el oder de la paginacion
                 for (let i = init; i <= totalPages; i++) {

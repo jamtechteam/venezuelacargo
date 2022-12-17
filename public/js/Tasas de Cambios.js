@@ -35,7 +35,7 @@ var request = function request() {
     name: 'TasasCambiosIndex',
     url: 'tasas-cambios',
     params: {
-      limit: 8,
+      limit: 2,
       page: 1,
       orderBy: 'monedas_cambios_tasas.fecha_tc',
       ascending: 0,
@@ -97,10 +97,11 @@ var LoaderComponent = function LoaderComponent() {
   },
   beforeCreate: function beforeCreate() {
     this.$nextTick(function () {
-      var url = this.$route.params;
+      var url = this.$route.query;
 
       if (Object.keys(url).length != 0) {
         this.request.params.query.id_cambio = url.id;
+        console.log(this.request, 'this.request');
         this.componentRender = '';
       } else {
         this.comp = Error404;

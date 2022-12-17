@@ -21,7 +21,7 @@
                     <router-link class="" :to="{ name: 'TasasCambiosEditar', params:{id: item.id_moneda_cambio} }">
                         <small> Nueva Tasa </small>
                     </router-link>
-                    <router-link  class="" :to="{ name: 'TasasCambiosIndex', params:{id: item.id_moneda_cambio} }">
+                    <router-link  class="" :to="{ name: 'TasasCambiosIndex', query:{id_cambio: item.id_moneda_cambio} }">
                         <small> Detalles Tasas </small>
                     </router-link>
                 </div>

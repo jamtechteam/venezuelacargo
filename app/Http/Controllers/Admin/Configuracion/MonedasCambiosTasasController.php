@@ -47,8 +47,8 @@ class MonedasCambiosTasasController extends Controller
         })->select($select);
 
         $count = $records->count();
-        $records->limit($limit)
-            ->skip($limit * ($page - 1));
+        /*$records->limit($limit)
+            ->skip($limit * ($page - 1));*/
 
         if (isset($orderBy)) {
             $direction = $ascending == 1 ? 'ASC' : 'DESC';

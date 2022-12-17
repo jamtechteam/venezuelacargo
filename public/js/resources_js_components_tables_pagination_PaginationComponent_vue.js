@@ -66,8 +66,8 @@ __webpack_require__.r(__webpack_exports__);
       if (pagination.resultPage > 0) {
         this.prev = pagination.numPage - 1;
         this.next = pagination.numPage + 1;
-        var totalPages = this.totalPage = Math.ceil(pagination.totalResult / 8);
-        console.log(Math.ceil(pagination.totalResult / pagination.resultPage));
+        var totalPages = this.totalPage = Math.ceil(pagination.totalResult / pagination.resultPage);
+        console.log(Math.ceil(pagination.totalResult / pagination.resultPage), 'ass qaq');
         var init = pagination.numPage; //lo inicializamos en el valor que viene en numPage
 
         var j = 1; //sirve para el control de orden

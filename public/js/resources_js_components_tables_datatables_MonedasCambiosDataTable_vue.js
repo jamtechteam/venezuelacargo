@@ -241,7 +241,7 @@ var render = function () {
                   attrs: {
                     to: {
                       name: "TasasCambiosIndex",
-                      params: { id: item.id_moneda_cambio },
+                      query: { id_cambio: item.id_moneda_cambio },
                     },
                   },
                 },

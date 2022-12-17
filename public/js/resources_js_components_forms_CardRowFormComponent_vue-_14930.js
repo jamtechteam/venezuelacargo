@@ -265,8 +265,10 @@ var AlertMessageComponent = function AlertMessageComponent() {
 
         if (moneda == 'ves') {
           e.target.value = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(e.target.value, '.', ',');
+          this.nodoForms[e.target.name] = e.target.value;
         } else {
           e.target.value = _formatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice.constPrice(e.target.value, ',', '.');
+          this.nodoForms[e.target.name] = e.target.value;
         }
       } //formatPrice
 

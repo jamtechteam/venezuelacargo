@@ -21,6 +21,8 @@ Route::post('user/forgout/validate-token', 'App\Http\Controllers\Auth\ApiAuthCon
 Route::post('user/change_password_user', 'App\Http\Controllers\Auth\ApiAuthController@change_password_user');
 
 Route::post('users-old', 'App\Http\Controllers\Admin\UsersOldController@store');
+
+
         
 Route::middleware('auth:api')->group(function() { 
 

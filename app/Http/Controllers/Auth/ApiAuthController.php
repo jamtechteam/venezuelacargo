@@ -220,14 +220,18 @@ class ApiAuthController extends Controller
 
         $bol = true;
 
-        if( $user->email != $request->email && $bol ){
+        if( isset($request->email) && $request->email != $user->email ){
+            return response()->json([
+                'status' => 422,
+                'message' => $request->email,
+            ], 422);
             $validator = Validator::make($request->all(), [
                 'email' => ['required', 'unique:usuarios'],
             ]);
 
             if ( isset($validator) && $validator->fails() ) $bol = false;
         }
-        if ( $user->nombre_usuario != $request->nombre_usuario && $bol ){
+        if ( isset($request->nombre_usuario) && $user->nombre_usuario != $request->nombre_usuario && $bol ){
             $validator = Validator::make($request->all(), [
                 'nombre_usuario' => ['required', 'unique:usuarios'],
             ]);
@@ -235,7 +239,7 @@ class ApiAuthController extends Controller
             if ( isset($validator) && $validator->fails() ) $bol = false;
         }
 
-        if ( $userInfo->cedula != $request->cedula && $bol ){
+        if ( isset($request->cedula) && $userInfo->cedula != $request->cedula && $bol ){
             $validator = Validator::make($request->all(), [
                 'cedula' => ['required', 'unique:usuarios_info'],
             ]);
@@ -250,69 +254,26 @@ class ApiAuthController extends Controller
             ], 403);
         }
 
-        $user->nombre_usuario = $request->nombre_usuario;
-        $user->email = $request->email; 
+        $user->nombre_usuario = isset($request->nombre_usuario) && $request->nombre_usuario != '' ? $request->nombre_usuario : $user->nombre_usuario;
+        $user->email = isset($request->email) && $request->email != '' ? $request->email : $user->email; 
 
-        if ($request->password != '') {
+        if ( isset($request->password) && $request->password != '') {
             $user->password = bcrypt($request->password);
         }
        
         $user->update();
 
-        $userInfo->nombres = $request->nombres;
-        $userInfo->apellidos = $request->apellidos;
-        $userInfo->telefono = $request->telefono;
-        $userInfo->cedula = $request->cedula;
+        $userInfo->nombres = isset($request->nombres) && $request->nombres != '' ? $request->nombres : $userInfo->nombres;
+        $userInfo->apellidos = isset($request->apellidos) && $request->apellidos != '' ? $request->apellidos : $userInfo->apellidos;
+        $userInfo->telefono = isset($request->telefono) && $request->telefono != '' ? $request->telefono : $userInfo->telefono;
+        $userInfo->cedula = isset($request->cedula) && $request->cedula != '' ? $request->cedula : $userInfo->cedula;
         $userInfo->update();
+
+        $user->info = $userInfo;
 
         return response()->json([
             'status' => 200,
             'message' => 'Tu Cuenta fue actualizado con exito',
-            'user' => $user
-        ], 200);
-    }
-
-
-    public function update_admin($id, Request $request)
-    {
-        $user = User::find($id);
-        $bol = true;
-
-        if( $user->email != $request->email && $bol ){
-            $validator = Validator::make($request->all(), [
-                'email' => ['required', 'unique:usuarios'],
-            ]);
-
-            if ( isset($validator) && $validator->fails() ) $bol = false;
-        }
-        if ( $user->nombre_usuario != $request->nombre_usuario && $bol ){
-            $validator = Validator::make($request->all(), [
-                'nombre_usuario' => ['required', 'unique:usuarios'],
-            ]);
-
-            if ( isset($validator) && $validator->fails() ) $bol = false;
-        }
-
-        if ( !$bol ) {
-            return response()->json([
-                'status' => 403,
-                'message' => $validator->errors()->first(),
-            ], 403);
-        }
-
-        $nomUser = $user->nombre_usuario;
-        $user->nombre_usuario = $request->nombre_usuario;
-        $user->email = $request->email; 
-
-        if ($request->password != '') {
-            $user->password = bcrypt($request->password);
-        }
-       
-        $user->update();
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'El usuario '.$nomUser.' fue actualizado con exito',
             'user' => $user
         ], 200);
         

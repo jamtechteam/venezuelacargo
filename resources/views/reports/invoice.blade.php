@@ -235,8 +235,8 @@
                                 </td>
                                 <td style="padding-left: 7px; padding-right: 7px; font-size: 11; line-height: 0.5em;">
                                     <p><b class="fcolor">FACTURA - {{ $invoice['nro_factura'] }}</b></p>
-
                                     <p>{{ \Carbon\Carbon::parse($invoice['fecha_creado'])->format('d-m-Y') }} </p>
+                                    <p><b @if ( $invoice['pago'] == 'VERIFICANDO PAGO' ) class="fblue" @elseif($invoice['pago'] == 'FACTURA PAGADA') class="fgreen" @else class="fred" @endif >{{ $invoice['pago'] }}</b></p>
                                 </td>
                             </tr>
                         </table>

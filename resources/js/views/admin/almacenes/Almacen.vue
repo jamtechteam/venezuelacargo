@@ -19,7 +19,7 @@ const request = () => {
         limit : 8,
         page : 1,
         orderBy : 'almacenes.warehouse',
-        ascending : 1,
+        ascending : 0,
         query: {
             search : '',
             estado: 'all',

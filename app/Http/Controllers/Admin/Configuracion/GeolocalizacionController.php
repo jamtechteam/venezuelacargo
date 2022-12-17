@@ -65,6 +65,7 @@ class GeolocalizacionController extends Controller
         ->select($select);
 
         $count = $records->count();
+        
         $records->limit($limit)
             ->skip($limit * ($page - 1));
 

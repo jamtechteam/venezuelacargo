@@ -81,8 +81,16 @@ class EnviosObserver
                 'fecha_creado' => $factura->fecha_creado,
                 'monto_tc' => '',
                 'cost_reempaque' => $factura->cost_reempaque,
-                'cost_x_tracking' => $factura->cost_x_tracking
+                'cost_x_tracking' => $factura->cost_x_tracking,
+                'pago' => 'POR PAGAR'
             ];
+
+            
+            if( $factura->estado == 'Verificacion-Pago'  ){
+                $invoice['pago'] = 'VERIFICANDO PAGO';
+            }else if( $factura->estado == 'Pago-Verificado' ){
+                $invoice['pago'] = 'FACTURA PAGADA';
+            }
 
 
             $invoice_info_trackings = FacturasInfoTrackings::where([['id_factura', $factura->id_factura]])->get()->toArray();

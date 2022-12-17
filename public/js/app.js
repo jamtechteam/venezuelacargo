@@ -2800,7 +2800,7 @@ var routesAdmin = [{
       }
     }, {
       name: 'TasasCambiosIndex',
-      path: 'tasas/:id',
+      path: 'tasas',
       meta: {
         title: 'Tazas de Cambios'
       },

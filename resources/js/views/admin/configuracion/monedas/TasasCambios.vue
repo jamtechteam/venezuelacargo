@@ -17,7 +17,7 @@ const request = () => {
         name: 'TasasCambiosIndex',
         url: 'tasas-cambios',
         params: {
-            limit : 8,
+            limit : 2,
             page : 1,
             orderBy : 'monedas_cambios_tasas.fecha_tc',
             ascending : 0,
@@ -63,9 +63,10 @@ export default {
     },
     beforeCreate(){
          this.$nextTick(function () {
-            const url = this.$route.params;
+            const url = this.$route.query;
             if( Object.keys(url).length != 0 ){
                 this.request.params.query.id_cambio = url.id;
+                console.log(this.request, 'this.request')
                 this.componentRender = '';
             }else{
                 this.comp = Error404;

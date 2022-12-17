@@ -90,6 +90,7 @@ class PrealertasController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'usuario_id' => ['required'],
+            'trackings' => ['required'],
         ]);
 
         if ( isset($validator) && $validator->fails()) {
@@ -101,6 +102,12 @@ class PrealertasController extends Controller
 
         $trackings = $request->trackings;
 
+        if( !is_array($trackings) ){
+            return response()->json([
+                'status' => 422,
+                'message' => 'Trackings debe ser un arreglo',
+            ], 422);
+        }
 
         for ($i=0; $i <count($trackings) ; $i++) { 
 
@@ -120,7 +127,7 @@ class PrealertasController extends Controller
             $validator = Validator::make($trackings[$i], [
                 'id_empresa_transporte' => ['required'],
                 'tracking' => ['required'],
-                'transporte' => ['required'],
+                //'transporte' => ['required'],
                 'descripcion' => ['required'],
                 'fecha_llegada' => ['required', 'date', 'date_format:Y-m-d']
             ]);

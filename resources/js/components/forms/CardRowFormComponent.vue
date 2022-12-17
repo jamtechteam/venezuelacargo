@@ -207,8 +207,10 @@ export default {
                 const moneda = formatPrice.moneda(e.target.name);
                 if( moneda == 'ves' ){
                     e.target.value = formatPrice.constPrice(e.target.value, '.', ',');
+                    this.nodoForms[e.target.name] = e.target.value;
                 }else{
                     e.target.value = formatPrice.constPrice(e.target.value, ',', '.');
+                    this.nodoForms[e.target.name] = e.target.value;
                 }
                 
             }

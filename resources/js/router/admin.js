@@ -214,7 +214,7 @@ export const routesAdmin = [
 					},
 					{
 						name:'TasasCambiosIndex',
-						path: 'tasas/:id',
+						path: 'tasas',
 						meta: { title: 'Tazas de Cambios' },
 						component: () => import(/* webpackChunkName: "Tasas de Cambios"*/  '../views/admin/configuracion/monedas/TasasCambios.vue')
 					},

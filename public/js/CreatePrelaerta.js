@@ -952,9 +952,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Nro. Tracking")]),
-        _vm._v(" "),
         _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Transporte")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Nro. Tracking")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "40%" } }, [_vm._v("Descripción")]),
         _vm._v(" "),
